@@ -1,3 +1,59 @@
 {
-  "extends": ["next/core-web-vitals", "next", "prettier"]
+  "extends": ["next/core-web-vitals", "next", "prettier", "eslint:recommended"],
+  "rules": {
+    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts", "**/*.tsx"],
+      "plugins": [
+        "@typescript-eslint",
+        "unused-imports",
+        "prettier",
+        "simple-import-sort",
+        "tailwindcss"
+      ],
+      "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "next/core-web-vitals",
+        "prettier",
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript",
+        "plugin:testing-library/react",
+        "plugin:cypress/recommended"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.json"
+      },
+      "rules": {
+        "prettier/prettier": ["error", { "endOfLine": "auto" }],
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+        "unused-imports/no-unused-imports-ts": "error",
+        "react/jsx-uses-react": "off",
+        "react/react-in-jsx-scope": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.test.tsx"],
+      "extends": ["plugin:jest/recommended", "plugin:testing-library/react"]
+    },
+    {
+      "files": ["cypress/**/*.ts"],
+      "extends": ["plugin:cypress/recommended"],
+      "parserOptions": {
+        "project": "./cypress/tsconfig.json"
+      }
+    }
+  ]
 }
