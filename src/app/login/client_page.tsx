@@ -9,41 +9,22 @@ export const Login: React.FC = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const { user, login } = useAuth();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Redirect to home page if user is logged in
-    fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`, {
-      credentials: 'include', // important for cookies/sessions
-      headers: { 'Content-Type': 'application/json' },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data && data.user) {
-          setIsLoggedIn(true);
-        }
-      })
-      .catch((error) => {
-        console.error('Error fetching current user:', error);
-      });
-  }, []);
-
-  useEffect(() => {
-    if (isLoggedIn) {
+    if (user) {
       redirect('/');
     }
-  }, [isLoggedIn]);
+  }, [user]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(user);
 
     try {
       await login({ email, password });
       // You can redirect user or show a success message here
-      setIsLoggedIn(true);
+      // setIsLoggedIn(true);
     } catch (err) {
-      setError(err.message); // Displaying the error to the user
+      setError((err as Error).message); // Displaying the error to the user
     }
   };
 
@@ -52,8 +33,9 @@ export const Login: React.FC = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
         <div>
-          <label>Email:</label>
+          <label htmlFor="email">Email:</label>
           <input
+            id="email" // <-- Add ID here
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -61,8 +43,9 @@ export const Login: React.FC = () => {
           />
         </div>
         <div>
-          <label>Password:</label>
+          <label htmlFor="password">Password:</label>
           <input
+            id="password" // <-- Add ID here
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
