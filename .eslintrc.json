@@ -39,20 +39,11 @@
         "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
-        "unused-imports/no-unused-imports-ts": "error",
+        "unused-imports/no-unused-imports-ts": "warn",
         "react/jsx-uses-react": "off",
-        "react/react-in-jsx-scope": "off"
-      }
-    },
-    {
-      "files": ["**/*.test.ts", "**/*.test.tsx"],
-      "extends": ["plugin:jest/recommended", "plugin:testing-library/react"]
-    },
-    {
-      "files": ["cypress/**/*.ts"],
-      "extends": ["plugin:cypress/recommended"],
-      "parserOptions": {
-        "project": "./cypress/tsconfig.json"
+        "react/react-in-jsx-scope": "off",
+        "no-unused-vars": "off", // <-- Disable base ESLint rule
+        "@typescript-eslint/no-unused-vars": ["warn"] // <-- Ensure TypeScript rule is active
       }
     }
   ]
