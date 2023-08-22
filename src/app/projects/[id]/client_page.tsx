@@ -1,13 +1,12 @@
 'use client';
+import { Project } from '@payloadTypes';
 import React from 'react';
 
-import { ProjectData } from './page';
-
 interface ProjectProps {
-  projectData: ProjectData;
+  projectData: Project;
 }
 
-export const Project: React.FC<ProjectProps> = ({ projectData }) => {
+export const ProjectClient: React.FC<ProjectProps> = ({ projectData }) => {
   return (
     <div>
       <h1>{projectData.title}</h1>

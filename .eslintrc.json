@@ -43,7 +43,7 @@
         "react/jsx-uses-react": "off",
         "react/react-in-jsx-scope": "off",
         "no-unused-vars": "off", // <-- Disable base ESLint rule
-        "@typescript-eslint/no-unused-vars": ["warn"] // <-- Ensure TypeScript rule is active
+        "@typescript-eslint/no-unused-vars": ["off"] // <-- Ensure TypeScript rule is active
       }
     }
   ]

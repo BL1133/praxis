@@ -1,22 +1,17 @@
+import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
 import React from 'react';
 
-import { Project } from './client_page';
+import { ProjectClient } from './client_page';
 
 interface ParamsType {
   params: { id: string };
 }
 
-export type ProjectData = {
-  title: string;
-  description: string;
-  createdBy: string;
-};
-
 const CONNECTION_ERROR =
   'CONNECTION_ERROR. An error occurred while attempting to connect to MongoDB';
 
-const getProject = async ({ id }: { id: string }): Promise<ProjectData> => {
+const getProject = async ({ id }: { id: string }): Promise<Project> => {
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_CMS_URL_NO_PROXY}/api/projects/${id}`,
@@ -40,7 +35,7 @@ const getProject = async ({ id }: { id: string }): Promise<ProjectData> => {
 
 const Page: React.FC<ParamsType> = async ({ params }) => {
   const projectData = await getProject(params);
-  return <Project projectData={projectData} />;
+  return <ProjectClient projectData={projectData} />;
 };
 
 export const metadata: Metadata = {
