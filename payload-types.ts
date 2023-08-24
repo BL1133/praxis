@@ -25,6 +25,7 @@ export interface User {
   id: string;
   firstName?: string;
   lastName?: string;
+  username: string;
   roles?: ('admin' | 'user')[];
   updatedAt: string;
   createdAt: string;
