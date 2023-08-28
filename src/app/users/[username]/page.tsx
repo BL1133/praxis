@@ -25,7 +25,7 @@ const getUserId = async ({
         headers: {
           'Content-Type': 'application/json',
         },
-        cache: 'no-store',
+        next: { revalidate: 3000 },
       },
     );
     if (!res.ok) {
