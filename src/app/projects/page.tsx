@@ -21,15 +21,13 @@ const CONNECTION_ERROR =
 
 const getProjects = async (): Promise<ProjectResponse> => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CMS_URL_NO_PROXY}/api/projects`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      cache: 'no-store',
+    });
     if (!res.ok) {
       throw new Error(`Failed to fetch projects: ${res.statusText}`);
     }

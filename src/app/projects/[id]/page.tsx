@@ -14,7 +14,7 @@ const CONNECTION_ERROR =
 const getProject = async ({ id }: { id: string }): Promise<Project> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CMS_URL_NO_PROXY}/api/projects/${id}`,
+      `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
       {
         method: 'GET',
         headers: {

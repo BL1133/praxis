@@ -1,5 +1,6 @@
 import { User } from '@payloadTypes';
 import { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import React from 'react';
 
 import { UserProfile } from './client_page';
@@ -18,12 +19,13 @@ const getUserId = async ({
 }): Promise<string> => {
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CMS_URL_NO_PROXY}/api/users/username/${username}`,
+      `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/username/${username}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
         },
+        cache: 'no-store',
       },
     );
     if (!res.ok) {
@@ -37,20 +39,26 @@ const getUserId = async ({
 };
 
 const getUser = async (userId: string): Promise<User> => {
+  const cookieStore = cookies();
+  const payloadToken = cookieStore.get('payload-token');
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_CMS_URL_NO_PROXY}/api/users/${userId}`,
+      `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/${userId}`,
       {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          Cookie: `payload-token=${payloadToken?.value}`,
+          'X-Custom-Note': 'getUser',
         },
+        cache: 'no-store',
       },
     );
     if (!res.ok) {
       throw new Error(`Failed to fetch user: ${res.statusText}`);
     }
     const userData = await res.json();
+    // console.log(`Fetched user data: ${JSON.stringify(userData)}`);
     return userData;
   } catch (e) {
     throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
