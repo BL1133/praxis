@@ -8,6 +8,7 @@ export const UserProfile: React.FC<{ userData: User }> = ({ userData }) => {
   const { user } = useAuth();
   const isOwnProfile = user && user.id === userData.id;
   const [isPublicView, setIsPublicView] = useState(!isOwnProfile);
+  const userId = userData.id;
 
   const toggleViewMode = () => {
     setIsPublicView(!isPublicView);
