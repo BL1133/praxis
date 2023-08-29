@@ -1,20 +1,7 @@
-import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
+import { ProjectResponse } from 'types';
 
 import { Projects } from './client_page';
-
-export interface ProjectResponse {
-  docs: Project[];
-  totalDocs: number;
-  limit: number;
-  totalPages: number;
-  page: number;
-  pagingCounter: number;
-  hasPrevPage: boolean;
-  hasNextPage: boolean;
-  prevPage: null | number;
-  nextPage: null | number;
-}
 
 const CONNECTION_ERROR =
   'CONNECTION_ERROR. An error occurred while attempting to connect to MongoDB';
