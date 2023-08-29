@@ -51,6 +51,7 @@ const getUser = async (userId: string): Promise<User> => {
           Cookie: `payload-token=${payloadToken?.value}`,
           'X-Custom-Note': 'getUser',
         },
+        next: { revalidate: 3000 },
         cache: 'no-store',
       },
     );
