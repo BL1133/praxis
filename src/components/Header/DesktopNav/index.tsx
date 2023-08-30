@@ -7,8 +7,6 @@ import { useUser } from '@/lib/hooks/useUser';
 export const Header = () => {
   const { data, isLoading, isError } = useUser();
 
-  console.log(data);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

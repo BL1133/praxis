@@ -12,9 +12,6 @@ export const useUser = () => {
   const { data, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
     fetcherAuth,
-    {
-      refreshInterval: 0,
-    },
   );
 
   const login = useCallback<Login>(

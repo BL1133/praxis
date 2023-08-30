@@ -25,7 +25,6 @@ const getUserId = async ({
         headers: {
           'Content-Type': 'application/json',
         },
-        next: { revalidate: 3000 },
       },
     );
     if (!res.ok) {
@@ -51,8 +50,6 @@ const getUser = async (userId: string): Promise<User> => {
           Cookie: `payload-token=${payloadToken?.value}`,
           'X-Custom-Note': 'getUser',
         },
-        next: { revalidate: 3000 },
-        cache: 'no-store',
       },
     );
     if (!res.ok) {
