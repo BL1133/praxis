@@ -17,8 +17,6 @@ export const useUser = () => {
     },
   );
 
-  console.log(data);
-
   const login = useCallback<Login>(
     async (args) => {
       try {
