@@ -1,14 +1,15 @@
 'use client';
 
-import { useAuth } from '@providers/auth'; // Ensure this import is correct
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+
+import { useUser } from '@/lib/hooks/useUser';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { user, login } = useAuth();
+  const { user, isLoading, isError, login } = useUser();
 
   useEffect(() => {
     if (user) {

@@ -1,9 +1,10 @@
-import { useAuth } from '@providers/auth';
 import Link from 'next/link';
 import React from 'react';
 
+import { useUser } from '@/lib/hooks/useUser';
+
 export const Avatar: React.FC = () => {
-  const { user, logout } = useAuth();
+  const { user, logout } = useUser();
 
   const handleLogout = async () => {
     try {

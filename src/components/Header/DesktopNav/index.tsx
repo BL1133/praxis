@@ -1,10 +1,19 @@
 'use client';
 import { Avatar } from '@components/Avatar';
-import { useAuth } from '@providers/auth';
 import Link from 'next/link';
 
+import { useUser } from '@/lib/hooks/useUser'; // Update this import path to where your useUser hook is located
+
 export const Header = () => {
-  const { user } = useAuth();
+  const { user, isLoading, isError } = useUser();
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading user data.</div>;
+  }
 
   return (
     <div>

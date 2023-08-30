@@ -8,15 +8,6 @@ export const CreateProject: React.FC = () => {
   const [description, setDescription] = useState('');
   const [error, setError] = useState<string | null>(null);
 
-  // const { user } = useAuth();
-
-  // Redirect if user is not logged in
-  // useEffect(() => {
-  //   if (!user) {
-  //     redirect('/'); // Redirect to login page if user is not authenticated
-  //   }
-  // }, [user]);
-
   const handleCreateProject = async (e: React.FormEvent) => {
     e.preventDefault();
 

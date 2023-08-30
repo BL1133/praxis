@@ -2,10 +2,10 @@
 import { User } from '@payloadTypes';
 import React, { useEffect, useState } from 'react';
 
-import { useAuth } from '@/providers/auth';
+import { useUser } from '@/lib/hooks/useUser';
 
 export const UserProfile: React.FC<{ userData: User }> = ({ userData }) => {
-  const { user } = useAuth();
+  const { user } = useUser();
   const isOwnProfile = user && user.id === userData.id;
   const [isPublicView, setIsPublicView] = useState(!isOwnProfile);
 
