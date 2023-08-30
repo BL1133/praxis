@@ -9,13 +9,13 @@ export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
-  const { user, isLoading, isError, login } = useUser();
+  const { data, isLoading, isError, login } = useUser();
 
   useEffect(() => {
-    if (user) {
+    if (data?.user) {
       redirect('/');
     }
-  }, [user]);
+  }, [data]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

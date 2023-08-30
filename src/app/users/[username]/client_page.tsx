@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '@/lib/hooks/useUser';
 
 export const UserProfile: React.FC<{ userData: User }> = ({ userData }) => {
-  const { user } = useUser();
-  const isOwnProfile = user && user.id === userData.id;
+  const { data } = useUser();
+  const isOwnProfile = data?.user && data?.user.id === userData.id;
   const [isPublicView, setIsPublicView] = useState(!isOwnProfile);
 
   const toggleViewMode = () => {
@@ -14,10 +14,10 @@ export const UserProfile: React.FC<{ userData: User }> = ({ userData }) => {
   };
 
   useEffect(() => {
-    if (user && isOwnProfile) {
+    if (data?.user && isOwnProfile) {
       setIsPublicView(false);
     }
-  }, [user, isOwnProfile]);
+  }, [data, isOwnProfile]);
 
   return (
     <div>

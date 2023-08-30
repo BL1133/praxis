@@ -3,7 +3,7 @@ import { User } from '@payloadTypes';
 import { useCallback } from 'react';
 import useSWR from 'swr';
 
-import { fetcher } from '@/utils/fetcher';
+import { fetcherAuth } from '@/utils/fetcher';
 
 type Login = (args: { email: string; password: string }) => Promise<User>;
 type Logout = () => Promise<void>;
@@ -11,11 +11,13 @@ type Logout = () => Promise<void>;
 export const useUser = () => {
   const { data, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
-    fetcher,
+    fetcherAuth,
     {
       refreshInterval: 0,
     },
   );
+
+  console.log(data);
 
   const login = useCallback<Login>(
     async (args) => {
@@ -73,7 +75,7 @@ export const useUser = () => {
   }, [mutate]);
 
   return {
-    user: data,
+    data,
     isLoading: !error && !data,
     isError: error,
     login,

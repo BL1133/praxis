@@ -4,7 +4,7 @@ import React from 'react';
 import { useUser } from '@/lib/hooks/useUser';
 
 export const Avatar: React.FC = () => {
-  const { user, logout } = useUser();
+  const { data, logout } = useUser();
 
   const handleLogout = async () => {
     try {
@@ -18,7 +18,7 @@ export const Avatar: React.FC = () => {
   return (
     <div>
       <Link href={`/`}>
-        <p>Welcome, {user?.email}</p>
+        <p>Welcome, {data?.user?.email}</p>
         <button onClick={handleLogout}>Logout</button>
       </Link>
     </div>

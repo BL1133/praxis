@@ -2,10 +2,12 @@
 import { Avatar } from '@components/Avatar';
 import Link from 'next/link';
 
-import { useUser } from '@/lib/hooks/useUser'; // Update this import path to where your useUser hook is located
+import { useUser } from '@/lib/hooks/useUser';
 
 export const Header = () => {
-  const { user, isLoading, isError } = useUser();
+  const { data, isLoading, isError } = useUser();
+
+  console.log(data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -17,7 +19,7 @@ export const Header = () => {
 
   return (
     <div>
-      {user ? (
+      {data?.user ? (
         <Avatar />
       ) : (
         <>
