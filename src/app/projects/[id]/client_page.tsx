@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Project } from '@payloadTypes';
-import { usePathname, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 import { mutate } from 'swr';
 
@@ -14,7 +15,7 @@ interface ProjectProps {
 
 // eslint-disable-next-line
 const handleDelete = async (
-  id: string,
+  id: string | undefined,
   mutateProject: any,
   mutate: any,
   router: any,
@@ -53,8 +54,6 @@ export const ProjectClient: React.FC<ProjectProps> = ({
   const router = useRouter();
   const { data: userData } = useUser();
   const { data: projectData, mutate: mutateProject } = useProject(initialData);
-  const pathArr = usePathname().split('/');
-  const id = pathArr[pathArr.length - 1];
   const isOwnProject =
     userData?.user &&
     (typeof projectData?.createdBy === 'object'
@@ -67,13 +66,16 @@ export const ProjectClient: React.FC<ProjectProps> = ({
       <h1>{projectData.description}</h1>
       {isOwnProject && <h1>Created by you</h1>}
       {isOwnProject && (
-        <button
-          onClick={() => {
-            handleDelete(id, mutateProject, mutate, router);
-          }}
-        >
-          Delete Project
-        </button>
+        <div>
+          <Link href={`/projects/edit/${projectData.id}`}>Edit | </Link>
+          <button
+            onClick={() => {
+              handleDelete(projectData.id, mutateProject, mutate, router);
+            }}
+          >
+            Delete Project
+          </button>
+        </div>
       )}
     </div>
   );
