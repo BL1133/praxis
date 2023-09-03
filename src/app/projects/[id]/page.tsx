@@ -20,6 +20,9 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
         headers: {
           'Content-Type': 'application/json',
         },
+        next: {
+          revalidate: 1, // 1 seconds
+        },
       },
     );
     if (!res.ok) {

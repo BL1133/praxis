@@ -13,6 +13,9 @@ const getProjects = async (): Promise<ProjectResponse> => {
       headers: {
         'Content-Type': 'application/json',
       },
+      next: {
+        revalidate: 10, // 10 seconds
+      },
     });
     if (!res.ok) {
       throw new Error(`Failed to fetch projects: ${res.statusText}`);
