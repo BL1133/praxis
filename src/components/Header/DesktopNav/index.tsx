@@ -20,6 +20,7 @@ export const Header = () => {
       <span>
         <Link href="/">Home </Link>
         <Link href="/projects">Projects </Link>
+        <Link href="/signup">Sign Up </Link>
         {data?.user && (
           <span>
             <Link href={`/users/${data?.user?.username}`}>Profile </Link>

@@ -1,5 +1,6 @@
 'use client';
 import { Project } from '@payloadTypes';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { useProject } from '@/lib/hooks/useProject';
@@ -15,6 +16,7 @@ export const EditProject: React.FC<ProjectProps> = ({
   const [title, setTitle] = useState(data.title);
   const [description, setDescription] = useState(data.description);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleEditProject = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +39,8 @@ export const EditProject: React.FC<ProjectProps> = ({
 
       if (res.ok) {
         setError(null);
-        mutate();
+        await mutate();
+        router.push(`/projects/${data.id}`);
       }
 
       if (!res.ok) {
