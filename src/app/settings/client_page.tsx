@@ -5,12 +5,13 @@ import React, { useState } from 'react';
 import { useUser } from '@/lib/hooks/useUser';
 
 export const Settings: React.FC<{ user: User }> = ({ user }) => {
-  const [username, setUsername] = useState(user.username);
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [email, setEmail] = useState(user.email);
-  const [error, setError] = useState(null);
   const { data } = useUser(user);
+  console.log('data ' + data);
+  const [username, setUsername] = useState(data?.user?.username);
+  const [firstName, setFirstName] = useState(data?.user?.firstName);
+  const [lastName, setLastName] = useState(data?.user?.lastName);
+  const [email, setEmail] = useState(data?.user?.email);
+  const [error, setError] = useState(null);
 
   const handleUpdateUser = async (e: React.FormEvent) => {
     e.preventDefault();

@@ -9,6 +9,7 @@ type Login = (args: { email: string; password: string }) => Promise<User>;
 type Logout = () => Promise<void>;
 
 export const useUser = (initialData: User | null = null) => {
+  console.log('initial data ' + initialData);
   const { data, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
     fetcherAuth,
@@ -17,7 +18,7 @@ export const useUser = (initialData: User | null = null) => {
       refreshInterval: 10000,
     },
   );
-
+  console.log('data ' + data);
   const login = useCallback<Login>(
     async (args) => {
       try {

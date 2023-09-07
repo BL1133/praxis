@@ -31,7 +31,6 @@ const getUserId = async ({
       throw new Error(`Failed to fetch user: ${res.statusText}`);
     }
     const userData = await res.json();
-    console.log(userData);
     return userData.docs[0].id;
   } catch (e) {
     throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);

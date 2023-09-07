@@ -18,6 +18,9 @@ const getUser = async (): Promise<User> => {
         Cookie: `payload-token=${payloadToken?.value}`,
         'X-Custom-Note': 'getUser',
       },
+      next: {
+        revalidate: 10, // 10 seconds
+      },
     });
     if (!res.ok) {
       throw new Error(`Failed to fetch user: ${res.statusText}`);
