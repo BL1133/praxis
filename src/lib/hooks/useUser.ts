@@ -8,10 +8,14 @@ import { fetcherAuth } from '@/utils/fetcher';
 type Login = (args: { email: string; password: string }) => Promise<User>;
 type Logout = () => Promise<void>;
 
-export const useUser = () => {
+export const useUser = (initialData: User | null = null) => {
   const { data, error, mutate } = useSWR(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
     fetcherAuth,
+    {
+      fallbackData: initialData,
+      refreshInterval: 10000,
+    },
   );
 
   const login = useCallback<Login>(

@@ -10,7 +10,7 @@ export const useProject = (initialData: Project) => {
     fetcher,
     {
       fallbackData: initialData,
-      refreshInterval: 5000, // 5 seconds
+      refreshInterval: 120000, // 2 minutes
     },
   );
 
