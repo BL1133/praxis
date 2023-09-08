@@ -73,6 +73,7 @@ export const useUser = () => {
 
   return {
     data,
+    mutate,
     isLoading: !error && !data,
     isError: error,
     login,

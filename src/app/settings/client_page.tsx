@@ -4,13 +4,12 @@ import React, { useEffect, useState } from 'react';
 import { useUser } from '@/lib/hooks/useUser';
 
 export const Settings: React.FC = () => {
-  const { data: fetchedData } = useUser();
+  const { data: fetchedData, mutate } = useUser();
   const { user } = fetchedData || {};
   const [data, setData] = useState(
     user || { username: '', firstName: '', lastName: '', email: '' },
   );
-
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setData(user);
@@ -18,10 +17,41 @@ export const Settings: React.FC = () => {
 
   const handleUpdateUser = async (e: React.FormEvent) => {
     e.preventDefault();
+    const { username, firstName, lastName, email } = data;
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/${data.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            username,
+            firstName,
+            lastName,
+            email,
+          }),
+          credentials: 'include',
+        },
+      );
+
+      if (res.ok) {
+        setError(null);
+        await mutate();
+      }
+
+      if (!res.ok) {
+        const resData = await res.json();
+        throw new Error(resData.error || 'Failed to create project.');
+      }
+    } catch (err) {
+      setError((err as Error).message);
+    }
   };
 
   const myStyle = {
-    color: 'black', // Note the camelCase
+    color: 'black',
   };
 
   return (
