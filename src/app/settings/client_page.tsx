@@ -1,17 +1,20 @@
 'use client';
-import { User } from '@payloadTypes';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useUser } from '@/lib/hooks/useUser';
 
-export const Settings: React.FC<{ user: User }> = ({ user }) => {
-  const { data } = useUser(user);
-  console.log('data ' + data);
-  const [username, setUsername] = useState(data?.user?.username);
-  const [firstName, setFirstName] = useState(data?.user?.firstName);
-  const [lastName, setLastName] = useState(data?.user?.lastName);
-  const [email, setEmail] = useState(data?.user?.email);
+export const Settings: React.FC = () => {
+  const { data: fetchedData } = useUser();
+  const { user } = fetchedData || {};
+  const [data, setData] = useState(
+    user || { username: '', firstName: '', lastName: '', email: '' },
+  );
+
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    setData(user);
+  }, [user]);
 
   const handleUpdateUser = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,8 +34,8 @@ export const Settings: React.FC<{ user: User }> = ({ user }) => {
             style={myStyle}
             id="username"
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={data?.username || ''}
+            onChange={(e) => setData({ ...data, username: e.target.value })}
             required
           />
         </div>
@@ -42,8 +45,8 @@ export const Settings: React.FC<{ user: User }> = ({ user }) => {
             style={myStyle}
             id="firstName"
             type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+            value={data?.firstName || ''}
+            onChange={(e) => setData({ ...data, firstName: e.target.value })}
             required
           />
         </div>
@@ -53,8 +56,8 @@ export const Settings: React.FC<{ user: User }> = ({ user }) => {
             style={myStyle}
             id="lastName"
             type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
+            value={data?.lastName || ''}
+            onChange={(e) => setData({ ...data, lastName: e.target.value })}
             required
           />
         </div>
@@ -64,8 +67,8 @@ export const Settings: React.FC<{ user: User }> = ({ user }) => {
             style={myStyle}
             id="email"
             type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={data?.email || ''}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
             required
           />
         </div>
