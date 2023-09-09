@@ -13,7 +13,7 @@ export const useUser = () => {
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/users/me`,
     fetcherAuth,
     {
-      refreshInterval: 10000,
+      refreshInterval: 50000,
     },
   );
   const login = useCallback<Login>(

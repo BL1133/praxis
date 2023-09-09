@@ -14,7 +14,7 @@ const getProjects = async (): Promise<ProjectResponse> => {
         'Content-Type': 'application/json',
       },
       next: {
-        revalidate: 10, // 10 seconds
+        revalidate: 60, // 60 seconds
       },
     });
     if (!res.ok) {
