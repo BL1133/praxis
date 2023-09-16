@@ -4,13 +4,11 @@ import type { FC, ReactNode } from 'react';
 import { useEffect } from 'react';
 
 import theme from '@/flowbite-theme';
+import isBrowser from '@/utils/is-browser';
 
 const FlowbiteWrapper = function ({ children }: { children: ReactNode }) {
   // Check if window is defined before accessing localStorage
-  const dark =
-    typeof window !== 'undefined'
-      ? localStorage.getItem('theme') === 'dark'
-      : false;
+  const dark = isBrowser() ? localStorage.getItem('theme') === 'dark' : false;
 
   return (
     <Flowbite theme={{ dark, theme }}>
@@ -25,9 +23,7 @@ const PersistFlowbiteThemeToLocalStorage: FC = function () {
 
   useEffect(() => {
     // Check if window is defined before accessing localStorage
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('theme', themeMode);
-    }
+    isBrowser() && localStorage.setItem('theme', themeMode);
   }, [themeMode]);
 
   return <></>;

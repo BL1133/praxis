@@ -1,0 +1,9 @@
+{
+  "out": "./docs",
+  "entryPoints": ["./src"],
+  "name": "My Project",
+  "exclude": ["**/node_modules/**", "**/*.spec.ts"],
+  "theme": "default",
+  "entryPointStrategy": "expand",
+  "readme": "README.md"
+}

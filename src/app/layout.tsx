@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { ReactNode } from 'react';
 
 import FlowbiteWrapper from '@/components/FlowbiteWrapper';
+import { SidebarProvider } from '@/providers/SidebarContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,10 +19,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <FlowbiteWrapper>
-        <body className={inter.className}>
-          <Header />
-          {children}
-        </body>
+        <SidebarProvider>
+          <body className={inter.className}>
+            <Header />
+            {children}
+          </body>
+        </SidebarProvider>
       </FlowbiteWrapper>
     </html>
   );
