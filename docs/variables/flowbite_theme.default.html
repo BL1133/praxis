@@ -16,9 +16,32 @@
 <li><a href="../modules/flowbite_theme.html">flowbite-theme</a></li>
 <li><a href="flowbite_theme.default.html">default</a></li></ul>
 <h1>Variable default<code class="tsd-tag ts-flagConst">Const</code> </h1></div>
-<div class="tsd-signature"><span class="tsd-kind-variable">default</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">CustomFlowbiteTheme</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources">
+<div class="tsd-signature"><span class="tsd-kind-variable">default</span><span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type ">CustomFlowbiteTheme</span><span class="tsd-signature-symbol"> = ...</span></div>
+<div class="tsd-comment tsd-typography"><p>The file you&#39;re looking at is a theme configuration file for Flowbite. It&#39;s defining a custom theme that you can use throughout your application. The theme is an object that specifies various styles for different components like badges, buttons, dropdowns, modals, etc.</p>
+<p>Here&#39;s a breakdown of what some of the properties do:</p>
 <ul>
-<li>Defined in <a href="https://github.com/BL1133/praxis/blob/17d64a9/src/flowbite-theme.ts#L28">src/flowbite-theme.ts:28</a></li></ul></aside></div>
+<li><code>badge</code>: Styles for badge components.</li>
+<li><code>button</code>: Styles for button components.</li>
+<li><code>dropdown</code>: Styles for dropdown components.</li>
+<li><code>modal</code>: Styles for modal components.</li>
+<li><code>navbar</code>: Styles for the navigation bar.</li>
+<li><code>sidebar</code>: Styles for the sidebar.</li>
+<li><code>textarea</code>: Styles for textarea components.</li>
+<li><code>textInput</code>: Styles for text input components.</li>
+<li><code>toggleSwitch</code>: Styles for toggle switch components.</li>
+</ul>
+<p>Each of these properties has nested properties that further define the styles for different states, sizes, and variations of the components.</p>
+<p>For example, under <code>button</code>, you have:</p>
+<ul>
+<li><code>color</code>: Defines the text and background color for different types of buttons (gray, info, primary).</li>
+<li><code>inner</code>: Defines the base styles for the inner part of the button.</li>
+</ul>
+<p>You can customize this file to match the look and feel you want for your application. Once you&#39;ve defined your theme, you can pass it to the <code>Flowbite</code> component as a prop, and it will apply these styles globally.</p>
+<p>If you&#39;re not familiar with Flowbite, you might want to check their documentation to understand how to use these theme configurations effectively.</p>
+</div>
+<div class="tsd-comment tsd-typography"></div><aside class="tsd-sources">
+<ul>
+<li>Defined in <a href="https://github.com/BL1133/praxis/blob/540fe0e/src/flowbite-theme.ts#L28">src/flowbite-theme.ts:28</a></li></ul></aside></div>
 <div class="col-sidebar">
 <div class="page-menu">
 <div class="tsd-navigation settings">

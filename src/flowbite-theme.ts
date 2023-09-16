@@ -1,5 +1,5 @@
 import type { CustomFlowbiteTheme } from 'flowbite-react';
-/*
+/**
 The file you're looking at is a theme configuration file for Flowbite. It's defining a custom theme that you can use throughout your application. The theme is an object that specifies various styles for different components like badges, buttons, dropdowns, modals, etc.
 
 Here's a breakdown of what some of the properties do:
