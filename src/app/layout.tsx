@@ -1,12 +1,11 @@
 import './globals.css';
 
 import { Header } from '@components/Header/DesktopNav';
-import { Flowbite, useThemeMode } from 'flowbite-react';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 
-import theme from '@/flowbite-theme';
+import FlowbiteWrapper from '@/components/FlowbiteWrapper';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,21 +15,14 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const dark = localStorage.getItem('theme') === 'dark';
-  const [themeMode] = useThemeMode();
-
-  useEffect(() => {
-    localStorage.setItem('theme', themeMode);
-  }, [themeMode]);
-
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <Flowbite theme={{ dark, theme }}>
+      <FlowbiteWrapper>
+        <body className={inter.className}>
           <Header />
           {children}
-        </Flowbite>
-      </body>
+        </body>
+      </FlowbiteWrapper>
     </html>
   );
 }
