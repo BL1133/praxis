@@ -1,3 +1,4 @@
+'use client';
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import classNames from 'classnames';
 import { Dropdown, Sidebar, TextInput, Tooltip } from 'flowbite-react';
