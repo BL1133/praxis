@@ -34,8 +34,9 @@ const ExampleNavbar: FC = function () {
     useSidebarContext();
 
   return (
-    <Navbar fluid>
-      <div className="w-full p-3 lg:px-5 lg:pl-3">
+    // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
+    <Navbar fluid style={{ zIndex: 30 }}>
+      <div className="w-full p-3 lg:px-5 lg:pl-3 navbar">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             {isPageWithSidebar && (
@@ -299,12 +300,7 @@ const UserDropdown: FC = function () {
       label={
         <span>
           <span className="sr-only">User menu</span>
-          <Avatar
-            alt=""
-            img="../images/users/neil-sims.png"
-            rounded
-            size="sm"
-          />
+          <Avatar alt="" rounded size="sm" />
         </span>
       }
     >
