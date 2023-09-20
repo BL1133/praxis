@@ -2,6 +2,8 @@ import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
 import React from 'react';
 
+import { ProjectSidebar } from '@/components/ProjectSidebar';
+
 import { ProjectClient } from './client_page';
 
 interface ParamsType {
@@ -38,7 +40,12 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
 
 const Page: React.FC<ParamsType> = async ({ params }) => {
   const projectData = await getProject(params);
-  return <ProjectClient projectData={projectData} />;
+  return (
+    <div className="flex items-start pt-16">
+      <ProjectSidebar />
+      <ProjectClient projectData={projectData} />
+    </div>
+  );
 };
 
 export const metadata: Metadata = {

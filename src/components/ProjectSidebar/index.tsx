@@ -23,7 +23,7 @@ import {
 import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
-const ExampleSidebar: FC = function () {
+export const ProjectSidebar: FC = function () {
   const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
     useSidebarContext();
   const currentPage = usePathname();
@@ -431,5 +431,3 @@ const LanguageDropdown: FC = function () {
     </Dropdown>
   );
 };
-
-export default ExampleSidebar;

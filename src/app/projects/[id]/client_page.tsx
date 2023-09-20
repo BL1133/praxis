@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 import { Project } from '@payloadTypes';
+import classNames from 'classnames';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -8,7 +9,7 @@ import { mutate } from 'swr';
 
 import { useProject } from '@/lib/hooks/useProject';
 import { useUser } from '@/lib/hooks/useUser';
-
+import { useSidebarContext } from '@/providers/SidebarContext';
 interface ProjectProps {
   projectData: Project;
 }
@@ -51,6 +52,7 @@ const handleDelete = async (
 export const ProjectClient: React.FC<ProjectProps> = ({
   projectData: initialData,
 }) => {
+  const { isOpenOnSmallScreens: isSidebarOpen } = useSidebarContext();
   const router = useRouter();
   const { data: userData } = useUser();
   const { data: projectData, mutate: mutateProject } = useProject(initialData);
@@ -61,7 +63,12 @@ export const ProjectClient: React.FC<ProjectProps> = ({
       : projectData?.createdBy === userData?.user?.id);
 
   return (
-    <div>
+    <main
+      className={classNames(
+        'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900',
+        isSidebarOpen ? 'lg:ml-16' : 'lg:ml-64',
+      )}
+    >
       <h1>{projectData.title}</h1>
       <h1>{projectData.description}</h1>
       {isOwnProject && <h1>Created by you</h1>}
@@ -77,6 +84,6 @@ export const ProjectClient: React.FC<ProjectProps> = ({
           </button>
         </div>
       )}
-    </div>
+    </main>
   );
 };
