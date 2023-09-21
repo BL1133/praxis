@@ -52,7 +52,7 @@ const handleDelete = async (
 export const ProjectClient: React.FC<ProjectProps> = ({
   projectData: initialData,
 }) => {
-  const { isOpenOnSmallScreens: isSidebarOpen } = useSidebarContext();
+  const { isOpen: isSidebarOpen } = useSidebarContext();
   const router = useRouter();
   const { data: userData } = useUser();
   const { data: projectData, mutate: mutateProject } = useProject(initialData);

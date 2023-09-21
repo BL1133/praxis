@@ -30,8 +30,7 @@ import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
 const ExampleNavbar: FC = function () {
-  const { isOpenOnSmallScreens, isPageWithSidebar, setOpenOnSmallScreens } =
-    useSidebarContext();
+  const { isOpen, isPageWithSidebar, setOpen } = useSidebarContext();
 
   return (
     // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
@@ -41,11 +40,11 @@ const ExampleNavbar: FC = function () {
           <div className="flex items-center">
             {isPageWithSidebar && (
               <button
-                onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
+                onClick={() => setOpen(!isOpen)}
                 className="mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline"
               >
                 <span className="sr-only">Toggle sidebar</span>
-                {isOpenOnSmallScreens && isSmallScreen() ? (
+                {isOpen && isSmallScreen() ? (
                   <HiX className="h-6 w-6" />
                 ) : (
                   <HiMenuAlt1 className="h-6 w-6" />
@@ -75,7 +74,7 @@ const ExampleNavbar: FC = function () {
           <div className="flex items-center lg:gap-3">
             <div className="flex items-center">
               <button
-                onClick={() => setOpenOnSmallScreens(!isOpenOnSmallScreens)}
+                onClick={() => setOpen(!isOpen)}
                 className="cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 lg:hidden"
               >
                 <span className="sr-only">Search</span>

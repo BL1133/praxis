@@ -16,8 +16,7 @@ import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
 export const ProjectSidebar: FC = function () {
-  const { isOpenOnSmallScreens: isSidebarOpenOnSmallScreens } =
-    useSidebarContext();
+  const { isOpen: isSidebarOpenOnSmallScreens } = useSidebarContext();
   const currentPage = usePathname();
 
   return (

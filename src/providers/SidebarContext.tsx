@@ -6,10 +6,10 @@ import isBrowser from '@/utils/is-browser';
 import isSmallScreen from '@/utils/is-small-screen';
 
 interface SidebarContextProps {
-  isOpenOnSmallScreens: boolean;
+  isOpen: boolean;
   isPageWithSidebar: boolean;
   // eslint-disable-next-line no-unused-vars
-  setOpenOnSmallScreens: (isOpen: boolean) => void;
+  setOpen: (isOpen: boolean) => void;
 }
 
 const SidebarContext = createContext({} as SidebarContextProps);
@@ -21,11 +21,12 @@ export function SidebarProvider({ children }: PropsWithChildren) {
       ? window.localStorage.getItem('isSidebarOpen') === 'true'
       : false,
   );
-
+  console.log('isOpen', isOpen);
   // Save latest state to localStorage
-  useEffect(() => {
-    window.localStorage.setItem('isSidebarOpen', isOpen.toString());
-  }, [isOpen]);
+  // useEffect(() => {
+  //   console.log('isOpen state changed', isOpen);
+  //   window.localStorage.setItem('isSidebarOpen', isOpen.toString());
+  // }, [isOpen]);
 
   // Close Sidebar on page change on mobile
   useEffect(() => {
@@ -54,9 +55,9 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   return (
     <SidebarContext.Provider
       value={{
-        isOpenOnSmallScreens: isOpen,
+        isOpen,
         isPageWithSidebar: true,
-        setOpenOnSmallScreens: setOpen,
+        setOpen,
       }}
     >
       {children}
