@@ -16,18 +16,18 @@ import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
 export const ProjectSidebar: FC = function () {
-  const { isOpen: isSidebarOpenOnSmallScreens } = useSidebarContext();
+  const { isOpen } = useSidebarContext();
   const currentPage = usePathname();
 
   return (
     <div
       className={classNames('lg:!block', {
-        hidden: !isSidebarOpenOnSmallScreens,
+        hidden: !isOpen,
       })}
     >
       <Sidebar
         aria-label="Sidebar with multi-level dropdown example"
-        collapsed={isSidebarOpenOnSmallScreens && !isSmallScreen()}
+        collapsed={!isOpen && !isSmallScreen()}
       >
         <div className="flex h-full flex-col justify-between py-2">
           <div>

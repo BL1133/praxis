@@ -2,7 +2,7 @@
 import type { PropsWithChildren } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import isBrowser from '@/utils/is-browser';
+// import isBrowser from '@/utils/is-browser';
 import isSmallScreen from '@/utils/is-small-screen';
 
 interface SidebarContextProps {
@@ -15,26 +15,39 @@ interface SidebarContextProps {
 const SidebarContext = createContext({} as SidebarContextProps);
 
 export function SidebarProvider({ children }: PropsWithChildren) {
-  const location = isBrowser() ? window.location.pathname : '/';
-  const [isOpen, setOpen] = useState(
-    isBrowser()
-      ? window.localStorage.getItem('isSidebarOpen') === 'true'
-      : false,
-  );
+  // Initialize isOpen based on localStorage or screen size
+  const initialIsOpen = () => {
+    const storedIsOpen = localStorage.getItem('isSidebarOpen');
+    if (storedIsOpen !== null) {
+      return JSON.parse(storedIsOpen);
+    }
+    return isSmallScreen() ? false : true;
+  };
+  /**
+   * If the code is not running in a browser, then isOpen will be false.
+   * If the code is running in a browser and the screen is small, then isOpen will be false.
+   * If the code is running in a browser and the screen is not small, then isOpen will be true.
+   */
+  // const [isOpen, setOpen] = useState(
+  //   isBrowser() ? (isSmallScreen() ? false : true) : false,
+  // );
+  const [isBrowser, setIsBrowser] = useState(false); // New state
+  const [isOpen, setOpen] = useState(initialIsOpen); // Initialize to false
   console.log('isOpen', isOpen);
+
   // Save latest state to localStorage
-  // useEffect(() => {
-  //   console.log('isOpen state changed', isOpen);
-  //   window.localStorage.setItem('isSidebarOpen', isOpen.toString());
-  // }, [isOpen]);
+  useEffect(() => {
+    console.log('isOpen state changed', isOpen);
+    window.localStorage.setItem('isSidebarOpen', isOpen.toString());
+  }, [isOpen]); //TODO: add localStorage
 
   // Close Sidebar on page change on mobile
   useEffect(() => {
-    if (isSmallScreen()) {
-      setOpen(false);
-    }
-  }, [location]);
+    setIsBrowser(true); // Set isBrowser to true after mount
+    setOpen(isSmallScreen() ? false : true); // Set initial value for isOpen
+  }, []);
 
+  const location = isBrowser ? window.location.pathname : '/';
   // Close Sidebar on mobile tap inside main content
   useEffect(() => {
     function handleMobileTapInsideMain(event: MouseEvent) {
