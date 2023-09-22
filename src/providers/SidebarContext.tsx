@@ -23,28 +23,18 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     }
     return isSmallScreen() ? false : true;
   };
-  /**
-   * If the code is not running in a browser, then isOpen will be false.
-   * If the code is running in a browser and the screen is small, then isOpen will be false.
-   * If the code is running in a browser and the screen is not small, then isOpen will be true.
-   */
-  // const [isOpen, setOpen] = useState(
-  //   isBrowser() ? (isSmallScreen() ? false : true) : false,
-  // );
-  const [isBrowser, setIsBrowser] = useState(false); // New state
-  const [isOpen, setOpen] = useState(initialIsOpen); // Initialize to false
+  const [isBrowser, setIsBrowser] = useState(false);
+  const [isOpen, setOpen] = useState(initialIsOpen);
   console.log('isOpen', isOpen);
 
   // Save latest state to localStorage
   useEffect(() => {
-    console.log('isOpen state changed', isOpen);
     window.localStorage.setItem('isSidebarOpen', isOpen.toString());
-  }, [isOpen]); //TODO: add localStorage
+  }, [isOpen]);
 
   // Close Sidebar on page change on mobile
   useEffect(() => {
     setIsBrowser(true); // Set isBrowser to true after mount
-    setOpen(isSmallScreen() ? false : true); // Set initial value for isOpen
   }, []);
 
   const location = isBrowser ? window.location.pathname : '/';

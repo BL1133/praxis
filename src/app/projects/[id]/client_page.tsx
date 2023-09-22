@@ -66,7 +66,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
     <main
       className={classNames(
         'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900',
-        isSidebarOpen ? 'lg:ml-16' : 'lg:ml-64',
+        isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
       )}
     >
       <h1>{projectData.title}</h1>
