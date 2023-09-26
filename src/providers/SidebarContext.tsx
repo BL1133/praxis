@@ -6,7 +6,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import isSmallScreen from '@/utils/is-small-screen';
 
 interface SidebarContextProps {
-  isOpen: boolean;
+  isOpen: boolean | null;
   isPageWithSidebar: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (isOpen: boolean) => void;
@@ -18,7 +18,7 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   // Initialize isOpen based on localStorage or screen size
   const initialIsOpen = () => {
     const storedIsOpen = localStorage.getItem('isSidebarOpen');
-    if (storedIsOpen !== null) {
+    if (storedIsOpen !== null && !isSmallScreen()) {
       return JSON.parse(storedIsOpen);
     }
     return isSmallScreen() ? false : true;
