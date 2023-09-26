@@ -18,7 +18,6 @@ import isSmallScreen from '@/utils/is-small-screen';
 export const ProjectSidebar: FC = function () {
   const { isOpen } = useSidebarContext();
   const currentPage = usePathname();
-
   return (
     <div
       className={classNames('lg:!block', {

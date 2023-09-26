@@ -23,23 +23,18 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     }
     return isSmallScreen() ? false : true;
   };
-  const [isBrowser, setIsBrowser] = useState(false);
   const [isOpen, setOpen] = useState(initialIsOpen);
-  console.log('isOpen', isOpen);
-
+  console.log(isOpen);
   // Save latest state to localStorage
   useEffect(() => {
-    window.localStorage.setItem('isSidebarOpen', isOpen.toString());
+    if (isOpen !== null) {
+      window.localStorage.setItem('isSidebarOpen', isOpen.toString());
+    }
   }, [isOpen]);
 
-  // Close Sidebar on page change on mobile
-  useEffect(() => {
-    setIsBrowser(true); // Set isBrowser to true after mount
-  }, []);
-
-  const location = isBrowser ? window.location.pathname : '/';
   // Close Sidebar on mobile tap inside main content
   useEffect(() => {
+    if (!isOpen) return;
     function handleMobileTapInsideMain(event: MouseEvent) {
       const main = document.querySelector('main');
       const isClickInsideMain = main?.contains(event.target as Node);
@@ -53,7 +48,7 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     return () => {
       document.removeEventListener('mousedown', handleMobileTapInsideMain);
     };
-  }, []);
+  }, [isOpen]);
 
   return (
     <SidebarContext.Provider

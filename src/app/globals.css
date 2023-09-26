@@ -25,7 +25,3 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
-
-.navbar {
-  z-index: 30 !important;
-}
