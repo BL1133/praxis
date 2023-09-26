@@ -1,10 +1,11 @@
 'use client';
+import { usePathname } from 'next/navigation';
 import type { PropsWithChildren } from 'react';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
+import isBrowser from '@/utils/is-browser';
 // import isBrowser from '@/utils/is-browser';
 import isSmallScreen from '@/utils/is-small-screen';
-
 interface SidebarContextProps {
   isOpen: boolean | null;
   isPageWithSidebar: boolean;
@@ -15,6 +16,7 @@ interface SidebarContextProps {
 const SidebarContext = createContext({} as SidebarContextProps);
 
 export function SidebarProvider({ children }: PropsWithChildren) {
+  const pathname = usePathname();
   // Initialize isOpen based on localStorage or screen size
   const initialIsOpen = () => {
     const storedIsOpen = localStorage.getItem('isSidebarOpen');
@@ -24,7 +26,8 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     return isSmallScreen() ? false : true;
   };
   const [isOpen, setOpen] = useState(initialIsOpen);
-  console.log(isOpen);
+  const [isPageWithSidebar, setIsPageWithSidebar] = useState(false);
+
   // Save latest state to localStorage
   useEffect(() => {
     if (isOpen !== null) {
@@ -50,11 +53,18 @@ export function SidebarProvider({ children }: PropsWithChildren) {
     };
   }, [isOpen]);
 
+  // Effect to update isPageWithSidebar based on pathname
+  useEffect(() => {
+    if (isBrowser()) {
+      setIsPageWithSidebar(pathname.includes('/project'));
+    }
+  }, [pathname]);
+
   return (
     <SidebarContext.Provider
       value={{
         isOpen,
-        isPageWithSidebar: true,
+        isPageWithSidebar,
         setOpen,
       }}
     >
