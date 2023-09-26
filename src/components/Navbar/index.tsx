@@ -68,6 +68,8 @@ const ExampleNavbar: FC = function () {
                 required
                 size={32}
                 type="search"
+                // Tailwind style not computing
+                style={{ paddingLeft: '2.5rem' }}
               />
             </form>
           </div>
@@ -200,6 +202,7 @@ const AppDrawerDropdown: FC = function () {
           <HiViewGrid className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
         </span>
       }
+      // style={{ borderRadius: '50px' }}
     >
       <div className="block rounded-t-lg border-b bg-gray-50 py-2 px-4 text-center text-base font-medium text-gray-700 dark:border-b-gray-600 dark:bg-gray-700 dark:text-white">
         Apps
