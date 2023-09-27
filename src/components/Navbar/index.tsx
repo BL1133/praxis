@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'flowbite-react';
 import type { FC } from 'react';
+import React from 'react';
 import {
   HiArchive,
   HiBell,
@@ -31,6 +32,26 @@ import isSmallScreen from '@/utils/is-small-screen';
 
 const ExampleNavbar: FC = function () {
   const { isOpen, isPageWithSidebar, setOpen } = useSidebarContext();
+
+  const handleThemeToggle = () => {
+    const currentTheme = document.documentElement.classList.contains('dark')
+      ? 'dark'
+      : 'light';
+
+    // Set the cookie based on the toggled theme
+    if (currentTheme === 'dark') {
+      document.cookie = 'theme=dark; path=/; max-age=31536000'; // Set for one year
+    } else {
+      document.cookie = 'theme=light; path=/; max-age=31536000'; // Set for one year
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    // Check if the key pressed is 'Enter'
+    if (event.key === 'Enter') {
+      handleThemeToggle();
+    }
+  };
 
   return (
     // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
@@ -84,7 +105,14 @@ const ExampleNavbar: FC = function () {
               </button>
               <NotificationBellDropdown />
               <AppDrawerDropdown />
-              <DarkThemeToggle />
+              <div
+                onClick={handleThemeToggle}
+                tabIndex={0}
+                role="button"
+                onKeyDown={handleKeyDown}
+              >
+                <DarkThemeToggle />
+              </div>
             </div>
             <div className="hidden lg:block">
               <UserDropdown />

@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { cookies } from 'next/headers';
 import { ReactNode } from 'react';
 
 import FlowbiteWrapper from '@/components/FlowbiteWrapper';
@@ -16,8 +17,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const cookieStore = cookies();
+  const theme = cookieStore.get('theme')?.value;
+  console.log(theme);
   return (
-    <html lang="en">
+    <html lang="en" className={theme}>
       <FlowbiteWrapper>
         <SidebarProvider>
           <body className={inter.className}>
