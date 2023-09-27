@@ -13,7 +13,6 @@ import {
 } from 'react-icons/hi';
 
 import { useSidebarContext } from '@/providers/SidebarContext';
-import isSmallScreen from '@/utils/is-small-screen';
 
 export const ProjectSidebar: FC = function () {
   const { isOpen } = useSidebarContext();
@@ -26,7 +25,7 @@ export const ProjectSidebar: FC = function () {
     >
       <Sidebar
         aria-label="Sidebar with multi-level dropdown example"
-        collapsed={!isOpen && !isSmallScreen()}
+        collapsed={!isOpen}
       >
         <div className="flex h-full flex-col justify-between py-2">
           <div>

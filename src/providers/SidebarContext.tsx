@@ -7,7 +7,7 @@ import isBrowser from '@/utils/is-browser';
 // import isBrowser from '@/utils/is-browser';
 import isSmallScreen from '@/utils/is-small-screen';
 interface SidebarContextProps {
-  isOpen: boolean | null;
+  isOpen: boolean;
   isPageWithSidebar: boolean;
   // eslint-disable-next-line no-unused-vars
   setOpen: (isOpen: boolean) => void;
@@ -18,19 +18,17 @@ const SidebarContext = createContext({} as SidebarContextProps);
 export function SidebarProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
   // Initialize isOpen based on localStorage or screen size
-  const initialIsOpen = () => {
-    // If SSR
-    if (!isBrowser()) {
-      return isSmallScreen() ? false : true;
-    }
-    const storedIsOpen = localStorage.getItem('isSidebarOpen');
-    if (storedIsOpen !== null && !isSmallScreen()) {
-      return JSON.parse(storedIsOpen);
-    }
-    return isSmallScreen() ? false : true;
-  };
-  const [isOpen, setOpen] = useState(initialIsOpen);
+  const [isOpen, setOpen] = useState(false);
   const [isPageWithSidebar, setIsPageWithSidebar] = useState(false);
+  console.log(isOpen);
+
+  // Update isOpen based on localStorage after initial render
+  useEffect(() => {
+    const storedIsOpen = localStorage.getItem('isSidebarOpen');
+    if (storedIsOpen !== null) {
+      setOpen(JSON.parse(storedIsOpen));
+    }
+  }, []);
 
   // Save latest state to localStorage
   useEffect(() => {
