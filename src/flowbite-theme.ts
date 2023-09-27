@@ -59,8 +59,8 @@ const flowbiteTheme: CustomFlowbiteTheme = {
   },
   dropdown: {
     floating: {
-      base: 'z-10 w-fit rounded-xl divide-y divide-gray-100 shadow',
-      content: 'rounded-xl text-sm text-gray-700 dark:text-gray-200',
+      base: 'z-10 w-fit  divide-y divide-gray-100 shadow',
+      content: ' text-sm text-gray-700 dark:text-gray-200',
       target: 'w-fit dark:text-white',
     },
     content: '',

@@ -135,6 +135,8 @@ const NotificationBellDropdown: FC = function () {
           <HiBell className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white " />
         </span>
       }
+      // fixes strange bug that won't compute the border radius from theme file
+      className="rounded-xl"
     >
       <div className="max-w-[24rem]">
         <div className="block rounded-t-xl bg-gray-50 py-2 px-4 text-center text-base font-medium text-gray-700 dark:bg-gray-700 dark:text-gray-400">
@@ -230,7 +232,8 @@ const AppDrawerDropdown: FC = function () {
           <HiViewGrid className="text-2xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" />
         </span>
       }
-      // style={{ borderRadius: '50px' }}
+      // fixes strange bug that won't compute the border radius from theme file
+      className="rounded-xl"
     >
       <div className="block rounded-t-lg border-b bg-gray-50 py-2 px-4 text-center text-base font-medium text-gray-700 dark:border-b-gray-600 dark:bg-gray-700 dark:text-white">
         Apps
@@ -333,6 +336,8 @@ const UserDropdown: FC = function () {
           <Avatar alt="" rounded size="sm" />
         </span>
       }
+      // fixes strange bug that won't compute the border radius from theme file
+      className="rounded-xl"
     >
       <Dropdown.Header>
         <span className="block text-sm">Neil Sims</span>

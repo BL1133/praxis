@@ -19,7 +19,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = cookies();
   const theme = cookieStore.get('theme')?.value;
-  console.log(theme);
   return (
     <html lang="en" className={theme}>
       <FlowbiteWrapper>
