@@ -8,6 +8,7 @@ import {
   Navbar,
   TextInput,
 } from 'flowbite-react';
+import Link from 'next/link';
 import type { FC } from 'react';
 import React from 'react';
 import {
@@ -245,15 +246,15 @@ const AppDrawerDropdown: FC = function () {
         Apps
       </div>
       <div className="grid grid-cols-3 gap-4 p-4">
-        <a
-          href="#"
+        <Link
+          href="/projects"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiShoppingBag className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
           <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Sales
+            Projects
           </div>
-        </a>
+        </Link>
         <a
           href="#"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"

@@ -17,10 +17,10 @@ const SidebarContext = createContext({} as SidebarContextProps);
 
 export function SidebarProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
-  // Initialize isOpen based on localStorage or screen size
+  // Initialize isOpen as false and then update based on localstorage.
   const [isOpen, setOpen] = useState(false);
   const [isPageWithSidebar, setIsPageWithSidebar] = useState(false);
-
+  console.log(isPageWithSidebar);
   // Update isOpen based on localStorage after initial render
   useEffect(() => {
     const storedIsOpen = localStorage.getItem('isSidebarOpen');
@@ -49,8 +49,9 @@ export function SidebarProvider({ children }: PropsWithChildren) {
 
   // Effect to update isPageWithSidebar based on pathname
   useEffect(() => {
+    const projectPageRegex = /^\/projects\/[0-9a-f]+$/;
     if (isBrowser()) {
-      setIsPageWithSidebar(pathname.includes('/project'));
+      setIsPageWithSidebar(projectPageRegex.test(pathname));
     }
   }, [pathname]);
 
