@@ -53,6 +53,12 @@ const ExampleNavbar: FC = function () {
     }
   };
 
+  const handleSetOpen = () => {
+    const newIsOpen = !isOpen;
+    setOpen(!isOpen);
+    window.localStorage.setItem('isSidebarOpen', newIsOpen.toString());
+  };
+
   return (
     // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
     <Navbar fluid style={{ zIndex: 30 }}>
@@ -61,7 +67,7 @@ const ExampleNavbar: FC = function () {
           <div className="flex items-center">
             {isPageWithSidebar && (
               <button
-                onClick={() => setOpen(!isOpen)}
+                onClick={handleSetOpen}
                 className="mr-3 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white lg:inline"
               >
                 <span className="sr-only">Toggle sidebar</span>

@@ -20,7 +20,6 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   // Initialize isOpen based on localStorage or screen size
   const [isOpen, setOpen] = useState(false);
   const [isPageWithSidebar, setIsPageWithSidebar] = useState(false);
-  console.log(isOpen);
 
   // Update isOpen based on localStorage after initial render
   useEffect(() => {
@@ -29,13 +28,6 @@ export function SidebarProvider({ children }: PropsWithChildren) {
       setOpen(JSON.parse(storedIsOpen));
     }
   }, []);
-
-  // Save latest state to localStorage
-  useEffect(() => {
-    if (isOpen !== null) {
-      window.localStorage.setItem('isSidebarOpen', isOpen.toString());
-    }
-  }, [isOpen]);
 
   // Close Sidebar on mobile tap inside main content
   useEffect(() => {
