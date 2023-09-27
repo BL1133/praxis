@@ -41,7 +41,7 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
 const Page: React.FC<ParamsType> = async ({ params }) => {
   const projectData = await getProject(params);
   return (
-    <div className="flex items-start pt-16">
+    <div className="flex items-start">
       <ProjectSidebar />
       <ProjectClient projectData={projectData} />
     </div>

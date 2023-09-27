@@ -19,6 +19,7 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
   // Initialize isOpen based on localStorage or screen size
   const initialIsOpen = () => {
+    // If SSR
     if (!isBrowser()) {
       return isSmallScreen() ? false : true;
     }

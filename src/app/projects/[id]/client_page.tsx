@@ -63,7 +63,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
       : projectData?.createdBy === userData?.user?.id);
 
   return (
-    <main
+    <div
       className={classNames(
         'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900',
         isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
@@ -84,6 +84,6 @@ export const ProjectClient: React.FC<ProjectProps> = ({
           </button>
         </div>
       )}
-    </main>
+    </div>
   );
 };

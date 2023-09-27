@@ -22,7 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <SidebarProvider>
           <body className={inter.className}>
             <Navbar />
-            {children}
+            <main className="pt-16">{children}</main>
           </body>
         </SidebarProvider>
       </FlowbiteWrapper>
