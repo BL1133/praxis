@@ -19,6 +19,9 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   const pathname = usePathname();
   // Initialize isOpen based on localStorage or screen size
   const initialIsOpen = () => {
+    if (!isBrowser()) {
+      return isSmallScreen() ? false : true;
+    }
     const storedIsOpen = localStorage.getItem('isSidebarOpen');
     if (storedIsOpen !== null && !isSmallScreen()) {
       return JSON.parse(storedIsOpen);
