@@ -81,7 +81,7 @@ const Nav: FC = function () {
                 )}
               </button>
             )}
-            <Navbar.Brand href="/">
+            <Navbar.Brand as={Link as any} href="/">
               <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
                 Flowbite
               </span>
@@ -244,6 +244,15 @@ const NewVideoIcon: FC = function () {
 };
 
 const AppDrawerDropdown: FC = function () {
+  const { data, logout } = useUser();
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // You can display a message or perform additional logic after a successful logout, if desired
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
   return (
     <Dropdown
       arrowIcon={false}
@@ -270,15 +279,15 @@ const AppDrawerDropdown: FC = function () {
             Projects
           </div>
         </Link>
-        <a
-          href="#"
+        <Link
+          href="/projects/create"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiUsers className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
           <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Users
+            Create
           </div>
-        </a>
+        </Link>
         <a
           href="#"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -288,24 +297,24 @@ const AppDrawerDropdown: FC = function () {
             Inbox
           </div>
         </a>
-        <a
-          href="#"
+        <Link
+          href={`/users/${data?.user?.username}`}
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiUserCircle className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
           <div className="text-sm font-medium text-gray-900 dark:text-white">
             Profile
           </div>
-        </a>
-        <a
-          href="#"
+        </Link>
+        <Link
+          href="/settings"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiCog className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
           <div className="text-sm font-medium text-gray-900 dark:text-white">
             Settings
           </div>
-        </a>
+        </Link>
         <a
           href="#"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -333,22 +342,22 @@ const AppDrawerDropdown: FC = function () {
             Billing
           </div>
         </a>
-        <a
-          href="#"
+        <button
+          onClick={handleLogout}
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiLogout className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
           <div className="text-sm font-medium text-gray-900 dark:text-white">
             Logout
           </div>
-        </a>
+        </button>
       </div>
     </Dropdown>
   );
 };
 
 const UserDropdown: FC = function () {
-  const { data, isLoading, isError, logout } = useUser();
+  const { data, logout } = useUser();
 
   const handleLogout = async () => {
     try {
