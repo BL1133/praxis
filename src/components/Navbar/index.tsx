@@ -1,4 +1,5 @@
 'use client';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   Avatar,
@@ -59,15 +60,6 @@ const Nav: FC = function () {
     const newIsOpen = !isOpen;
     setOpen(!isOpen);
     window.localStorage.setItem('isSidebarOpen', newIsOpen.toString());
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      // You can display a message or perform additional logic after a successful logout, if desired
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
   };
 
   return (
@@ -144,7 +136,7 @@ const Nav: FC = function () {
                 </div>
               </div>
               <div className="hidden lg:block">
-                <UserDropdown handleLogout={handleLogout} />
+                <UserDropdown />
               </div>
             </div>
           )}
@@ -355,9 +347,18 @@ const AppDrawerDropdown: FC = function () {
   );
 };
 
-const UserDropdown: FC<{ handleLogout: () => void }> = function ({
-  handleLogout,
-}) {
+const UserDropdown: FC = function () {
+  const { data, isLoading, isError, logout } = useUser();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // You can display a message or perform additional logic after a successful logout, if desired
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <Dropdown
       arrowIcon={false}
@@ -372,14 +373,21 @@ const UserDropdown: FC<{ handleLogout: () => void }> = function ({
       className="rounded-xl"
     >
       <Dropdown.Header>
-        <span className="block text-sm">Neil Sims</span>
+        <span className="block text-sm">
+          {`${data?.user?.firstName || ''} ${
+            data?.user?.lastName || ''
+          }`.trim()}
+        </span>
         <span className="block truncate text-sm font-medium">
-          neil.sims@flowbite.com
+          {data?.user?.email}
         </span>
       </Dropdown.Header>
-      <Dropdown.Item>Dashboard</Dropdown.Item>
-      <Dropdown.Item>Settings</Dropdown.Item>
-      <Dropdown.Item>Earnings</Dropdown.Item>
+      <Dropdown.Item as={Link as any} href="/">
+        Dashboard
+      </Dropdown.Item>
+      <Dropdown.Item as={Link as any} href="/settings">
+        Settings
+      </Dropdown.Item>
       <Dropdown.Divider />
       <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
     </Dropdown>

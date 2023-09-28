@@ -20,7 +20,6 @@ export function SidebarProvider({ children }: PropsWithChildren) {
   // Initialize isOpen as false and then update based on localstorage.
   const [isOpen, setOpen] = useState(false);
   const [isPageWithSidebar, setIsPageWithSidebar] = useState(false);
-  console.log(isPageWithSidebar);
   // Update isOpen based on localStorage after initial render
   useEffect(() => {
     const storedIsOpen = localStorage.getItem('isSidebarOpen');
