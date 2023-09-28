@@ -32,7 +32,7 @@ import { useUser } from '@/lib/hooks/useUser';
 import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
-const ExampleNavbar: FC = function () {
+const Nav: FC = function () {
   const { isOpen, isPageWithSidebar, setOpen } = useSidebarContext();
   const { data, isLoading, isError, logout } = useUser();
   const handleThemeToggle = () => {
@@ -381,11 +381,9 @@ const UserDropdown: FC<{ handleLogout: () => void }> = function ({
       <Dropdown.Item>Settings</Dropdown.Item>
       <Dropdown.Item>Earnings</Dropdown.Item>
       <Dropdown.Divider />
-      <Dropdown.Item>
-        <button onClick={handleLogout}>Log out</button>
-      </Dropdown.Item>
+      <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
     </Dropdown>
   );
 };
 
-export default ExampleNavbar;
+export default Nav;
