@@ -28,12 +28,13 @@ import {
   HiX,
 } from 'react-icons/hi';
 
+import { useUser } from '@/lib/hooks/useUser';
 import { useSidebarContext } from '@/providers/SidebarContext';
 import isSmallScreen from '@/utils/is-small-screen';
 
 const ExampleNavbar: FC = function () {
   const { isOpen, isPageWithSidebar, setOpen } = useSidebarContext();
-
+  const { data, isLoading, isError, logout } = useUser();
   const handleThemeToggle = () => {
     const currentTheme = document.documentElement.classList.contains('dark')
       ? 'dark'
@@ -60,6 +61,15 @@ const ExampleNavbar: FC = function () {
     window.localStorage.setItem('isSidebarOpen', newIsOpen.toString());
   };
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // You can display a message or perform additional logic after a successful logout, if desired
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
     <Navbar fluid style={{ zIndex: 30 }}>
@@ -84,47 +94,60 @@ const ExampleNavbar: FC = function () {
                 Flowbite
               </span>
             </Navbar.Brand>
-            <form className="ml-16 hidden md:block">
-              <Label htmlFor="search" className="sr-only">
-                Search
-              </Label>
-              <TextInput
-                icon={HiSearch}
-                id="search"
-                name="search"
-                placeholder="Search"
-                required
-                size={32}
-                type="search"
-                // Tailwind style not computing
-                style={{ paddingLeft: '2.5rem' }}
-              />
-            </form>
+            {data?.user && (
+              <form className="ml-16 hidden md:block">
+                <Label htmlFor="search" className="sr-only">
+                  Search
+                </Label>
+                <TextInput
+                  icon={HiSearch}
+                  id="search"
+                  name="search"
+                  placeholder="Search"
+                  required
+                  size={32}
+                  type="search"
+                  // Tailwind style not computing
+                  style={{ paddingLeft: '2.5rem' }}
+                />
+              </form>
+            )}
           </div>
-          <div className="flex items-center lg:gap-3">
-            <div className="flex items-center">
-              <button
-                onClick={() => setOpen(!isOpen)}
-                className="cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 lg:hidden"
-              >
-                <span className="sr-only">Search</span>
-                <HiSearch className="h-6 w-6" />
-              </button>
-              <NotificationBellDropdown />
-              <AppDrawerDropdown />
-              <div
-                onClick={handleThemeToggle}
-                tabIndex={0}
-                role="button"
-                onKeyDown={handleKeyDown}
-              >
-                <DarkThemeToggle />
+          {!data?.user && (
+            <div>
+              <Link className="pr-3" href="/signup">
+                Sign Up{' '}
+              </Link>
+              <Link href="/login">Login </Link>
+            </div>
+          )}
+
+          {data?.user && (
+            <div className="flex items-center lg:gap-3">
+              <div className="flex items-center">
+                <button
+                  onClick={() => setOpen(!isOpen)}
+                  className="cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 lg:hidden"
+                >
+                  <span className="sr-only">Search</span>
+                  <HiSearch className="h-6 w-6" />
+                </button>
+                <NotificationBellDropdown />
+                <AppDrawerDropdown />
+                <div
+                  onClick={handleThemeToggle}
+                  tabIndex={0}
+                  role="button"
+                  onKeyDown={handleKeyDown}
+                >
+                  <DarkThemeToggle />
+                </div>
+              </div>
+              <div className="hidden lg:block">
+                <UserDropdown handleLogout={handleLogout} />
               </div>
             </div>
-            <div className="hidden lg:block">
-              <UserDropdown />
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </Navbar>
@@ -332,7 +355,9 @@ const AppDrawerDropdown: FC = function () {
   );
 };
 
-const UserDropdown: FC = function () {
+const UserDropdown: FC<{ handleLogout: () => void }> = function ({
+  handleLogout,
+}) {
   return (
     <Dropdown
       arrowIcon={false}
@@ -356,7 +381,9 @@ const UserDropdown: FC = function () {
       <Dropdown.Item>Settings</Dropdown.Item>
       <Dropdown.Item>Earnings</Dropdown.Item>
       <Dropdown.Divider />
-      <Dropdown.Item>Sign out</Dropdown.Item>
+      <Dropdown.Item>
+        <button onClick={handleLogout}>Log out</button>
+      </Dropdown.Item>
     </Dropdown>
   );
 };
