@@ -20,7 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const cookieStore = cookies();
   const theme = cookieStore.get('theme')?.value;
   return (
-    <html lang="en" className={theme}>
+    <html lang="en" className={`${theme} h-full bg-white`}>
       <FlowbiteWrapper>
         <SidebarProvider>
           <body className={inter.className}>
