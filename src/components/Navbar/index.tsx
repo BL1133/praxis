@@ -66,7 +66,7 @@ const Nav: FC = function () {
     // Have to set z-index on this element because it's not working in the root stylesheet flowbite-theme. It doesn't compute it.
     <Navbar fluid style={{ zIndex: 30 }}>
       <div className="w-full p-3 lg:px-5 lg:pl-3 navbar">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between h-11">
           <div className="flex items-center">
             {isPageWithSidebar && (
               <button
@@ -124,7 +124,7 @@ const Nav: FC = function () {
                   <span className="sr-only">Search</span>
                   <HiSearch className="h-6 w-6" />
                 </button>
-                <NotificationBellDropdown />
+                {/* <NotificationBellDropdown /> */}
                 <AppDrawerDropdown />
                 <div
                   onClick={handleThemeToggle}
