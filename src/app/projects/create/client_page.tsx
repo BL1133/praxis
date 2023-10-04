@@ -4,7 +4,7 @@
 import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import FileUpload from '@/components/FileUpload';
+import { FileUpload } from '@/components/FileUpload';
 
 export const CreateProject: React.FC = () => {
   type Inputs = {
@@ -14,45 +14,57 @@ export const CreateProject: React.FC = () => {
     category: string;
     itemWeight: number;
     description: string;
+    file: FileList;
   };
   const {
     register,
     handleSubmit,
+    control,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      name: '',
+      brand: '',
+      price: 0,
+      category: '',
+      itemWeight: 0,
+      description: '',
+    },
+  });
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     const { name, description } = data;
-    try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name,
-            description,
-          }),
-          credentials: 'include',
-        },
-      );
+    console.log(data);
+    // try {
+    //   const res = await fetch(
+    //     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
+    //     {
+    //       method: 'POST',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify({
+    //         name,
+    //         description,
+    //       }),
+    //       credentials: 'include',
+    //     },
+    //   );
 
-      // if (res.ok) {
-      //   setTitle('');
-      //   setDescription('');
-      //   setError(null);
-      // }
+    //   // if (res.ok) {
+    //   //   setTitle('');
+    //   //   setDescription('');
+    //   //   setError(null);
+    //   // }
 
-      if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.error || 'Failed to create project.');
-      }
-    } catch (err) {
-      // setError((err as Error).message);
-    }
+    //   if (!res.ok) {
+    //     const resData = await res.json();
+    //     throw new Error(resData.error || 'Failed to create project.');
+    //   }
+    // } catch (err) {
+    //   // setError((err as Error).message);
+    // }
   };
 
   const myStyle = {
@@ -126,7 +138,7 @@ export const CreateProject: React.FC = () => {
                 {...register('category')}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Select category
                 </option>
                 <option value="TV">TV/Monitors</option>
@@ -163,10 +175,10 @@ export const CreateProject: React.FC = () => {
                 rows={8}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                 placeholder="Your description here"
-                {...(register('description'), { required: true })}
+                {...register('description', { required: true })}
               ></textarea>
             </div>
-            <FileUpload />
+            <FileUpload fileRef={register('file')} />
           </div>
           <button
             type="submit"
