@@ -3,6 +3,8 @@
 // Used for navigation
 import React, { useState } from 'react';
 
+import FileUpload from '@/components/FileUpload';
+
 export const CreateProject: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -155,6 +157,7 @@ export const CreateProject: React.FC = () => {
                 placeholder="Your description here"
               ></textarea>
             </div>
+            <FileUpload />
           </div>
           <button
             type="submit"
