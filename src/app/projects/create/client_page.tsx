@@ -1,18 +1,29 @@
 'use client';
 // Ensure this import is correct
 // Used for navigation
-import React, { useState } from 'react';
+import React from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import FileUpload from '@/components/FileUpload';
 
 export const CreateProject: React.FC = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [error, setError] = useState<string | null>(null);
+  type Inputs = {
+    name: string;
+    brand: string;
+    price: number;
+    category: string;
+    itemWeight: number;
+    description: string;
+  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
 
-  const handleCreateProject = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
+    const { name, description } = data;
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
@@ -22,25 +33,25 @@ export const CreateProject: React.FC = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            title,
+            name,
             description,
           }),
           credentials: 'include',
         },
       );
 
-      if (res.ok) {
-        setTitle('');
-        setDescription('');
-        setError(null);
-      }
+      // if (res.ok) {
+      //   setTitle('');
+      //   setDescription('');
+      //   setError(null);
+      // }
 
       if (!res.ok) {
         const resData = await res.json();
         throw new Error(resData.error || 'Failed to create project.');
       }
     } catch (err) {
-      setError((err as Error).message);
+      // setError((err as Error).message);
     }
   };
 
