@@ -8,7 +8,7 @@ import { FileUpload } from '@/components/FileUpload';
 
 export const CreateProject: React.FC = () => {
   type Inputs = {
-    name: string;
+    title: string;
     brand: string;
     price: number;
     category: string;
@@ -19,12 +19,10 @@ export const CreateProject: React.FC = () => {
   const {
     register,
     handleSubmit,
-    control,
-    watch,
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      name: '',
+      title: '',
       brand: '',
       price: 0,
       category: '',
@@ -34,41 +32,66 @@ export const CreateProject: React.FC = () => {
   });
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
-    const { name, description } = data;
     console.log(data);
-    // try {
-    //   const res = await fetch(
-    //     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
-    //     {
-    //       method: 'POST',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify({
-    //         name,
-    //         description,
-    //       }),
-    //       credentials: 'include',
-    //     },
-    //   );
 
-    //   // if (res.ok) {
-    //   //   setTitle('');
-    //   //   setDescription('');
-    //   //   setError(null);
-    //   // }
+    async function uploadMedia(file: File): Promise<string> {
+      const formData = new FormData();
+      formData.append('file', file);
+      const fileUploadResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
+        {
+          method: 'POST',
+          body: formData,
+          credentials: 'include',
+        },
+      );
 
-    //   if (!res.ok) {
-    //     const resData = await res.json();
-    //     throw new Error(resData.error || 'Failed to create project.');
-    //   }
-    // } catch (err) {
-    //   // setError((err as Error).message);
-    // }
+      if (!fileUploadResponse.ok) {
+        throw new Error('Failed to upload file.');
+      }
+
+      const fileUploadResult = await fileUploadResponse.json();
+      return fileUploadResult.fileId || fileUploadResult.link;
+    }
+
+    async function createProject(
+      projectData: Omit<Inputs, 'file'>,
+    ): Promise<void> {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(projectData),
+          credentials: 'include',
+        },
+      );
+
+      if (!res.ok) {
+        const resData = await res.json();
+        throw new Error(resData.error || 'Failed to create project.');
+      }
+    }
+
+    async function mainFlow(data: Inputs) {
+      try {
+        await uploadMedia(data.file[0]);
+        const projectData = {
+          ...data,
+        };
+        await createProject(projectData);
+      } catch (error) {
+        console.error('Operation failed', (error as Error).message);
+      }
+    }
+
+    mainFlow(data);
   };
 
   const myStyle = {
-    color: 'black', // Note the camelCase
+    color: 'black',
   };
 
   return (
@@ -81,18 +104,18 @@ export const CreateProject: React.FC = () => {
           <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
             <div className="sm:col-span-2">
               <label
-                htmlFor="name"
+                htmlFor="title"
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
               >
-                Project Name
+                Project Title
               </label>
               <div className="w-full">
                 <input
                   type="text"
-                  id="name"
+                  id="title"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  placeholder="Type project name"
-                  {...register('name', { required: true })}
+                  placeholder="Type project title"
+                  {...register('title', { required: true })}
                 />
               </div>
             </div>
