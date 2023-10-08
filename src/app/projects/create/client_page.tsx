@@ -2,7 +2,7 @@
 // Ensure this import is correct
 // Used for navigation
 import { redirect } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { FileUpload } from '@/components/FileUpload';
@@ -34,6 +34,9 @@ export const CreateProject: React.FC = () => {
     },
   });
   const { data: userData } = useUser();
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   useEffect(() => {
     if (!userData?.user) {
       redirect('/login');
@@ -41,7 +44,8 @@ export const CreateProject: React.FC = () => {
   }, [userData]);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
+    setLoading(true);
+    console.log(data); //TODO: Remove this
 
     async function uploadMedia(file: File): Promise<string> {
       const formData = new FormData();
@@ -91,6 +95,7 @@ export const CreateProject: React.FC = () => {
           ...data,
         };
         await createProject(projectData);
+        setLoading(false);
       } catch (error) {
         console.error('Operation failed', (error as Error).message);
       }
@@ -122,7 +127,14 @@ export const CreateProject: React.FC = () => {
                 <input
                   type="text"
                   id="title"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  disabled={loading}
+                  className={`custom-input
+                    ${
+                      loading
+                        ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                        : ''
+                    }
+                    `}
                   placeholder="Type project title"
                   {...register('title', { required: 'Project title required' })}
                 />
@@ -141,7 +153,12 @@ export const CreateProject: React.FC = () => {
               <input
                 type="text"
                 id="brand"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                disabled={loading}
+                className={`custom-input ${
+                  loading
+                    ? 'placeholder-gray-200 dark:placeholder-gray-600  text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                    : ''
+                }`}
                 placeholder="Product brand"
                 {...register('brand')}
               />
@@ -156,7 +173,12 @@ export const CreateProject: React.FC = () => {
               <input
                 type="number"
                 id="price"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                disabled={loading}
+                className={`custom-input ${
+                  loading
+                    ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                    : ''
+                }`}
                 placeholder="$2999"
                 {...register('price')}
               />
@@ -170,8 +192,13 @@ export const CreateProject: React.FC = () => {
               </label>
               <select
                 id="category"
+                disabled={loading}
                 {...register('category')}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                className={`custom-input ${
+                  loading
+                    ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                    : ''
+                }`}
               >
                 <option value="" disabled>
                   Select category
@@ -192,7 +219,12 @@ export const CreateProject: React.FC = () => {
               <input
                 type="number"
                 id="item-weight"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                disabled={loading}
+                className={`custom-input ${
+                  loading
+                    ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                    : ''
+                }`}
                 placeholder="12"
                 {...register('itemWeight')}
               />
@@ -208,7 +240,12 @@ export const CreateProject: React.FC = () => {
               <textarea
                 id="description"
                 rows={8}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                disabled={loading}
+                className={`custom-input ${
+                  loading
+                    ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
+                    : ''
+                }`}
                 placeholder="Your description here"
                 {...register('description', {
                   required: 'Description is required',
