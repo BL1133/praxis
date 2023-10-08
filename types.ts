@@ -12,3 +12,13 @@ export interface ProjectResponse {
   prevPage: null | number;
   nextPage: null | number;
 }
+// Create Project form
+export type Inputs = {
+  title: string;
+  brand: string;
+  price: number;
+  category: string;
+  itemWeight: number;
+  description: string;
+  file: FileList;
+};

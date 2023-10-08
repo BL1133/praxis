@@ -4,21 +4,14 @@
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { Inputs } from 'types';
 
 import { FileUpload } from '@/components/FileUpload';
-import { FormError } from '@/components/FormError';
+import { FormInputError } from '@/components/FormInputError';
+import { SubmitModal } from '@/components/SubmitModal';
 import { useUser } from '@/lib/hooks/useUser';
 
 export const CreateProject: React.FC = () => {
-  type Inputs = {
-    title: string;
-    brand: string;
-    price: number;
-    category: string;
-    itemWeight: number;
-    description: string;
-    file: FileList;
-  };
   const {
     register,
     handleSubmit,
@@ -35,7 +28,7 @@ export const CreateProject: React.FC = () => {
   });
   const { data: userData } = useUser();
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
     if (!userData?.user) {
@@ -96,8 +89,14 @@ export const CreateProject: React.FC = () => {
         };
         await createProject(projectData);
         setLoading(false);
+        setSuccess(true);
+        // setTimeout(() => {
+        //   redirect('/');
+        // }, 5000); // Redirects after 3 seconds
       } catch (error) {
         console.error('Operation failed', (error as Error).message);
+        setLoading(false);
+        setSuccess(false);
       }
     }
 
@@ -111,6 +110,9 @@ export const CreateProject: React.FC = () => {
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
+        {/* Submitting Modal */}
+        <SubmitModal success={success} loading={loading} errors={errors} />
+
         <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
           Create a new Project
         </h2>
@@ -127,10 +129,10 @@ export const CreateProject: React.FC = () => {
                 <input
                   type="text"
                   id="title"
-                  disabled={loading}
+                  disabled={loading || success ? true : false}
                   className={`custom-input
                     ${
-                      loading
+                      loading || success
                         ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
                         : ''
                     }
@@ -139,7 +141,7 @@ export const CreateProject: React.FC = () => {
                   {...register('title', { required: 'Project title required' })}
                 />
                 {errors.title && (
-                  <FormError message={errors?.title?.message ?? null} />
+                  <FormInputError message={errors?.title?.message ?? null} />
                 )}
               </div>
             </div>
@@ -153,9 +155,9 @@ export const CreateProject: React.FC = () => {
               <input
                 type="text"
                 id="brand"
-                disabled={loading}
+                disabled={loading || success ? true : false}
                 className={`custom-input ${
-                  loading
+                  loading || success
                     ? 'placeholder-gray-200 dark:placeholder-gray-600  text-gray-200 dark:text-gray-600 cursor-not-allowed'
                     : ''
                 }`}
@@ -173,9 +175,9 @@ export const CreateProject: React.FC = () => {
               <input
                 type="number"
                 id="price"
-                disabled={loading}
+                disabled={loading || success ? true : false}
                 className={`custom-input ${
-                  loading
+                  loading || success
                     ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
                     : ''
                 }`}
@@ -192,10 +194,10 @@ export const CreateProject: React.FC = () => {
               </label>
               <select
                 id="category"
-                disabled={loading}
+                disabled={loading || success ? true : false}
                 {...register('category')}
                 className={`custom-input ${
-                  loading
+                  loading || success
                     ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
                     : ''
                 }`}
@@ -219,9 +221,9 @@ export const CreateProject: React.FC = () => {
               <input
                 type="number"
                 id="item-weight"
-                disabled={loading}
+                disabled={loading || success ? true : false}
                 className={`custom-input ${
-                  loading
+                  loading || success
                     ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
                     : ''
                 }`}
@@ -240,9 +242,9 @@ export const CreateProject: React.FC = () => {
               <textarea
                 id="description"
                 rows={8}
-                disabled={loading}
+                disabled={loading || success ? true : false}
                 className={`custom-input ${
-                  loading
+                  loading || success
                     ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
                     : ''
                 }`}
@@ -252,7 +254,9 @@ export const CreateProject: React.FC = () => {
                 })}
               ></textarea>
               {errors.description && (
-                <FormError message={errors?.description?.message ?? null} />
+                <FormInputError
+                  message={errors?.description?.message ?? null}
+                />
               )}
             </div>
             <FileUpload fileRef={register('file')} />
