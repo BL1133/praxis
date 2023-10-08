@@ -6,9 +6,15 @@ interface SubmitModalProps {
   success: boolean | null;
   loading: boolean;
   errors: FieldErrors<Inputs>;
+  message: string;
 }
 
-export function SubmitModal({ success, loading, errors }: SubmitModalProps) {
+export function SubmitModal({
+  success,
+  loading,
+  errors,
+  message,
+}: SubmitModalProps) {
   return (
     <div
       id="submitModal"
@@ -53,7 +59,7 @@ export function SubmitModal({ success, loading, errors }: SubmitModalProps) {
                 Success!
               </p>
               <p className="mb-6 text-sm text-gray-900 dark:text-white">
-                You have successfully created a project.
+                {message}
               </p>
               <button
                 data-modal-toggle="submitModal"

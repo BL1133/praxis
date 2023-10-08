@@ -1,6 +1,6 @@
 import { Project } from '@payloadTypes';
 
-export interface ProjectResponse {
+export interface GetProjectsResponse {
   docs: Project[];
   totalDocs: number;
   limit: number;
@@ -12,7 +12,7 @@ export interface ProjectResponse {
   prevPage: null | number;
   nextPage: null | number;
 }
-// Create Project form
+
 export type Inputs = {
   title: string;
   brand: string;
@@ -21,4 +21,9 @@ export type Inputs = {
   itemWeight: number;
   description: string;
   file: FileList;
+};
+
+export type ProjectResponse = {
+  message: string;
+  doc: Project;
 };

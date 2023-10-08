@@ -1,10 +1,10 @@
 'use client';
 import useSWR from 'swr';
-import { ProjectResponse } from 'types';
+import { GetProjectsResponse } from 'types';
 
 import { fetcher } from '@/utils/fetcher';
 
-export const useProjects = (initialData: ProjectResponse) => {
+export const useProjects = (initialData: GetProjectsResponse) => {
   const { data, error, isLoading } = useSWR(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
     fetcher,

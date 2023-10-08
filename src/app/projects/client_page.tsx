@@ -3,11 +3,11 @@
 import { Project } from '@payloadTypes';
 import Link from 'next/link';
 import React from 'react';
-import { ProjectResponse } from 'types';
+import { GetProjectsResponse } from 'types';
 
 import { useProjects } from '@/lib/hooks/useProjects';
 
-export const Projects: React.FC<{ projects: ProjectResponse }> = ({
+export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
   const { data, isError, isLoading } = useProjects(projects);

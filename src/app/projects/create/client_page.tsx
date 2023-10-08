@@ -4,7 +4,7 @@
 import { redirect } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Inputs } from 'types';
+import { Inputs, ProjectResponse } from 'types';
 
 import { FileUpload } from '@/components/FileUpload';
 import { FormInputError } from '@/components/FormInputError';
@@ -36,6 +36,8 @@ export const CreateProject: React.FC = () => {
     }
   }, [userData]);
 
+  let projectUrl;
+
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
     console.log(data); //TODO: Remove this
@@ -62,7 +64,7 @@ export const CreateProject: React.FC = () => {
 
     async function createProject(
       projectData: Omit<Inputs, 'file'>,
-    ): Promise<void> {
+    ): Promise<ProjectResponse> {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
         {
@@ -74,11 +76,12 @@ export const CreateProject: React.FC = () => {
           credentials: 'include',
         },
       );
-
       if (!res.ok) {
         const resData = await res.json();
         throw new Error(resData.error || 'Failed to create project.');
       }
+      const resData = await res.json();
+      return resData;
     }
 
     async function mainFlow(data: Inputs) {
@@ -111,7 +114,13 @@ export const CreateProject: React.FC = () => {
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
         {/* Submitting Modal */}
-        <SubmitModal success={success} loading={loading} errors={errors} />
+        <SubmitModal
+          success={success}
+          loading={loading}
+          errors={errors}
+          message="You have successfully created a project."
+          redirect={`/`}
+        />
 
         <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
           Create a new Project

@@ -10,14 +10,35 @@ export interface Config {
   collections: {
     projects: Project;
     users: User;
+    'user-project-relations': UserProjectRelation;
+    media: Media;
   };
   globals: {};
 }
 export interface Project {
   id: string;
-  title?: string;
-  description?: string;
+  title: string;
+  description: string;
   createdBy?: string | User;
+  status: 'inProgress' | 'completed' | 'onHold';
+  milestones?: {
+    milestone?: string;
+    id?: string;
+  }[];
+  tags?: {
+    tag?: string;
+    id?: string;
+  }[];
+  members?: {
+    userId?: string | User;
+    role?: 'Maintainer' | 'Mentor' | 'Contributor';
+    id?: string;
+  }[];
+  access?: {
+    userId?: string | User;
+    permission?: string;
+    id?: string;
+  }[];
   updatedAt: string;
   createdAt: string;
 }
@@ -26,7 +47,30 @@ export interface User {
   firstName?: string;
   lastName?: string;
   username: string;
-  roles?: ('admin' | 'user')[];
+  roles: ('admin' | 'user')[];
+  createdProjects?: string[] | Project[];
+  projectsContributedTo?: string[] | Project[];
+  bio?: string;
+  skills?: {
+    skill?: string;
+    id?: string;
+  }[];
+  socialLinks?: {
+    platform?: string;
+    id?: string;
+  }[];
+  lastLogin?: string;
+  createdOn?: string;
+  updatedOn?: string;
+  preferences?: {
+    theme?: string;
+    language?: string;
+  };
+  isVerified?: boolean;
+  notifications?: {
+    notification?: string;
+    id?: string;
+  }[];
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -37,4 +81,67 @@ export interface User {
   loginAttempts?: number;
   lockUntil?: string;
   password?: string;
+}
+export interface UserProjectRelation {
+  id: string;
+  userId: string | User;
+  projectId: string | Project;
+  role: {
+    roleType?: 'maintainer' | 'mentor' | 'contributor' | 'creator';
+    id?: string;
+  }[];
+  firstContribution?: string;
+  contributions?: {
+    contribution?: string;
+    id?: string;
+  }[];
+  permissions?: {
+    permission?: string;
+    id?: string;
+  }[];
+  lastActivity?: string;
+  userFlags?: {
+    watching?: boolean;
+    id?: string;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Media {
+  id: string;
+  alt?: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string;
+  filename?: string;
+  mimeType?: string;
+  filesize?: number;
+  width?: number;
+  height?: number;
+  sizes?: {
+    thumbnail?: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    card?: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+    tablet?: {
+      url?: string;
+      width?: number;
+      height?: number;
+      mimeType?: string;
+      filesize?: number;
+      filename?: string;
+    };
+  };
 }

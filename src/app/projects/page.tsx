@@ -1,12 +1,12 @@
 import { Metadata } from 'next';
-import { ProjectResponse } from 'types';
+import { GetProjectsResponse } from 'types';
 
 import { Projects } from './client_page';
 
 const CONNECTION_ERROR =
   'CONNECTION_ERROR. An error occurred while attempting to connect to MongoDB';
 
-const getProjects = async (): Promise<ProjectResponse> => {
+const getProjects = async (): Promise<GetProjectsResponse> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`, {
       method: 'GET',
