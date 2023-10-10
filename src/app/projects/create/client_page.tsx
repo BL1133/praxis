@@ -33,7 +33,6 @@ export const CreateProject: React.FC = () => {
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    let projectId: string;
     console.log(data); //TODO: Remove this
 
     async function uploadMedia(file: File): Promise<string> {
@@ -80,12 +79,13 @@ export const CreateProject: React.FC = () => {
 
     async function mainFlow(data: Inputs) {
       try {
-        await uploadMedia(data.file[0]);
+        // Upload media if it exists
+        if (data.file.length !== 0) await uploadMedia(data.file[0]);
         const projectData = {
           ...data,
         };
         const projectResponse = await createProject(projectData);
-        projectId = projectResponse.doc.id;
+        const projectId = projectResponse.doc.id;
         setLoading(false);
         setSuccess(true);
         setTimeout(() => {
