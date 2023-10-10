@@ -1,8 +1,8 @@
 'use client';
 // Ensure this import is correct
 // Used for navigation
-import { redirect } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs, ProjectResponse } from 'types';
 
@@ -26,20 +26,14 @@ export const CreateProject: React.FC = () => {
       description: '',
     },
   });
+  const router = useRouter();
   const { data: userData } = useUser();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
 
-  useEffect(() => {
-    if (!userData?.user) {
-      redirect('/login');
-    }
-  }, [userData]);
-
-  let projectUrl;
-
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
+    let projectId: string;
     console.log(data); //TODO: Remove this
 
     async function uploadMedia(file: File): Promise<string> {
@@ -90,19 +84,19 @@ export const CreateProject: React.FC = () => {
         const projectData = {
           ...data,
         };
-        await createProject(projectData);
+        const projectResponse = await createProject(projectData);
+        projectId = projectResponse.doc.id;
         setLoading(false);
         setSuccess(true);
-        // setTimeout(() => {
-        //   redirect('/');
-        // }, 5000); // Redirects after 3 seconds
+        setTimeout(() => {
+          router.push(`/projects/${projectId}`);
+        }, 3000);
       } catch (error) {
         console.error('Operation failed', (error as Error).message);
         setLoading(false);
         setSuccess(false);
       }
     }
-
     mainFlow(data);
   };
 

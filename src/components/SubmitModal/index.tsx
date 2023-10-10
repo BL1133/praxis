@@ -7,6 +7,7 @@ interface SubmitModalProps {
   loading: boolean;
   errors: FieldErrors<Inputs>;
   message: string;
+  redirect: string;
 }
 
 export function SubmitModal({
@@ -39,7 +40,7 @@ export function SubmitModal({
 
           {success && (
             <>
-              <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-3.5">
+              <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900 p-2 flex items-center justify-center mx-auto mb-2.5">
                 <svg
                   aria-hidden="true"
                   className="w-8 h-8 text-green-500 dark:text-green-400"
@@ -61,13 +62,10 @@ export function SubmitModal({
               <p className="mb-6 text-sm text-gray-900 dark:text-white">
                 {message}
               </p>
-              <button
-                data-modal-toggle="submitModal"
-                type="button"
-                className="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900"
-              >
-                Continue
-              </button>
+              <Spinner />
+              <span className="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-60 dark:focus:ring-primary-900">
+                Redirecting...
+              </span>
             </>
           )}
 
