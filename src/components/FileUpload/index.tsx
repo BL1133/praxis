@@ -13,6 +13,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({ fileRef }) => {
         <Label htmlFor="file" value="Upload files" />
       </div>
       <FileInput
+        accept="image/*,application/pdf"
         {...fileRef}
         helperText="Add a max of 3 files to your project. PDF or image files only."
         id="file"

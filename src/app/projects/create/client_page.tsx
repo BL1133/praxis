@@ -1,6 +1,7 @@
 'use client';
 // Ensure this import is correct
 // Used for navigation
+import { Textarea, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -80,6 +81,10 @@ export const CreateProject: React.FC = () => {
     async function mainFlow(data: Inputs) {
       try {
         // Upload media if it exists
+        const MAX_FILES = 3;
+        if (data.file.length > MAX_FILES) {
+          throw new Error(`You can only upload ${MAX_FILES} files.`);
+        }
         if (data.file.length !== 0) await uploadMedia(data.file[0]);
         const projectData = {
           ...data,
@@ -129,17 +134,10 @@ export const CreateProject: React.FC = () => {
                 Project Title
               </label>
               <div className="w-full">
-                <input
+                <TextInput
                   type="text"
                   id="title"
                   disabled={loading || success ? true : false}
-                  className={`custom-input
-                    ${
-                      loading || success
-                        ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                        : ''
-                    }
-                    `}
                   placeholder="Type project title"
                   {...register('title', { required: 'Project title required' })}
                 />
@@ -242,20 +240,15 @@ export const CreateProject: React.FC = () => {
               >
                 Description
               </label>
-              <textarea
+              <Textarea
                 id="description"
                 rows={8}
                 disabled={loading || success ? true : false}
-                className={`custom-input ${
-                  loading || success
-                    ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                    : ''
-                }`}
                 placeholder="Your description here"
                 {...register('description', {
                   required: 'Description is required',
                 })}
-              ></textarea>
+              ></Textarea>
               {errors.description && (
                 <FormInputError
                   message={errors?.description?.message ?? null}
