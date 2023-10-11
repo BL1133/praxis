@@ -34,8 +34,11 @@ export const CreateProject: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
+    setIsModalOpen(true);
+    setSubmitErrors([]);
     setLoading(true);
     try {
       const MAX_FILES = 3;
@@ -90,6 +93,8 @@ export const CreateProject: React.FC = () => {
           success={success}
           loading={loading}
           submitErrors={submitErrors}
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
           message="You have successfully created a project."
           redirect={`/`}
         />

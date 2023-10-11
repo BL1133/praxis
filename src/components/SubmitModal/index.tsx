@@ -1,5 +1,5 @@
 import { Spinner } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import React from 'react';
 
 import { AlertWithIcon } from '../AlertWithIcon';
 
@@ -9,6 +9,8 @@ interface SubmitModalProps {
   submitErrors: string[];
   message: string;
   redirect: string;
+  isModalOpen: boolean;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function SubmitModal({
@@ -16,26 +18,16 @@ export function SubmitModal({
   loading,
   submitErrors,
   message,
+  isModalOpen: isOpen,
+  setIsModalOpen: setIsOpen,
 }: SubmitModalProps) {
-  const [isOpen, setIsOpen] = useState(true);
-  // if button to return from error modal, isOpen will be false which means it won't show when re-submitted. So we need to set it to true again when loading is true
-  useEffect(() => {
-    if (loading) {
-      setIsOpen(true);
-    }
-  }, [loading]);
-
   return (
     <div
       id="submitModal"
       tabIndex={-1}
       aria-hidden="true"
       className={`
-      ${
-        isOpen && (loading || success || submitErrors.length > 0)
-          ? ''
-          : 'hidden'
-      }
+      ${isOpen ? '' : 'hidden'}
        overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center`}
     >
       <div className="relative w-full max-w-md h-full md:h-auto">
@@ -80,7 +72,7 @@ export function SubmitModal({
             </>
           )}
 
-          {submitErrors && (
+          {submitErrors.length > 0 && (
             <div>
               <p className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
                 Error
