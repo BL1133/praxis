@@ -12,6 +12,8 @@ import { FormInputError } from '@/components/FormInputError';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useUser } from '@/lib/hooks/useUser';
 
+type FailedUploadType = { fileName: string; error: Error };
+
 export const CreateProject: React.FC = () => {
   const {
     register,
@@ -36,30 +38,37 @@ export const CreateProject: React.FC = () => {
     setLoading(true);
     console.log(data); //TODO: Remove this
 
-    async function uploadMedia(files: File[]): Promise<string[]> {
+    async function uploadMedia(
+      files: File[],
+    ): Promise<(string | FailedUploadType)[]> {
       const uploadPromises = files.map(async (file) => {
-        const formData = new FormData();
-        formData.append('file', file);
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
-          {
-            method: 'POST',
-            body: formData,
-            credentials: 'include',
-          },
-        );
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
+            {
+              method: 'POST',
+              body: formData,
+              credentials: 'include',
+            },
+          );
 
-        if (!response.ok) {
-          throw new Error(`Failed to upload file: ${file.name}`);
+          if (!response.ok) {
+            throw new Error(`Failed to upload file: ${file.name}`);
+          }
+
+          const uploadResult = await response.json();
+          return uploadResult.doc.id;
+        } catch (error) {
+          console.error('Error uploading file: ${file.name}', error);
+          return { fileName: file.name, error };
         }
-
-        const uploadResult = await response.json();
-        return uploadResult.doc.id;
       });
 
-      const fileIds = await Promise.all(uploadPromises);
-      return fileIds;
+      const uploadResponse = await Promise.all(uploadPromises);
+      return uploadResponse;
     }
 
     async function createProject(
@@ -87,12 +96,24 @@ export const CreateProject: React.FC = () => {
       try {
         // Upload media if it exists
         const MAX_FILES = 3;
-        let mediaIds: string[] = [];
+        const mediaIds: string[] = [];
         if (data.file.length > MAX_FILES) {
           throw new Error(`You can only upload ${MAX_FILES} files.`);
         }
         if (data.file.length !== 0) {
-          mediaIds = await uploadMedia(Array.from(data.file));
+          const uploadResponse = await uploadMedia(Array.from(data.file));
+          const failedUploads: FailedUploadType[] = uploadResponse.filter(
+            (upload: string | FailedUploadType) =>
+              typeof upload === 'object' && 'error' in upload,
+          ) as FailedUploadType[];
+          if (failedUploads.length > 0) {
+            failedUploads.forEach((failure) => {
+              console.error(
+                `Failed to upload ${failure.fileName}: ${failure.error.message}`,
+              );
+            });
+            // Any other error handling or user feedback logic you might have.
+          }
         }
         const projectData = {
           ...data,
