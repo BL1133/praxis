@@ -33,10 +33,10 @@ export const CreateProject: React.FC = () => {
   const { data: userData } = useUser();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
+  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-
     try {
       const MAX_FILES = 3;
       const mediaIds: string[] = [];
@@ -72,6 +72,7 @@ export const CreateProject: React.FC = () => {
       }, 3000);
     } catch (error) {
       console.error('Operation failed', (error as Error).message);
+      setSubmitErrors((prev) => [...prev, (error as Error).message]);
       setLoading(false);
       setSuccess(false);
     }
@@ -88,7 +89,7 @@ export const CreateProject: React.FC = () => {
         <SubmitModal
           success={success}
           loading={loading}
-          errors={errors}
+          submitErrors={submitErrors}
           message="You have successfully created a project."
           redirect={`/`}
         />

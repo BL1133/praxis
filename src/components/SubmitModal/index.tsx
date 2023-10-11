@@ -1,11 +1,12 @@
 import { Spinner } from 'flowbite-react';
-import { FieldErrors } from 'react-hook-form';
-import { Inputs } from 'types';
+import { useEffect, useState } from 'react';
+
+import { AlertWithIcon } from '../AlertWithIcon';
 
 interface SubmitModalProps {
   success: boolean | null;
   loading: boolean;
-  errors: FieldErrors<Inputs>;
+  submitErrors: string[];
   message: string;
   redirect: string;
 }
@@ -13,17 +14,28 @@ interface SubmitModalProps {
 export function SubmitModal({
   success,
   loading,
-  errors,
+  submitErrors,
   message,
 }: SubmitModalProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  // if button to return from error modal, isOpen will be false which means it won't show when re-submitted. So we need to set it to true again when loading is true
+  useEffect(() => {
+    if (loading) {
+      setIsOpen(true);
+    }
+  }, [loading]);
+
   return (
     <div
       id="submitModal"
       tabIndex={-1}
       aria-hidden="true"
       className={`
-      // TODO: Add errors to conditional
-      ${loading || success ? '' : 'hidden'}
+      ${
+        isOpen && (loading || success || submitErrors.length > 0)
+          ? ''
+          : 'hidden'
+      }
        overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center`}
     >
       <div className="relative w-full max-w-md h-full md:h-auto">
@@ -33,7 +45,6 @@ export function SubmitModal({
               <div className="mb-3">
                 <Spinner />
               </div>
-              {/* Assuming this is the loading spinner from flowbite-react */}
               <p>Loading...</p>
             </div>
           )}
@@ -69,11 +80,25 @@ export function SubmitModal({
             </>
           )}
 
-          {/* {errors && (
+          {submitErrors && (
             <div>
-              <p className="text-red-500">errors</p>
+              <p className="mb-3 text-lg font-semibold text-gray-900 dark:text-white">
+                Error
+              </p>
+              {submitErrors.map((error) => (
+                <div key={error} className="mb-2">
+                  <AlertWithIcon message={error} />
+                </div>
+              ))}
+              <button
+                type="button"
+                className="mt-4 py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:focus:ring-primary-900"
+                onClick={() => setIsOpen(false)}
+              >
+                Return to Create Project
+              </button>
             </div>
-          )} */}
+          )}
         </div>
       </div>
     </div>

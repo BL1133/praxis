@@ -8,7 +8,7 @@ export function AlertWithIcon({ message }: { message: string }) {
     <Alert color="failure" icon={HiInformationCircle}>
       <span>
         <p>
-          <span className="font-medium">Info alert!</span>
+          <span className="font-medium">Alert! </span>
           {message}
         </p>
       </span>
