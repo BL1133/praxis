@@ -36,24 +36,30 @@ export const CreateProject: React.FC = () => {
     setLoading(true);
     console.log(data); //TODO: Remove this
 
-    async function uploadMedia(file: File): Promise<string> {
-      const formData = new FormData();
-      formData.append('file', file);
-      const fileUploadResponse = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
-        {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        },
-      );
+    async function uploadMedia(files: File[]): Promise<string[]> {
+      const uploadPromises = files.map(async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
 
-      if (!fileUploadResponse.ok) {
-        throw new Error('Failed to upload file.');
-      }
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
+          {
+            method: 'POST',
+            body: formData,
+            credentials: 'include',
+          },
+        );
 
-      const fileUploadResult = await fileUploadResponse.json();
-      return fileUploadResult.doc;
+        if (!response.ok) {
+          throw new Error(`Failed to upload file: ${file.name}`);
+        }
+
+        const uploadResult = await response.json();
+        return uploadResult.doc.id;
+      });
+
+      const fileIds = await Promise.all(uploadPromises);
+      return fileIds;
     }
 
     async function createProject(
@@ -70,11 +76,10 @@ export const CreateProject: React.FC = () => {
           credentials: 'include',
         },
       );
+      const resData = await res.json();
       if (!res.ok) {
-        const resData = await res.json();
         throw new Error(resData.error || 'Failed to create project.');
       }
-      const resData = await res.json();
       return resData;
     }
 
@@ -82,14 +87,19 @@ export const CreateProject: React.FC = () => {
       try {
         // Upload media if it exists
         const MAX_FILES = 3;
+        let mediaIds: string[] = [];
         if (data.file.length > MAX_FILES) {
           throw new Error(`You can only upload ${MAX_FILES} files.`);
         }
-        if (data.file.length !== 0) await uploadMedia(data.file[0]);
+        if (data.file.length !== 0) {
+          mediaIds = await uploadMedia(Array.from(data.file));
+        }
         const projectData = {
           ...data,
+          media: mediaIds,
         };
         const projectResponse = await createProject(projectData);
+        console.log(projectResponse);
         const projectId = projectResponse.doc.id;
         setLoading(false);
         setSuccess(true);
