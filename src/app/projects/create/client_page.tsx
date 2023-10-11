@@ -5,20 +5,16 @@ import { Textarea, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Inputs, ProjectResponse } from 'types';
+import { Inputs } from 'types';
 
 import { FileUpload } from '@/components/FileUpload';
 import { FormInputError } from '@/components/FormInputError';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useUser } from '@/lib/hooks/useUser';
 
-export const CreateProject: React.FC = () => {
-  type FailedUploadType = { fileName: string; error: Error };
-  type UploadResults = {
-    success: string[];
-    failures: FailedUploadType[];
-  };
+import { createProject, uploadMedia } from './createHelpers';
 
+export const CreateProject: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -40,106 +36,45 @@ export const CreateProject: React.FC = () => {
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    console.log(data); //TODO: Remove this
 
-    async function uploadMedia(files: File[]): Promise<UploadResults> {
-      const results: UploadResults = {
-        success: [],
-        failures: [],
+    try {
+      const MAX_FILES = 3;
+      const mediaIds: string[] = [];
+      if (data.file.length > MAX_FILES) {
+        throw new Error(`You can only upload ${MAX_FILES} files.`);
+      }
+      // get response from uploadMedia
+      if (data.file.length !== 0) {
+        const { success, failures } = await uploadMedia(Array.from(data.file));
+
+        if (failures.length > 0) {
+          failures.forEach((failure) => {
+            console.error(
+              `Failed to upload ${failure.fileName}: ${failure.error.message}`,
+            );
+          });
+          // Any other error handling or user feedback logic you might have.
+        } else {
+          mediaIds.push(...success);
+        }
+      }
+      const projectData = {
+        ...data,
+        media: mediaIds,
       };
-      const uploadPromises = files.map(async (file) => {
-        try {
-          const formData = new FormData();
-          formData.append('file', file);
-
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
-            {
-              method: 'POST',
-              body: formData,
-              credentials: 'include',
-            },
-          );
-
-          if (!response.ok) {
-            throw new Error(`Failed to upload file: ${file.name}`);
-          }
-
-          const uploadResult = await response.json();
-          results.success.push(uploadResult.doc.id);
-        } catch (error) {
-          console.error(`Error uploading file: ${file.name}`, error);
-          results.failures.push({ fileName: file.name, error: error as Error });
-        }
-      });
-      await Promise.all(uploadPromises);
-      return results;
+      const projectResponse = await createProject(projectData);
+      console.log(projectResponse);
+      const projectId = projectResponse.doc.id;
+      setLoading(false);
+      setSuccess(true);
+      setTimeout(() => {
+        router.push(`/projects/${projectId}`);
+      }, 3000);
+    } catch (error) {
+      console.error('Operation failed', (error as Error).message);
+      setLoading(false);
+      setSuccess(false);
     }
-
-    async function createProject(
-      projectData: Omit<Inputs, 'file'>,
-    ): Promise<ProjectResponse> {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(projectData),
-          credentials: 'include',
-        },
-      );
-      const resData = await res.json();
-      if (!res.ok) {
-        throw new Error(resData.error || 'Failed to create project.');
-      }
-      return resData;
-    }
-
-    async function mainFlow(data: Inputs) {
-      try {
-        const MAX_FILES = 3;
-        const mediaIds: string[] = [];
-        if (data.file.length > MAX_FILES) {
-          throw new Error(`You can only upload ${MAX_FILES} files.`);
-        }
-        // get response from uploadMedia
-        if (data.file.length !== 0) {
-          const { success, failures } = await uploadMedia(
-            Array.from(data.file),
-          );
-
-          if (failures.length > 0) {
-            failures.forEach((failure) => {
-              console.error(
-                `Failed to upload ${failure.fileName}: ${failure.error.message}`,
-              );
-            });
-            // Any other error handling or user feedback logic you might have.
-          } else {
-            mediaIds.push(...success);
-          }
-        }
-        const projectData = {
-          ...data,
-          media: mediaIds,
-        };
-        const projectResponse = await createProject(projectData);
-        console.log(projectResponse);
-        const projectId = projectResponse.doc.id;
-        setLoading(false);
-        setSuccess(true);
-        setTimeout(() => {
-          router.push(`/projects/${projectId}`);
-        }, 3000);
-      } catch (error) {
-        console.error('Operation failed', (error as Error).message);
-        setLoading(false);
-        setSuccess(false);
-      }
-    }
-    mainFlow(data);
   };
 
   const myStyle = {
