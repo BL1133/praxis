@@ -1,5 +1,7 @@
 import { Inputs, ProjectResponse } from 'types';
 
+import { handleApiResponse } from '@/utils/apiUtils';
+
 type FailedUploadType = { fileName: string; error: Error };
 type UploadResults = {
   success: string[];
@@ -32,7 +34,10 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
       const uploadResult = await response.json();
       results.success.push(uploadResult.doc.id);
     } catch (error) {
-      console.error(`Error uploading file: ${file.name}`, error);
+      console.error(
+        `Error uploading file: ${file.name}. Please try again`,
+        error,
+      );
       results.failures.push({ fileName: file.name, error: error as Error });
     }
   });
@@ -52,8 +57,9 @@ export async function createProject(
     credentials: 'include',
   });
   const resData = await res.json();
+
   if (!res.ok) {
-    throw new Error(resData.error || 'Failed to create project.');
+    handleApiResponse(res);
   }
   return resData;
 }

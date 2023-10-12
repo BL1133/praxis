@@ -66,7 +66,7 @@ export function SubmitModal({
                 {message}
               </p>
               <Spinner />
-              <span className="py-2 px-3 text-sm font-medium text-center text-white rounded-lg bg-primary-60 dark:focus:ring-primary-900">
+              <span className="py-2 px-3 text-sm font-medium text-center dark:text-white rounded-lg bg-primary-60 dark:focus:ring-primary-900">
                 Redirecting...
               </span>
             </>
