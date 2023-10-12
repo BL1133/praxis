@@ -31,7 +31,7 @@ export const CreateProject: React.FC = () => {
     },
   });
   const router = useRouter();
-  const { data: userData } = useUser();
+  const { data: userData, isLoading } = useUser();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
@@ -94,7 +94,9 @@ export const CreateProject: React.FC = () => {
   };
   return (
     <div>
-      {!userData?.user ? (
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : !userData?.user ? (
         <BadStatusPage statusCode={403} />
       ) : (
         <section className="bg-white dark:bg-gray-900">
