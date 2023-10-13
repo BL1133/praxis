@@ -36,12 +36,6 @@ export const CreateProject: React.FC = () => {
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(userData);
-  // useEffect(() => {
-  //   if (!userData) {
-  //     <BadStatusPage statusCode={403} />;
-  //   }
-  // }, [userData]);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     setIsModalOpen(true);
