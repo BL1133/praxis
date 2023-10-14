@@ -8,6 +8,7 @@ interface HeaderProps {
   userData: User;
 }
 export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
+  // console.log(userData);
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 mx-auto max-w-6xl lg:py-16">
@@ -178,7 +179,7 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
             <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">
               Created By
             </dt>
-            <Link href={`/`}>
+            <Link href={`/users/${userData?.username}`}>
               <dd className="mb-4 ">
                 <Avatar
                   className="justify-start"
@@ -250,8 +251,8 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
         </div>
         {isOwnProject && (
           <div className="flex items-center px-4 space-x-4">
-            <button
-              type="button"
+            <Link
+              href={`/projects/edit/${projectData.id}`}
               className="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               <svg
@@ -269,26 +270,7 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
                 ></path>
               </svg>
               Edit
-            </button>
-            <button
-              type="button"
-              className="inline-flex items-center text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-500 dark:hover:bg-red-600 dark:focus:ring-red-900"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-5 h-5 mr-1.5 -ml-1"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              Delete
-            </button>
+            </Link>
           </div>
         )}
       </div>
