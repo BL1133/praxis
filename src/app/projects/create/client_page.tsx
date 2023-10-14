@@ -10,6 +10,7 @@ import { Inputs } from 'types';
 import BadStatusPage from '@/components/BadStatusPage';
 import { FileUpload } from '@/components/FileUpload';
 import { FormInputError } from '@/components/FormInputError';
+import { Loading } from '@/components/LoadingPage';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useUser } from '@/lib/hooks/useUser';
 
@@ -89,7 +90,7 @@ export const CreateProject: React.FC = () => {
   return (
     <div>
       {isLoading ? (
-        <h1>Loading...</h1>
+        <Loading />
       ) : !userData?.user ? (
         <BadStatusPage statusCode={403} />
       ) : (

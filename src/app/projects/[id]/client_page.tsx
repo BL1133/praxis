@@ -2,14 +2,15 @@
 'use client';
 import { Project } from '@payloadTypes';
 import classNames from 'classnames';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { mutate } from 'swr';
 
 import { useProject } from '@/lib/hooks/useProject';
 import { useUser } from '@/lib/hooks/useUser';
 import { useSidebarContext } from '@/providers/SidebarContext';
+
+import { Description } from './components/description';
+import { Header } from './components/header';
 interface ProjectProps {
   projectData: Project;
 }
@@ -69,21 +70,8 @@ export const ProjectClient: React.FC<ProjectProps> = ({
         isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
       )}
     >
-      <h1>{projectData.title}</h1>
-      <h1>{projectData.description}</h1>
-      {isOwnProject && <h1>Created by you</h1>}
-      {isOwnProject && (
-        <div>
-          <Link href={`/projects/edit/${projectData.id}`}>Edit | </Link>
-          <button
-            onClick={() => {
-              handleDelete(projectData.id, mutateProject, mutate, router);
-            }}
-          >
-            Delete Project
-          </button>
-        </div>
-      )}
+      <Header />
+      <Description />
     </div>
   );
 };

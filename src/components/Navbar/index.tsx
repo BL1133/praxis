@@ -257,6 +257,7 @@ const AppDrawerDropdown: FC = function () {
     <Dropdown
       arrowIcon={false}
       inline
+      dismissOnClick={true}
       label={
         <span className="rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-700">
           <span className="sr-only">Apps</span>
@@ -270,24 +271,22 @@ const AppDrawerDropdown: FC = function () {
         Apps
       </div>
       <div className="grid grid-cols-3 gap-4 p-4">
-        <Link
-          href="/projects"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiShoppingBag className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Projects
-          </div>
-        </Link>
-        <Link
-          href="/projects/create"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiUsers className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Create
-          </div>
-        </Link>
+        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+          <Link href="/projects" className="">
+            <HiShoppingBag className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              Projects
+            </div>
+          </Link>
+        </Dropdown.Item>
+        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+          <Link href="/projects/create">
+            <HiUsers className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              Create
+            </div>
+          </Link>
+        </Dropdown.Item>
         <a
           href="#"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
@@ -297,24 +296,22 @@ const AppDrawerDropdown: FC = function () {
             Inbox
           </div>
         </a>
-        <Link
-          href={`/users/${data?.user?.username}`}
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiUserCircle className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Profile
-          </div>
-        </Link>
-        <Link
-          href="/settings"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiCog className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Settings
-          </div>
-        </Link>
+        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+          <Link href={`/users/${data?.user?.username}`}>
+            <HiUserCircle className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              Profile
+            </div>
+          </Link>
+        </Dropdown.Item>
+        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
+          <Link href="/settings">
+            <HiCog className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <div className="text-sm font-medium text-gray-900 dark:text-white">
+              Settings
+            </div>
+          </Link>
+        </Dropdown.Item>
         <a
           href="#"
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
