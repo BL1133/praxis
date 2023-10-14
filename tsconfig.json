@@ -26,7 +26,9 @@
       "@providers/*": ["./src/providers/*"],
       "@components": ["./src/components"],
       "@components/*": ["./src/components/*"],
-      "@payloadTypes": ["./payload-types.ts"]
+      "@payloadTypes": ["./payload-types.ts"],
+      "@public": ["./public"],
+      "@public/": ["./public/*"]
     }
   },
   "include": [

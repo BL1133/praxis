@@ -62,7 +62,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
     (typeof projectData?.createdBy === 'object'
       ? projectData?.createdBy?.id === userData?.user?.id
       : projectData?.createdBy === userData?.user?.id);
-
+  console.log(isOwnProject, projectData, userData);
   return (
     <div
       className={classNames(
@@ -70,7 +70,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
         isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
       )}
     >
-      <Header />
+      <Header isOwnProject projectData={projectData} userData={userData} />
       <Description />
     </div>
   );
