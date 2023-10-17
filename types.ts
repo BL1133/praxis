@@ -15,12 +15,10 @@ export interface GetProjectsResponse {
 
 export type Inputs = {
   title: string;
-  brand: string;
-  price: number;
-  category: string;
-  itemWeight: number;
-  description: string;
+  shortDescription: string;
+  fullDescription: string;
   file: FileList;
+  skillsWanted: { role: 'Maintainer' | 'Mentor' | 'Developer' | 'Designer' }[];
 };
 
 export type ProjectResponse = {

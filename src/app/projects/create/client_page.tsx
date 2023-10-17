@@ -1,7 +1,7 @@
 'use client';
 // Ensure this import is correct
 // Used for navigation
-import { Textarea, TextInput } from 'flowbite-react';
+import { Checkbox, Label, Textarea, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -9,7 +9,6 @@ import { Inputs } from 'types';
 
 import BadStatusPage from '@/components/BadStatusPage';
 import { FileUpload } from '@/components/FileUpload';
-import { FormInputError } from '@/components/FormInputError';
 import { Loading } from '@/components/LoadingPage';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useUser } from '@/lib/hooks/useUser';
@@ -24,11 +23,9 @@ export const CreateProject: React.FC = () => {
   } = useForm<Inputs>({
     defaultValues: {
       title: '',
-      brand: '',
-      price: 0,
-      category: '',
-      itemWeight: 0,
-      description: '',
+      fullDescription: '',
+      shortDescription: '',
+      skillsWanted: [],
     },
   });
   const router = useRouter();
@@ -39,6 +36,7 @@ export const CreateProject: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
+    console.log(data);
     setIsModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
@@ -84,6 +82,14 @@ export const CreateProject: React.FC = () => {
     }
   };
 
+  // Register the skillsWanted group with validation
+  // This is so that validate isn't run on every checkbox
+  // Because checboxes all have same name, they are grouped
+  // So validate runs once on entire group, which is an array
+  const skillsWantedRef = register('skillsWanted', {
+    validate: (value) => value.length > 0 || '*At least one skill is required',
+  });
+
   const myStyle = {
     color: 'black',
   };
@@ -112,6 +118,7 @@ export const CreateProject: React.FC = () => {
             </h2>
             <form onSubmit={handleSubmit(handleCreateProject)}>
               <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
+                {/* Project Title ---------------------------------------*/}
                 <div className="sm:col-span-2">
                   <label
                     htmlFor="title"
@@ -122,6 +129,14 @@ export const CreateProject: React.FC = () => {
                   <div className="w-full">
                     <TextInput
                       type="text"
+                      color={errors.title && 'failure'}
+                      helperText={
+                        <>
+                          {errors.title && (
+                            <span className="text-orange-600 mt-1 text-sm">{`*${errors?.title?.message}`}</span>
+                          )}
+                        </>
+                      }
                       id="title"
                       disabled={loading || success ? true : false}
                       placeholder="Type project title"
@@ -129,122 +144,127 @@ export const CreateProject: React.FC = () => {
                         required: 'Project title required',
                       })}
                     />
-                    {errors.title && (
-                      <FormInputError
-                        message={errors?.title?.message ?? null}
-                      />
-                    )}
                   </div>
                 </div>
-                <div className="w-full">
+                {/* end of Project Title ---------------------------------------*/}
+                {/* Short Description ---------------------------------------*/}
+                <div className="sm:col-span-2">
                   <label
-                    htmlFor="brand"
+                    htmlFor="title"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Brand
+                    Short Description
                   </label>
-                  <input
-                    type="text"
-                    id="brand"
-                    disabled={loading || success ? true : false}
-                    className={`custom-input ${
-                      loading || success
-                        ? 'placeholder-gray-200 dark:placeholder-gray-600  text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                        : ''
-                    }`}
-                    placeholder="Product brand"
-                    {...register('brand')}
-                  />
+                  <div className="w-full">
+                    <TextInput
+                      type="text"
+                      color={errors?.shortDescription && 'failure'}
+                      helperText={
+                        <>
+                          {errors?.shortDescription && (
+                            <span className="text-orange-600 mt-1 text-sm">{`*${errors?.shortDescription?.message}`}</span>
+                          )}
+                        </>
+                      }
+                      id="title"
+                      disabled={loading || success ? true : false}
+                      placeholder="Describe your project in a few sentences"
+                      {...register('shortDescription', {
+                        required: 'Short Description required',
+                      })}
+                    />
+                  </div>
                 </div>
-                <div className="w-full">
-                  <label
-                    htmlFor="price"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Price
-                  </label>
-                  <input
-                    type="number"
-                    id="price"
-                    disabled={loading || success ? true : false}
-                    className={`custom-input ${
-                      loading || success
-                        ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                        : ''
-                    }`}
-                    placeholder="$2999"
-                    {...register('price')}
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="category"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Category
-                  </label>
-                  <select
-                    id="category"
-                    disabled={loading || success ? true : false}
-                    {...register('category')}
-                    className={`custom-input ${
-                      loading || success
-                        ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                        : ''
-                    }`}
-                  >
-                    <option value="" disabled>
-                      Select category
-                    </option>
-                    <option value="TV">TV/Monitors</option>
-                    <option value="PC">PC</option>
-                    <option value="GA">Gaming/Console</option>
-                    <option value="PH">Phones</option>
-                  </select>
-                </div>
-                <div>
-                  <label
-                    htmlFor="item-weight"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Item Weight (kg)
-                  </label>
-                  <input
-                    type="number"
-                    id="item-weight"
-                    disabled={loading || success ? true : false}
-                    className={`custom-input ${
-                      loading || success
-                        ? 'placeholder-gray-200 dark:placeholder-gray-600 text-gray-200 dark:text-gray-600 cursor-not-allowed'
-                        : ''
-                    }`}
-                    placeholder="12"
-                    {...register('itemWeight')}
-                  />
-                </div>
+                {/* end of Short Description ---------------------------------------*/}
 
                 <div className="sm:col-span-2">
                   <label
-                    htmlFor="description"
+                    htmlFor="fullDescription"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Description
+                    Project Description
                   </label>
                   <Textarea
-                    id="description"
+                    id="fullDescription"
                     rows={8}
                     disabled={loading || success ? true : false}
-                    placeholder="Your description here"
-                    {...register('description', {
+                    placeholder="This is where you can fully describe all details of your project."
+                    {...register('fullDescription', {
                       required: 'Description is required',
                     })}
                   ></Textarea>
-                  {errors.description && (
-                    <FormInputError
-                      message={errors?.description?.message ?? null}
+                </div>
+                {/* start of Skills Wanted ----------------------------- */}
+                <div className="flex max-w-md flex-col gap-4" id="skills">
+                  <label
+                    htmlFor="skills"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Skills Wanted:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="developer"
+                      value="developer"
+                      {...skillsWantedRef}
                     />
+                    <Label className="flex" htmlFor="developer">
+                      Developer
+                    </Label>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="designer"
+                      value="designer"
+                      {...skillsWantedRef}
+                    />
+                    <Label htmlFor="designer">Designer</Label>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="flex h-5 items-center">
+                      <Checkbox
+                        id="mentor"
+                        value="mentor"
+                        {...skillsWantedRef}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label htmlFor="mentor">Mentor</Label>
+                      <div className="text-gray-500 dark:text-gray-300">
+                        <span className="text-xs font-normal">
+                          <p>
+                            Find a mentor to help guide you with your project.
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <div className="flex h-5 items-center">
+                      <Checkbox
+                        id="maintainer"
+                        value="maintainer"
+                        {...skillsWantedRef}
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <Label htmlFor="maintainer">Maintainer</Label>
+                      <div className="text-gray-500 dark:text-gray-300">
+                        <span className="text-xs font-normal">
+                          <p>
+                            Maintainers have the ability to manage the project.
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  {errors.skillsWanted && (
+                    <span className="text-orange-600 mt-1 text-sm">
+                      {errors.skillsWanted.message}
+                    </span>
                   )}
                 </div>
+                {/* end of Skills Wanted ----------------------------- */}
                 <FileUpload fileRef={register('file')} />
               </div>
               <button
