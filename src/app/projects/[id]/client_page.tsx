@@ -57,6 +57,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
   const router = useRouter();
   const { data: userData } = useUser();
   const { data: projectData, mutate: mutateProject } = useProject(initialData);
+  console.log(projectData);
   const isOwnProject =
     userData?.user &&
     (typeof projectData?.createdBy === 'object'

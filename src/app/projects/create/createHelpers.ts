@@ -48,7 +48,6 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
 export async function createProject(
   projectData: Omit<Inputs, 'file'>,
 ): Promise<ProjectResponse> {
-  console.log(projectData);
   const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`, {
     method: 'POST',
     headers: {

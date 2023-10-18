@@ -19,7 +19,7 @@ export type Inputs = {
   fullDescription: string;
   file: FileList;
   skillsWanted: { role: 'Maintainer' | 'Mentor' | 'Developer' | 'Designer' }[];
-  links: [string, string, string];
+  links: { link: string }[];
 };
 
 export type ProjectResponse = {
