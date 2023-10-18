@@ -26,6 +26,7 @@ export const CreateProject: React.FC = () => {
       fullDescription: '',
       shortDescription: '',
       skillsWanted: [],
+      links: [],
     },
   });
   const router = useRouter();
@@ -130,13 +131,7 @@ export const CreateProject: React.FC = () => {
                     <TextInput
                       type="text"
                       color={errors.title && 'failure'}
-                      helperText={
-                        <>
-                          {errors.title && (
-                            <span className="text-orange-600 mt-1 text-sm">{`*${errors?.title?.message}`}</span>
-                          )}
-                        </>
-                      }
+                      helperText={<>{errors.title && errors?.title?.message}</>}
                       id="title"
                       disabled={loading || success ? true : false}
                       placeholder="Type project title"
@@ -160,11 +155,8 @@ export const CreateProject: React.FC = () => {
                       type="text"
                       color={errors?.shortDescription && 'failure'}
                       helperText={
-                        <>
-                          {errors?.shortDescription && (
-                            <span className="text-orange-600 mt-1 text-sm">{`*${errors?.shortDescription?.message}`}</span>
-                          )}
-                        </>
+                        errors?.shortDescription &&
+                        errors?.shortDescription?.message
                       }
                       id="title"
                       disabled={loading || success ? true : false}
@@ -258,20 +250,89 @@ export const CreateProject: React.FC = () => {
                       </div>
                     </div>
                   </div>
-                  {errors.skillsWanted && (
+                  {errors?.skillsWanted && (
                     <span className="text-orange-600 mt-1 text-sm">
-                      {errors.skillsWanted.message}
+                      {errors?.skillsWanted?.message}
                     </span>
                   )}
                 </div>
                 {/* end of Skills Wanted ----------------------------- */}
+                {/* start of Links */}
+                <div>
+                  <label
+                    htmlFor="links"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Links
+                  </label>
+                  <div className="w-full flex flex-col gap-4">
+                    <div>
+                      <TextInput
+                        type="text"
+                        sizing="sm"
+                        helperText={
+                          errors?.links?.[0] && errors?.links?.[0].message
+                        }
+                        color={errors?.links && 'failure'}
+                        id="link1"
+                        disabled={loading || success ? true : false}
+                        placeholder="Add a link (optional)"
+                        {...register('links[0]' as keyof Inputs, {
+                          // eslint-disable-next-line
+                          validate: (value: any) =>
+                            /^(http|https):\/\/[^ "]+$/.test(value) ||
+                            'Invalid URL format',
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <TextInput
+                        type="text"
+                        sizing="sm"
+                        helperText={
+                          errors?.links?.[1] && errors?.links?.[1].message
+                        }
+                        color={errors?.links && 'failure'}
+                        id="link2"
+                        disabled={loading || success ? true : false}
+                        placeholder="Add a link (optional)"
+                        {...register('links[1]' as keyof Inputs, {
+                          // eslint-disable-next-line
+                          validate: (value: any) =>
+                            /^(http|https):\/\/[^ "]+$/.test(value) ||
+                            'Invalid URL format',
+                        })}
+                      />
+                    </div>
+                    <div>
+                      <TextInput
+                        type="text"
+                        sizing="sm"
+                        helperText={
+                          errors?.links?.[2] && errors?.links?.[2].message
+                        }
+                        color={errors?.links && 'failure'}
+                        id="link3"
+                        disabled={loading || success ? true : false}
+                        placeholder="Add a link (optional)"
+                        {...register('links[2]' as keyof Inputs, {
+                          // eslint-disable-next-line
+                          validate: (value: any) =>
+                            /^(http|https):\/\/[^ "]+$/.test(value) ||
+                            'Invalid URL format',
+                        })}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {/* end of Links */}
                 <FileUpload fileRef={register('file')} />
               </div>
               <button
                 type="submit"
                 className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
               >
-                Add product
+                Create Project
               </button>
             </form>
           </div>
