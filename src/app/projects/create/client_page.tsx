@@ -63,8 +63,13 @@ export const CreateProject: React.FC = () => {
           mediaIds.push(...success);
         }
       }
+      // Remove empty links
+      const filteredLinks = data.links.filter(
+        (link) => link.link.trim() !== '',
+      );
       const projectData = {
         ...data,
+        links: filteredLinks,
         media: mediaIds,
       };
 
