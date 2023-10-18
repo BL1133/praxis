@@ -15,7 +15,11 @@ import { useUser } from '@/lib/hooks/useUser';
 
 import { createProject, uploadMedia } from './createHelpers';
 
-export const CreateProject: React.FC = () => {
+interface CreateProjectProps {
+  tags: Inputs['tags'];
+}
+
+export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
   const {
     register,
     handleSubmit,
@@ -27,6 +31,7 @@ export const CreateProject: React.FC = () => {
       shortDescription: '',
       skillsWanted: [],
       links: [],
+      tags: [],
     },
   });
   const router = useRouter();
@@ -35,7 +40,7 @@ export const CreateProject: React.FC = () => {
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  console.log(tags);
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
     setIsModalOpen(true);
@@ -365,6 +370,9 @@ export const CreateProject: React.FC = () => {
                   </div>
                 </div>
                 {/* end of Links */}
+                {/* Start of tags ------------------ */}
+                <div></div>
+                {/* end of tags -------------------- */}
                 <FileUpload fileRef={register('file')} />
               </div>
               <button
