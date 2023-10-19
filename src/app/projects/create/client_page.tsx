@@ -11,6 +11,7 @@ import BadStatusPage from '@/components/BadStatusPage';
 import { FileUpload } from '@/components/FileUpload';
 import { Loading } from '@/components/LoadingPage';
 import { SubmitModal } from '@/components/SubmitModal';
+import { Tag } from '@/components/Tag';
 import { useUser } from '@/lib/hooks/useUser';
 
 import { createProject, uploadMedia } from './createHelpers';
@@ -40,7 +41,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  console.log(tags);
+
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
     console.log(data);
     setIsModalOpen(true);
@@ -101,6 +102,10 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
   const skillsWantedRef = register('skillsWanted', {
     validate: (value) => value.length > 0 || '*At least one skill is required',
   });
+
+  function handleCheckboxChange() {
+    console.log('hi');
+  }
 
   const myStyle = {
     color: 'black',
@@ -215,6 +220,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id="developer"
+                      className="hover:cursor-pointer"
                       value="developer"
                       {...skillsWantedRef}
                     />
@@ -225,6 +231,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   <div className="flex items-center gap-2">
                     <Checkbox
                       id="designer"
+                      className="hover:cursor-pointer"
                       value="designer"
                       {...skillsWantedRef}
                     />
@@ -234,6 +241,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                     <div className="flex h-5 items-center">
                       <Checkbox
                         id="mentor"
+                        className="hover:cursor-pointer"
                         value="mentor"
                         {...skillsWantedRef}
                       />
@@ -253,6 +261,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                     <div className="flex h-5 items-center">
                       <Checkbox
                         id="maintainer"
+                        className="hover:cursor-pointer"
                         value="maintainer"
                         {...skillsWantedRef}
                       />
@@ -371,7 +380,24 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                 </div>
                 {/* end of Links */}
                 {/* Start of tags ------------------ */}
-                <div></div>
+                <div>
+                  <div className="flex gap-2">
+                    <label
+                      htmlFor="skills"
+                      className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
+                    >
+                      Tags:
+                    </label>
+                    <span className="text-xs pt-1 text-gray-500">
+                      (Choose at least 3)
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {tags.map((tag) => (
+                      <Tag key={tag} tag={tag} />
+                    ))}
+                  </div>
+                </div>
                 {/* end of tags -------------------- */}
                 <FileUpload fileRef={register('file')} />
               </div>

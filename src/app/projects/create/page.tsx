@@ -15,6 +15,9 @@ const getTags = async (): Promise<Inputs['tags']> => {
         headers: {
           'Content-Type': 'application/json',
         },
+        next: {
+          revalidate: 60, // 60 seconds
+        },
       },
     );
     if (!res.ok) {

@@ -1,0 +1,4 @@
+.checkboxHidden:checked + span {
+  background-color: rgb(8, 145, 178);
+  color: rgb(243, 244, 246);
+}
