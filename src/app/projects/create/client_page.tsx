@@ -103,6 +103,11 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
     validate: (value) => value.length > 0 || '*At least one skill is required',
   });
 
+  const tagsRef = register('tags', {
+    validate: (value) =>
+      value.length >= 3 || 'At least three tags are required',
+  });
+
   function handleCheckboxChange() {
     console.log('hi');
   }
@@ -394,7 +399,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   </div>
                   <div className="flex flex-wrap gap-1">
                     {tags.map((tag) => (
-                      <Tag key={tag} tag={tag} />
+                      <Tag key={tag} tag={tag} tagsRef={tagsRef} />
                     ))}
                   </div>
                 </div>

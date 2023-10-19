@@ -1,14 +1,22 @@
 import { Badge } from 'flowbite-react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 import styles from './index.module.css';
 
-export function Tag({ tag }: { tag: string }) {
+export function Tag({
+  tag,
+  tagsRef,
+}: {
+  tag: string;
+  tagsRef: UseFormRegisterReturn<'tags'>;
+}) {
   return (
     <label key={tag} className="badge-checkbox">
       <input
         type="checkbox"
         value={tag}
         className={`hidden ${styles.checkboxHidden}`}
+        {...tagsRef}
       />
       <Badge
         color="gray"
