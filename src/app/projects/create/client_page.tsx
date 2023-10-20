@@ -1,6 +1,5 @@
 'use client';
-// Ensure this import is correct
-// Used for navigation
+
 import { Checkbox, Label, Textarea, TextInput } from 'flowbite-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -14,7 +13,7 @@ import { SubmitModal } from '@/components/SubmitModal';
 import { Tag } from '@/components/Tag';
 import { useUser } from '@/lib/hooks/useUser';
 
-import { createProject, uploadMedia } from './createHelpers';
+import { createProject, uploadMedia } from '../../../utils/createHelpers';
 
 interface CreateProjectProps {
   tags: Inputs['tags'];
@@ -43,7 +42,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
-    console.log(data);
     setIsModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
@@ -108,13 +106,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
       value.length >= 3 || 'At least three tags are required',
   });
 
-  function handleCheckboxChange() {
-    console.log('hi');
-  }
-
-  const myStyle = {
-    color: 'black',
-  };
   return (
     <div>
       {isLoading ? (
@@ -289,6 +280,29 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   )}
                 </div>
                 {/* end of Skills Wanted ----------------------------- */}
+                {/* Start of tags ------------------ */}
+                <div>
+                  <div className="flex gap-2">
+                    <label
+                      htmlFor="skills"
+                      className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
+                    >
+                      Tags:
+                    </label>
+                    <span className="text-xs pt-1 text-gray-500">
+                      (Choose at least 3)
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {tags.map((tag) => (
+                      <Tag key={tag} tag={tag} tagsRef={tagsRef} />
+                    ))}
+                  </div>
+                </div>
+                {/* end of tags -------------------- */}
+                <div className="flex flex-col justify-center">
+                  <FileUpload fileRef={register('file')} />
+                </div>
                 {/* start of Links */}
                 <div>
                   <div className="flex gap-2">
@@ -384,27 +398,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   </div>
                 </div>
                 {/* end of Links */}
-                {/* Start of tags ------------------ */}
-                <div>
-                  <div className="flex gap-2">
-                    <label
-                      htmlFor="skills"
-                      className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
-                    >
-                      Tags:
-                    </label>
-                    <span className="text-xs pt-1 text-gray-500">
-                      (Choose at least 3)
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-1">
-                    {tags.map((tag) => (
-                      <Tag key={tag} tag={tag} tagsRef={tagsRef} />
-                    ))}
-                  </div>
-                </div>
-                {/* end of tags -------------------- */}
-                <FileUpload fileRef={register('file')} />
               </div>
               <button
                 type="submit"
