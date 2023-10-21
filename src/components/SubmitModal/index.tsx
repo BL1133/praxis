@@ -8,7 +8,6 @@ interface SubmitModalProps {
   loading: boolean;
   submitErrors: string[];
   message: string;
-  redirect: string;
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }

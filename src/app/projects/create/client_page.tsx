@@ -7,8 +7,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs } from 'types';
 
 import BadStatusPage from '@/components/BadStatusPage';
-import { FileUpload } from '@/components/FileUpload';
 import { Loading } from '@/components/LoadingPage';
+import { FileUpload } from '@/components/ProjectForm/FileUpload';
 import { SubmitModal } from '@/components/SubmitModal';
 import { Tag } from '@/components/Tag';
 import { useUser } from '@/lib/hooks/useUser';
@@ -48,12 +48,12 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
     try {
       const MAX_FILES = 3;
       const mediaIds: string[] = [];
-      if (data.file.length > MAX_FILES) {
+      if (data?.file?.length && data?.file?.length > MAX_FILES) {
         throw new Error(`You can only upload ${MAX_FILES} files.`);
       }
       // get response from uploadMedia
-      if (data.file.length !== 0) {
-        const { success, failures } = await uploadMedia(Array.from(data.file));
+      if (data?.file?.length && data?.file?.length !== 0) {
+        const { success, failures } = await uploadMedia(Array.from(data?.file));
 
         if (failures.length > 0) {
           failures.forEach((failure) => {
@@ -68,15 +68,21 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
         }
       }
       // Remove empty links
-      const filteredLinks = data.links.filter(
+      const filteredLinks = data?.links?.filter(
         (link) => link.link.trim() !== '',
       );
       const projectData = {
         ...data,
-        links: filteredLinks,
-        media: mediaIds,
       };
 
+      // If links are provided and after filtering there are still links remaining, add them to the projectData
+      // If mediaIds are provided and they contain data, add them to the projectData
+      if (data.links && filteredLinks?.length) {
+        projectData.links = filteredLinks;
+      }
+      if (mediaIds && mediaIds.length) {
+        projectData.media = mediaIds;
+      }
       // Get response from createProject
       const projectResponse = await createProject(projectData);
       const projectId = projectResponse?.doc?.id;
@@ -123,7 +129,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
               isModalOpen={isModalOpen}
               setIsModalOpen={setIsModalOpen}
               message="You have successfully created a project."
-              redirect={`/`}
             />
 
             <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">

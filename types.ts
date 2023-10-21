@@ -17,10 +17,11 @@ export type Inputs = {
   title: string;
   shortDescription: string;
   fullDescription: string;
-  file: FileList;
+  file?: FileList;
   skillsWanted: { role: 'Maintainer' | 'Mentor' | 'Developer' | 'Designer' }[];
   tags: string[];
-  links: { link: string }[];
+  links?: { link: string }[];
+  media: string[];
 };
 
 export type ProjectResponse = {
