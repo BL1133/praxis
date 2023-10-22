@@ -62,7 +62,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
               `Failed to upload ${failure.fileName}: ${failure.error.message}`,
             );
           });
-          // Any other error handling or user feedback logic you might have.
         } else {
           mediaIds.push(...success);
         }
@@ -71,12 +70,8 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
       const filteredLinks = data?.links?.filter(
         (link) => link.link.trim() !== '',
       );
-      const projectData = {
-        ...data,
-      };
+      const projectData = { ...data } as Inputs & { media?: string[] };
 
-      // If links are provided and after filtering there are still links remaining, add them to the projectData
-      // If mediaIds are provided and they contain data, add them to the projectData
       if (data.links && filteredLinks?.length) {
         projectData.links = filteredLinks;
       }
@@ -98,7 +93,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
       setSuccess(false);
     }
   };
-
   // Register the skillsWanted group with validation
   // This is so that validate isn't run on every checkbox
   // Because checboxes all have same name, they are grouped
@@ -305,9 +299,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
                   </div>
                 </div>
                 {/* end of tags -------------------- */}
-                <div className="flex flex-col justify-center">
-                  <FileUpload fileRef={register('file')} />
-                </div>
+                <FileUpload fileRef={register('file')} />
                 {/* start of Links */}
                 <div>
                   <div className="flex gap-2">

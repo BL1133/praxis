@@ -21,7 +21,6 @@ export type Inputs = {
   skillsWanted: { role: 'Maintainer' | 'Mentor' | 'Developer' | 'Designer' }[];
   tags: string[];
   links?: { link: string }[];
-  media: string[];
 };
 
 export type ProjectResponse = {

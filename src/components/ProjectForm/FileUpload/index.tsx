@@ -8,7 +8,7 @@ type FileUploadProps = {
 
 export const FileUpload: React.FC<FileUploadProps> = ({ fileRef }) => {
   return (
-    <div className="max-w-md" id="fileUpload">
+    <div className="max-w-md flex flex-col justify-center" id="fileUpload">
       <div className="mb-2 block">
         <Label className="text-md" htmlFor="file" value="Upload files" />
       </div>
