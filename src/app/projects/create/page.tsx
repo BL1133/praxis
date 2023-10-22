@@ -34,8 +34,8 @@ const getTags = async (): Promise<Inputs['tags']> => {
 };
 
 export default async function Page() {
-  const tags = await getTags();
-  return <CreateProject tags={tags} />;
+  const fetchedTags = await getTags();
+  return <CreateProject fetchedTags={fetchedTags} />;
 }
 
 export const metadata: Metadata = {

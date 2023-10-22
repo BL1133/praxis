@@ -32,7 +32,6 @@ export function FullDescription({
           required: 'Description is required',
         })}
       ></Textarea>
-      S
     </div>
   );
 }
