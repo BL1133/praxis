@@ -6,8 +6,7 @@ import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Inputs } from 'types';
 
-import BadStatusPage from '@/components/BadStatusPage';
-import { Loading } from '@/components/LoadingPage';
+import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { FileUpload } from '@/components/ProjectForm/FileUpload';
 import { SubmitModal } from '@/components/SubmitModal';
 import { Tag } from '@/components/Tag';
@@ -108,11 +107,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
 
   return (
     <div>
-      {isLoading ? (
-        <Loading />
-      ) : !userData?.user ? (
-        <BadStatusPage statusCode={403} />
-      ) : (
+      <LoadingProtected>
         <section className="bg-white dark:bg-gray-900">
           <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
             {/* Submitting Modal */}
@@ -405,7 +400,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({ tags }) => {
             </form>
           </div>
         </section>
-      )}
+      </LoadingProtected>
     </div>
   );
 };
