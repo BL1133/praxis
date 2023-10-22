@@ -11,6 +11,7 @@ interface FullDescriptionProps {
 }
 export function FullDescription({
   register,
+  errors,
   loading,
   success,
   defaultValues,
@@ -26,6 +27,8 @@ export function FullDescription({
       <Textarea
         id="fullDescription"
         rows={8}
+        color={errors?.fullDescription && 'failure'}
+        helperText={errors?.fullDescription && errors?.fullDescription?.message}
         disabled={loading || success ? true : false}
         placeholder="This is where you can fully describe all details of your project."
         {...register('fullDescription', {
