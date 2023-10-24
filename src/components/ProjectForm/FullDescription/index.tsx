@@ -7,14 +7,12 @@ interface FullDescriptionProps {
   loading: boolean;
   success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
-  defaultValues: ProjectInputs;
 }
 export function FullDescription({
   register,
   errors,
   loading,
   success,
-  defaultValues,
 }: FullDescriptionProps) {
   return (
     <div className="sm:col-span-2">

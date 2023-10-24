@@ -7,7 +7,6 @@ interface ShortDescriptionProps {
   loading: boolean;
   success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
-  defaultValues: ProjectInputs;
 }
 
 export function ShortDescription({
@@ -15,7 +14,6 @@ export function ShortDescription({
   errors,
   loading,
   success,
-  defaultValues,
 }: ShortDescriptionProps) {
   return (
     <div className="sm:col-span-2">

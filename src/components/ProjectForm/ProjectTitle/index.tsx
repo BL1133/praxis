@@ -7,14 +7,12 @@ interface ProjectTitleProps {
   loading: boolean;
   success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
-  defaultValues: ProjectInputs;
 }
 export function ProjectTitle({
   register,
   errors,
   loading,
   success,
-  defaultValues,
 }: ProjectTitleProps) {
   return (
     <div className="sm:col-span-2">

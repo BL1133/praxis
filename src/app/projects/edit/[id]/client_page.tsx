@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { ProjectInputs } from 'types';
 
-import { LoadingStandard } from '@/components/~Wrappers/LoadingStandard';
+import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
@@ -84,7 +84,7 @@ export const EditProject: React.FC<ProjectProps> = ({
   };
 
   return (
-    <LoadingStandard>
+    <LoadingProtected>
       <section className="bg-white dark:bg-gray-900">
         <ProjectFormWrapper
           loading={loading}
@@ -92,6 +92,7 @@ export const EditProject: React.FC<ProjectProps> = ({
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
           fetchedTags={fetchedTags}
+          editing
         >
           <SubmitModal
             success={success}
@@ -102,10 +103,10 @@ export const EditProject: React.FC<ProjectProps> = ({
             message="You have successfully created a project."
           />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
-            Create a new Project
+            Edit Your Project
           </h2>
         </ProjectFormWrapper>
       </section>
-    </LoadingStandard>
+    </LoadingProtected>
   );
 };

@@ -7,7 +7,6 @@ interface LinksProps {
   errors: FieldErrors<ProjectInputs>;
   loading: boolean;
   success: boolean | null;
-  defaultValues: ProjectInputs;
 }
 
 export function LinksSection({
@@ -15,7 +14,6 @@ export function LinksSection({
   errors,
   loading,
   success,
-  defaultValues,
 }: LinksProps) {
   return (
     <div>

@@ -5,14 +5,9 @@ import { ProjectInputs } from 'types';
 interface SkillsWantedProps {
   register: UseFormRegister<ProjectInputs>;
   errors: FieldErrors<ProjectInputs>;
-  defaultValues: ProjectInputs;
 }
 
-export function SkillsWanted({
-  register,
-  errors,
-  defaultValues,
-}: SkillsWantedProps) {
+export function SkillsWanted({ register, errors }: SkillsWantedProps) {
   // Register the skillsWanted group with validation
   // This is so that validate isn't run on every checkbox
   // Because checboxes all have same name, they are grouped

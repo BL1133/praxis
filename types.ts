@@ -17,13 +17,13 @@ export type ProjectResponse = {
   message: string;
   doc: Project;
 };
-
-type ProjectFormInputs = Omit<
+// This is omitting the fields that are not needed for the client
+type ProjectOmit = Omit<
   Project,
   'createdAt' | 'updatedAt' | 'id' | 'createdBy' | 'status'
 >;
 
-export interface ProjectInputs extends ProjectFormInputs {
+export interface ProjectInputs extends ProjectOmit {
   file?: FileList;
   media?: string[];
 }
