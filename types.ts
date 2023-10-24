@@ -13,17 +13,17 @@ export interface GetProjectsResponse {
   nextPage: null | number;
 }
 
-export type Inputs = {
-  title: string;
-  shortDescription: string;
-  fullDescription: string;
-  file?: FileList;
-  skillsWanted: { role: 'Maintainer' | 'Mentor' | 'Developer' | 'Designer' }[];
-  tags: string[];
-  links?: { link: string }[];
-};
-
 export type ProjectResponse = {
   message: string;
   doc: Project;
 };
+
+type ProjectFormInputs = Omit<
+  Project,
+  'createdAt' | 'updatedAt' | 'id' | 'createdBy' | 'status'
+>;
+
+export interface ProjectInputs extends ProjectFormInputs {
+  file?: FileList;
+  media?: string[];
+}

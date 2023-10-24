@@ -1,13 +1,13 @@
 import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 interface ShortDescriptionProps {
-  register: UseFormRegister<Inputs>;
+  register: UseFormRegister<ProjectInputs>;
   loading: boolean;
   success: boolean | null;
-  errors: FieldErrors<Inputs>;
-  defaultValues: Inputs;
+  errors: FieldErrors<ProjectInputs>;
+  defaultValues: ProjectInputs;
 }
 
 export function ShortDescription({
@@ -36,7 +36,7 @@ export function ShortDescription({
           disabled={loading || success ? true : false}
           placeholder="Describe your project in a few sentences"
           {...register('shortDescription', {
-            required: 'Short Description required',
+            required: '*Short Description required',
           })}
         />
       </div>

@@ -1,11 +1,11 @@
 import { UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 import { Tag } from '../Tag';
 
 interface TagProps {
-  register: UseFormRegister<Inputs>;
-  fetchedTags: Inputs['tags'];
+  register: UseFormRegister<ProjectInputs>;
+  fetchedTags: ProjectInputs['tags'];
 }
 
 export function TagsSection({ register, fetchedTags }: TagProps) {

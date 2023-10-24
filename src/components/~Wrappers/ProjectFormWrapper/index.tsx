@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 import { TagsSection } from '@/components/ProjectForm';
 import { FileUpload } from '@/components/ProjectForm/FileUpload';
@@ -10,12 +10,12 @@ import { ShortDescription } from '@/components/ProjectForm/ShortDescription';
 import { SkillsWanted } from '@/components/ProjectForm/SkillsWanted';
 
 interface ProjectFormWrapperProps {
-  defaultValues: Inputs;
-  onSubmit: (data: Inputs) => void;
+  defaultValues: ProjectInputs;
+  onSubmit: (data: ProjectInputs) => void;
   children: React.ReactNode;
   loading: boolean;
   success: boolean | null;
-  fetchedTags: Inputs['tags'];
+  fetchedTags: ProjectInputs['tags'];
 }
 
 export function ProjectFormWrapper({
@@ -30,7 +30,7 @@ export function ProjectFormWrapper({
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm<ProjectInputs>({
     defaultValues,
   });
 

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
@@ -12,7 +12,7 @@ import { SubmitModal } from '@/components/SubmitModal';
 import { createProject, uploadMedia } from '../../../utils/createHelpers';
 
 interface CreateProjectProps {
-  fetchedTags: Inputs['tags'];
+  fetchedTags: ProjectInputs['tags'];
 }
 
 export const CreateProject: React.FC<CreateProjectProps> = ({
@@ -33,7 +33,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     tags: [],
   };
 
-  const handleCreateProject: SubmitHandler<Inputs> = async (data) => {
+  const handleCreateProject: SubmitHandler<ProjectInputs> = async (data) => {
     setIsModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
@@ -60,9 +60,9 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
       }
       // Remove empty links
       const filteredLinks = data?.links?.filter(
-        (link) => link.link.trim() !== '',
+        (link) => link?.link?.trim() !== '',
       );
-      const projectData = { ...data } as Inputs & { media?: string[] };
+      const projectData = { ...data } as ProjectInputs;
 
       if (data.links && filteredLinks?.length) {
         projectData.links = filteredLinks;

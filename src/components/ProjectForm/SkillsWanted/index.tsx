@@ -1,11 +1,11 @@
 import { Checkbox, Label } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 interface SkillsWantedProps {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
-  defaultValues: Inputs;
+  register: UseFormRegister<ProjectInputs>;
+  errors: FieldErrors<ProjectInputs>;
+  defaultValues: ProjectInputs;
 }
 
 export function SkillsWanted({

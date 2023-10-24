@@ -1,13 +1,13 @@
 import { Textarea } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 interface FullDescriptionProps {
-  register: UseFormRegister<Inputs>;
+  register: UseFormRegister<ProjectInputs>;
   loading: boolean;
   success: boolean | null;
-  errors: FieldErrors<Inputs>;
-  defaultValues: Inputs;
+  errors: FieldErrors<ProjectInputs>;
+  defaultValues: ProjectInputs;
 }
 export function FullDescription({
   register,
@@ -32,7 +32,7 @@ export function FullDescription({
         disabled={loading || success ? true : false}
         placeholder="This is where you can fully describe all details of your project."
         {...register('fullDescription', {
-          required: 'Description is required',
+          required: '*Description is required',
         })}
       ></Textarea>
     </div>

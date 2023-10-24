@@ -1,6 +1,8 @@
 import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
 
+import { getTags } from '@/utils/apiUtils';
+
 import { EditProject } from './client_page';
 
 const CONNECTION_ERROR =
@@ -32,8 +34,9 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const fetchedTags = await getTags();
   const projectData = await getProject(params);
-  return <EditProject projectData={projectData} />;
+  return <EditProject projectData={projectData} fetchedTags={fetchedTags} />;
 }
 
 export const metadata: Metadata = {

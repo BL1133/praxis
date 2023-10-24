@@ -7,7 +7,7 @@ interface LoadingWrapperProps {
   children: React.ReactNode;
 }
 
-export function LoadingProtected({ children }: LoadingWrapperProps) {
+export function LoadingStandard({ children }: LoadingWrapperProps) {
   const { isLoading } = useUser();
 
   if (isLoading) {

@@ -1,13 +1,13 @@
 import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 interface LinksProps {
-  register: UseFormRegister<Inputs>;
-  errors: FieldErrors<Inputs>;
+  register: UseFormRegister<ProjectInputs>;
+  errors: FieldErrors<ProjectInputs>;
   loading: boolean;
   success: boolean | null;
-  defaultValues: Inputs;
+  defaultValues: ProjectInputs;
 }
 
 export function LinksSection({
@@ -42,7 +42,7 @@ export function LinksSection({
             id="link1"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[0].link' as keyof Inputs, {
+            {...register('links[0].link' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;
@@ -67,7 +67,7 @@ export function LinksSection({
             id="link2"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[1].link' as keyof Inputs, {
+            {...register('links[1].link' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;
@@ -92,7 +92,7 @@ export function LinksSection({
             id="link3"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[2].link' as keyof Inputs, {
+            {...register('links[2].link' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;

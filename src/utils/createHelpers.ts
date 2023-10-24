@@ -1,6 +1,6 @@
-import { Inputs, ProjectResponse } from 'types';
+import { ProjectInputs, ProjectResponse } from 'types';
 
-import { handleApiResponse } from '@/utils/apiUtils';
+import { handleApiResponse } from '@/utils/apiErrors';
 
 type FailedUploadType = { fileName: string; error: Error };
 type UploadResults = {
@@ -46,7 +46,7 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
 }
 
 export async function createProject(
-  projectData: Omit<Inputs, 'file'>,
+  projectData: ProjectInputs,
 ): Promise<ProjectResponse> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`, {
     method: 'POST',

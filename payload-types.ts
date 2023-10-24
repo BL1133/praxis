@@ -18,22 +18,36 @@ export interface Config {
 export interface Project {
   id: string;
   title: string;
-  description: string;
-  createdBy?: string | User;
+  shortDescription: string;
+  fullDescription: string;
+  createdBy: string | User;
   status: 'inProgress' | 'completed' | 'onHold';
   milestones?: {
     milestone?: string;
     id?: string;
   }[];
-  tags?: {
-    tag?: string;
-    id?: string;
-  }[];
+  media?: string[] | Media[];
   members?: {
     userId?: string | User;
     role?: 'Maintainer' | 'Mentor' | 'Contributor';
     id?: string;
   }[];
+  links?: {
+    link?: string;
+    id?: string;
+  }[];
+  skillsWanted: ('maintainer' | 'mentor' | 'developer' | 'designer')[];
+  tags: (
+    | 'react'
+    | 'python'
+    | 'intermediate'
+    | 'ai'
+    | 'beginner'
+    | 'expert'
+    | '3d'
+    | 'blockchain'
+    | 'short-term'
+  )[];
   access?: {
     userId?: string | User;
     permission?: string;
@@ -82,31 +96,6 @@ export interface User {
   lockUntil?: string;
   password?: string;
 }
-export interface UserProjectRelation {
-  id: string;
-  userId: string | User;
-  projectId: string | Project;
-  role: {
-    roleType?: 'maintainer' | 'mentor' | 'contributor' | 'creator';
-    id?: string;
-  }[];
-  firstContribution?: string;
-  contributions?: {
-    contribution?: string;
-    id?: string;
-  }[];
-  permissions?: {
-    permission?: string;
-    id?: string;
-  }[];
-  lastActivity?: string;
-  userFlags?: {
-    watching?: boolean;
-    id?: string;
-  }[];
-  updatedAt: string;
-  createdAt: string;
-}
 export interface Media {
   id: string;
   alt?: string;
@@ -144,4 +133,29 @@ export interface Media {
       filename?: string;
     };
   };
+}
+export interface UserProjectRelation {
+  id: string;
+  userId: string | User;
+  projectId: string | Project;
+  role: {
+    roleType?: 'maintainer' | 'mentor' | 'contributor' | 'creator';
+    id?: string;
+  }[];
+  firstContribution?: string;
+  contributions?: {
+    contribution?: string;
+    id?: string;
+  }[];
+  permissions?: {
+    permission?: string;
+    id?: string;
+  }[];
+  lastActivity?: string;
+  userFlags?: {
+    watching?: boolean;
+    id?: string;
+  }[];
+  updatedAt: string;
+  createdAt: string;
 }

@@ -2,25 +2,51 @@
 import { Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { ProjectInputs } from 'types';
 
+import { LoadingStandard } from '@/components/~Wrappers/LoadingStandard';
+import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
+import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
 
 interface ProjectProps {
   projectData: Project;
+  fetchedTags: ProjectInputs['tags'];
 }
 
 export const EditProject: React.FC<ProjectProps> = ({
-  projectData: initialData,
+  projectData,
+  fetchedTags,
 }) => {
-  const { data, mutate } = useProject(initialData);
-  const [title, setTitle] = useState(data.title);
-  const [description, setDescription] = useState(data.description);
-  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const { data, mutate } = useProject(projectData);
+  const [success, setSuccess] = useState<boolean | null>(null);
+  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const {
+    title,
+    shortDescription,
+    fullDescription,
+    skillsWanted,
+    links,
+    tags,
+    media,
+  } = projectData;
 
-  const handleEditProject = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const defaultValues = {
+    title,
+    fullDescription,
+    shortDescription,
+    skillsWanted,
+    links,
+    tags,
+  };
 
+  const handleEditProject = async () => {
+    setIsModalOpen(true);
+    setLoading(true);
+    setSubmitErrors([]);
     try {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${data.id}`,
@@ -31,14 +57,19 @@ export const EditProject: React.FC<ProjectProps> = ({
           },
           body: JSON.stringify({
             title,
-            description,
+            fullDescription,
+            shortDescription,
+            skillsWanted,
+            links,
+            tags,
           }),
           credentials: 'include',
         },
       );
 
       if (res.ok) {
-        setError(null);
+        setLoading(false);
+        setSuccess(true);
         await mutate();
         router.push(`/projects/${data.id}`);
       }
@@ -47,44 +78,34 @@ export const EditProject: React.FC<ProjectProps> = ({
         const resData = await res.json();
         throw new Error(resData.error || 'Failed to create project.');
       }
-    } catch (err) {
-      setError((err as Error).message);
+    } catch (error) {
+      setSubmitErrors((prev) => [...prev, (error as Error).message]);
     }
   };
 
-  const myStyle = {
-    color: 'black', // Note the camelCase
-  };
-
   return (
-    <div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleEditProject}>
-        <div>
-          <label htmlFor="title">Project Title:</label>
-          <input
-            style={myStyle}
-            id="title"
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
+    <LoadingStandard>
+      <section className="bg-white dark:bg-gray-900">
+        <ProjectFormWrapper
+          loading={loading}
+          success={success}
+          onSubmit={handleEditProject}
+          defaultValues={defaultValues}
+          fetchedTags={fetchedTags}
+        >
+          <SubmitModal
+            success={success}
+            loading={loading}
+            submitErrors={submitErrors}
+            isModalOpen={isModalOpen}
+            setIsModalOpen={setIsModalOpen}
+            message="You have successfully created a project."
           />
-        </div>
-        <div>
-          <label htmlFor="description">Description:</label>
-          <textarea
-            style={myStyle}
-            id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">Edit Project</button>
-        </div>
-      </form>
-    </div>
+          <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
+            Create a new Project
+          </h2>
+        </ProjectFormWrapper>
+      </section>
+    </LoadingStandard>
   );
 };

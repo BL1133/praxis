@@ -1,13 +1,13 @@
 import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { Inputs } from 'types';
+import { ProjectInputs } from 'types';
 
 interface ProjectTitleProps {
-  register: UseFormRegister<Inputs>;
+  register: UseFormRegister<ProjectInputs>;
   loading: boolean;
   success: boolean | null;
-  errors: FieldErrors<Inputs>;
-  defaultValues: Inputs;
+  errors: FieldErrors<ProjectInputs>;
+  defaultValues: ProjectInputs;
 }
 export function ProjectTitle({
   register,
@@ -35,7 +35,7 @@ export function ProjectTitle({
           disabled={loading || success ? true : false}
           placeholder="Type project title"
           {...register('title', {
-            required: 'Project title required',
+            required: '*Project title required',
           })}
         />
       </div>

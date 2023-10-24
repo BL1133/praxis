@@ -18,7 +18,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   return data.docs.map((project: Project) => (
     <div key={project.id}>
       <h1>{project.title}</h1>
-      <h1>{project.description}</h1>
+      <h1>{project.shortDescription}</h1>
       <Link href={`/projects/${project.id}`}>See Project</Link>
     </div>
   ));
