@@ -18,7 +18,7 @@ export function ShortDescription({
   return (
     <div className="sm:col-span-2">
       <label
-        htmlFor="title"
+        htmlFor="shortDescription"
         className="block mb-2 text-md font-medium text-gray-900 dark:text-white"
       >
         Short Description
@@ -30,7 +30,7 @@ export function ShortDescription({
           helperText={
             errors?.shortDescription && errors?.shortDescription?.message
           }
-          id="title"
+          id="shortDescription"
           disabled={loading || success ? true : false}
           placeholder="Describe your project in a few sentences"
           {...register('shortDescription', {

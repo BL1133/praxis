@@ -27,8 +27,8 @@ export function ProjectTitle({
       <div className="w-full">
         <TextInput
           type="text"
-          color={errors.title && 'failure'}
-          helperText={<>{errors.title && errors?.title?.message}</>}
+          color={errors?.title && 'failure'}
+          helperText={<>{errors?.title && errors?.title?.message}</>}
           id="title"
           disabled={loading || success ? true : false}
           placeholder="Type project title"
