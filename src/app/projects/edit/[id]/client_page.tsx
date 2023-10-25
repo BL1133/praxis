@@ -2,12 +2,14 @@
 import { Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
 import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
+import { editProject } from '@/utils/createHelpers';
 
 interface ProjectProps {
   projectData: Project;
@@ -31,8 +33,9 @@ export const EditProject: React.FC<ProjectProps> = ({
     skillsWanted,
     links,
     tags,
+    id,
     media,
-  } = projectData;
+  } = data;
 
   const defaultValues = {
     title,
@@ -43,43 +46,23 @@ export const EditProject: React.FC<ProjectProps> = ({
     tags,
   };
 
-  const handleEditProject = async () => {
+  const handleEditProject: SubmitHandler<ProjectInputs> = async (inputs) => {
     setIsModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${data.id}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            title,
-            fullDescription,
-            shortDescription,
-            skillsWanted,
-            links,
-            tags,
-          }),
-          credentials: 'include',
-        },
-      );
-
-      if (res.ok) {
-        setLoading(false);
-        setSuccess(true);
-        await mutate();
-        router.push(`/projects/${data.id}`);
-      }
-
-      if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.error || 'Failed to create project.');
-      }
+      await editProject(inputs, id);
+      setLoading(false);
+      setSuccess(true);
+      setTimeout(() => {
+        router.push(`/projects/${id}`);
+      }, 3000);
+      await mutate();
     } catch (error) {
+      console.error('Operation failed', (error as Error).message);
       setSubmitErrors((prev) => [...prev, (error as Error).message]);
+      setLoading(false);
+      setSuccess(false);
     }
   };
 
@@ -100,7 +83,7 @@ export const EditProject: React.FC<ProjectProps> = ({
             submitErrors={submitErrors}
             isModalOpen={isModalOpen}
             setIsModalOpen={setIsModalOpen}
-            message="You have successfully created a project."
+            message="You have successfully edited your project."
           />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Edit Your Project

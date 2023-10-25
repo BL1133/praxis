@@ -63,3 +63,27 @@ export async function createProject(
   }
   return resData;
 }
+
+export async function editProject(
+  inputs: ProjectInputs,
+  id: string,
+): Promise<ProjectResponse> {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
+    {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(inputs),
+      credentials: 'include',
+    },
+  );
+
+  const resData = await res.json();
+
+  if (!res.ok) {
+    handleApiResponse(res);
+  }
+  return resData;
+}

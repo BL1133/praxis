@@ -17,6 +17,7 @@ export type ProjectResponse = {
   message: string;
   doc: Project;
 };
+
 // This is omitting the fields that are not needed for the client
 type ProjectOmit = Omit<
   Project,
