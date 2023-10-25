@@ -5,9 +5,16 @@ import { ProjectInputs } from 'types';
 interface SkillsWantedProps {
   register: UseFormRegister<ProjectInputs>;
   errors: FieldErrors<ProjectInputs>;
+  loading: boolean;
+  success: boolean | null;
 }
 
-export function SkillsWanted({ register, errors }: SkillsWantedProps) {
+export function SkillsWanted({
+  register,
+  errors,
+  loading,
+  success,
+}: SkillsWantedProps) {
   // Register the skillsWanted group with validation
   // This is so that validate isn't run on every checkbox
   // Because checboxes all have same name, they are grouped
@@ -30,8 +37,12 @@ export function SkillsWanted({ register, errors }: SkillsWantedProps) {
       <div className="flex items-center gap-2">
         <Checkbox
           id="developer"
-          className="hover:cursor-pointer"
+          className={`hover:cursor-pointer ${
+            (loading || success) &&
+            'disabled:cursor-not-allowed disabled:opacity-50'
+          }`}
           value="developer"
+          disabled={loading || success ? true : false}
           {...skillsWantedRef}
         />
         <Label className="flex" htmlFor="developer">
@@ -41,8 +52,12 @@ export function SkillsWanted({ register, errors }: SkillsWantedProps) {
       <div className="flex items-center gap-2">
         <Checkbox
           id="designer"
-          className="hover:cursor-pointer"
+          className={`hover:cursor-pointer ${
+            (loading || success) &&
+            'disabled:cursor-not-allowed disabled:opacity-50'
+          }`}
           value="designer"
+          disabled={loading || success ? true : false}
           {...skillsWantedRef}
         />
         <Label htmlFor="designer">Designer</Label>
@@ -51,8 +66,12 @@ export function SkillsWanted({ register, errors }: SkillsWantedProps) {
         <div className="flex h-5 items-center">
           <Checkbox
             id="mentor"
-            className="hover:cursor-pointer"
+            className={`hover:cursor-pointer ${
+              (loading || success) &&
+              'disabled:cursor-not-allowed disabled:opacity-50'
+            }`}
             value="mentor"
+            disabled={loading || success ? true : false}
             {...skillsWantedRef}
           />
         </div>
@@ -69,8 +88,12 @@ export function SkillsWanted({ register, errors }: SkillsWantedProps) {
         <div className="flex h-5 items-center">
           <Checkbox
             id="maintainer"
-            className="hover:cursor-pointer"
+            className={`hover:cursor-pointer ${
+              (loading || success) &&
+              'disabled:cursor-not-allowed disabled:opacity-50'
+            }`}
             value="maintainer"
+            disabled={loading || success ? true : false}
             {...skillsWantedRef}
           />
         </div>

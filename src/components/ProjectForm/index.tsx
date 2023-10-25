@@ -6,9 +6,16 @@ import { Tag } from '../Tag';
 interface TagProps {
   register: UseFormRegister<ProjectInputs>;
   fetchedTags: ProjectInputs['tags'];
+  loading: boolean;
+  success: boolean | null;
 }
 
-export function TagsSection({ register, fetchedTags }: TagProps) {
+export function TagsSection({
+  register,
+  fetchedTags,
+  success,
+  loading,
+}: TagProps) {
   const tagsRef = register('tags', {
     validate: (value) =>
       value.length >= 3 || 'At least three tags are required',
@@ -27,7 +34,13 @@ export function TagsSection({ register, fetchedTags }: TagProps) {
       </div>
       <div className="flex flex-wrap gap-1">
         {fetchedTags.map((tag) => (
-          <Tag key={tag} tag={tag} tagsRef={tagsRef} />
+          <Tag
+            key={tag}
+            tag={tag}
+            tagsRef={tagsRef}
+            success={success}
+            loading={loading}
+          />
         ))}
       </div>
     </div>

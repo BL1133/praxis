@@ -62,9 +62,23 @@ export function ProjectFormWrapper({
             success={success}
             loading={loading}
           />
-          <SkillsWanted register={register} errors={errors} />
-          <TagsSection fetchedTags={fetchedTags} register={register} />
-          <FileUpload fileRef={register('file')} />
+          <SkillsWanted
+            register={register}
+            errors={errors}
+            success={success}
+            loading={loading}
+          />
+          <TagsSection
+            fetchedTags={fetchedTags}
+            register={register}
+            success={success}
+            loading={loading}
+          />
+          <FileUpload
+            fileRef={register('file')}
+            success={success}
+            loading={loading}
+          />
           <LinksSection
             register={register}
             errors={errors}
@@ -74,7 +88,11 @@ export function ProjectFormWrapper({
         </div>
         <button
           type="submit"
-          className="inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+          disabled={loading || success ? true : false}
+          className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 ${
+            (loading || success) &&
+            'disabled:cursor-not-allowed disabled:opacity-50'
+          }`}
         >
           {editing ? 'Edit Project' : 'Create Project'}
         </button>

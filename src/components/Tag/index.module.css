@@ -2,3 +2,8 @@
   background-color: rgb(8, 145, 178);
   color: rgb(243, 244, 246);
 }
+
+.disabledCheckbox + span {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
