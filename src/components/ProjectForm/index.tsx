@@ -1,4 +1,4 @@
-import { UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
 import { Tag } from '../Tag';
@@ -8,11 +8,13 @@ interface TagProps {
   fetchedTags: ProjectInputs['tags'];
   loading: boolean;
   success: boolean | null;
+  errors: FieldErrors<ProjectInputs>;
 }
 
 export function TagsSection({
   register,
   fetchedTags,
+  errors,
   success,
   loading,
 }: TagProps) {
@@ -40,8 +42,14 @@ export function TagsSection({
             tagsRef={tagsRef}
             success={success}
             loading={loading}
+            errors={errors}
           />
         ))}
+        {errors?.tags && (
+          <span className="text-orange-600 mt-1 text-sm">
+            *You must choose at least 3 tags.
+          </span>
+        )}
       </div>
     </div>
   );

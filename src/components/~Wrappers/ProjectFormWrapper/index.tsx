@@ -70,6 +70,7 @@ export function ProjectFormWrapper({
           />
           <TagsSection
             fetchedTags={fetchedTags}
+            errors={errors}
             register={register}
             success={success}
             loading={loading}

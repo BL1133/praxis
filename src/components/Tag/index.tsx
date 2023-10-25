@@ -1,5 +1,6 @@
 import { Badge } from 'flowbite-react';
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
+import { ProjectInputs } from 'types';
 
 import styles from './index.module.css';
 
@@ -8,11 +9,13 @@ export function Tag({
   tagsRef,
   success,
   loading,
+  errors,
 }: {
   tag: string;
   tagsRef: UseFormRegisterReturn<'tags'>;
   success: boolean | null;
   loading: boolean;
+  errors: FieldErrors<ProjectInputs>;
 }) {
   return (
     <label key={tag} className="badge-checkbox">
