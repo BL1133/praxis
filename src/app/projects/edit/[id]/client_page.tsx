@@ -7,9 +7,10 @@ import { ProjectInputs } from 'types';
 
 import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
+import { ConfirmDelete } from '@/components/ConfirmDelete';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
-import { editProject } from '@/utils/createHelpers';
+import { deleteProject, editProject } from '@/utils/projectHelpers';
 
 interface ProjectProps {
   projectData: Project;
@@ -25,7 +26,9 @@ export const EditProject: React.FC<ProjectProps> = ({
   const { data, mutate } = useProject(projectData);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false); // for submiModal message
   const {
     title,
     shortDescription,
@@ -35,7 +38,7 @@ export const EditProject: React.FC<ProjectProps> = ({
     tags,
     id,
     media,
-  } = data;
+  } = data || {}; // prevents runtime error if project is undefined
 
   const defaultValues = {
     title,
@@ -47,7 +50,7 @@ export const EditProject: React.FC<ProjectProps> = ({
   };
 
   const handleEditProject: SubmitHandler<ProjectInputs> = async (inputs) => {
-    setIsModalOpen(true);
+    setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
     try {
@@ -66,6 +69,31 @@ export const EditProject: React.FC<ProjectProps> = ({
     }
   };
 
+  const promptDeleteConfirm = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleDeleteProject = async () => {
+    setIsConfirmModalOpen(false);
+    setIsSubmitModalOpen(true);
+    setLoading(true);
+    setSubmitErrors([]);
+    try {
+      await deleteProject(id);
+      setLoading(false);
+      setIsDeleted(true); // for submit modal message
+      setSuccess(true);
+      setTimeout(() => {
+        router.push(`/projects/`);
+      }, 3000);
+    } catch (error) {
+      console.error('Operation failed', (error as Error).message);
+      setSubmitErrors((prev) => [...prev, (error as Error).message]);
+      setLoading(false);
+      setSuccess(false);
+    }
+  };
+
   return (
     <LoadingProtected>
       <section className="bg-white dark:bg-gray-900">
@@ -75,15 +103,21 @@ export const EditProject: React.FC<ProjectProps> = ({
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
           fetchedTags={fetchedTags}
+          promptDeleteConfirm={promptDeleteConfirm}
           editing
         >
           <SubmitModal
             success={success}
             loading={loading}
             submitErrors={submitErrors}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            message="You have successfully edited your project."
+            isSubmitModalOpen={isSubmitModalOpen}
+            setIsSubmitModalOpen={setIsSubmitModalOpen}
+            message={isDeleted ? 'Project deleted.' : 'Project updated!'}
+          />
+          <ConfirmDelete
+            isConfirmModalOpen={isConfirmModalOpen}
+            setIsConfirmModalOpen={setIsConfirmModalOpen}
+            handleDelete={handleDeleteProject}
           />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Edit Your Project

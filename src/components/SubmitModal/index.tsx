@@ -8,8 +8,8 @@ interface SubmitModalProps {
   loading: boolean;
   submitErrors: string[];
   message: string;
-  isModalOpen: boolean;
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSubmitModalOpen: boolean;
+  setIsSubmitModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function SubmitModal({
@@ -17,8 +17,8 @@ export function SubmitModal({
   loading,
   submitErrors,
   message,
-  isModalOpen: isOpen,
-  setIsModalOpen: setIsOpen,
+  isSubmitModalOpen: isOpen,
+  setIsSubmitModalOpen: setIsOpen,
 }: SubmitModalProps) {
   return (
     <div

@@ -87,3 +87,22 @@ export async function editProject(
   }
   return resData;
 }
+
+export async function deleteProject(id: string) {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
+    {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+    },
+  );
+  const resData = await res.json();
+
+  if (!res.ok) {
+    handleApiResponse(res);
+  }
+  return resData;
+}

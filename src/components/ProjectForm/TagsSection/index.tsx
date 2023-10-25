@@ -1,7 +1,7 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
-import { Tag } from '../Tag';
+import { Tag } from '../../Tag';
 
 interface TagProps {
   register: UseFormRegister<ProjectInputs>;

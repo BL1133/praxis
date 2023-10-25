@@ -1,13 +1,13 @@
 import { useForm } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
-import { TagsSection } from '@/components/ProjectForm';
 import { FileUpload } from '@/components/ProjectForm/FileUpload';
 import { FullDescription } from '@/components/ProjectForm/FullDescription';
 import { LinksSection } from '@/components/ProjectForm/LinksSection';
 import { ProjectTitle } from '@/components/ProjectForm/ProjectTitle';
 import { ShortDescription } from '@/components/ProjectForm/ShortDescription';
 import { SkillsWanted } from '@/components/ProjectForm/SkillsWanted';
+import { TagsSection } from '@/components/ProjectForm/TagsSection';
 
 interface ProjectFormWrapperProps {
   defaultValues: ProjectInputs;
@@ -17,6 +17,7 @@ interface ProjectFormWrapperProps {
   success: boolean | null;
   fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
+  promptDeleteConfirm?: () => void;
 }
 
 export function ProjectFormWrapper({
@@ -26,7 +27,8 @@ export function ProjectFormWrapper({
   loading,
   success,
   fetchedTags,
-  editing = false,
+  editing = false, // default to false unless passed in as true
+  promptDeleteConfirm,
 }: ProjectFormWrapperProps) {
   const {
     register,
@@ -95,8 +97,20 @@ export function ProjectFormWrapper({
             'disabled:cursor-not-allowed disabled:opacity-50'
           }`}
         >
-          {editing ? 'Edit Project' : 'Create Project'}
+          {editing ? 'Save' : 'Create Project'}
         </button>
+        {editing && (
+          <button
+            type="button"
+            onClick={promptDeleteConfirm}
+            className={`inline-flex items-center ml-2 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800 hover:bg-red-800 ${
+              (loading || success) &&
+              'disabled:cursor-not-allowed disabled:opacity-50'
+            }`}
+          >
+            Delete Project
+          </button>
+        )}
       </form>
     </div>
   );

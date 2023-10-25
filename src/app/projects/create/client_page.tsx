@@ -9,7 +9,7 @@ import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { SubmitModal } from '@/components/SubmitModal';
 
-import { createProject, uploadMedia } from '../../../utils/createHelpers';
+import { createProject, uploadMedia } from '../../../utils/projectHelpers';
 
 interface CreateProjectProps {
   fetchedTags: ProjectInputs['tags'];
@@ -22,7 +22,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
 
   const defaultValues = {
     title: '',
@@ -34,7 +34,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
   };
 
   const handleCreateProject: SubmitHandler<ProjectInputs> = async (data) => {
-    setIsModalOpen(true);
+    setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
     try {
@@ -100,8 +100,8 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
             success={success}
             loading={loading}
             submitErrors={submitErrors}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
+            isSubmitModalOpen={isSubmitModalOpen}
+            setIsSubmitModalOpen={setIsSubmitModalOpen}
             message="You have successfully created a project."
           />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
