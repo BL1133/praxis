@@ -27,10 +27,10 @@ export function SubmitModal({
       aria-hidden="true"
       className={`
       ${isOpen ? '' : 'hidden'}
-       overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center`}
+       overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center shadow-elevation-medium rounded-lg`}
     >
       <div className="relative w-full max-w-md h-full md:h-auto">
-        <div className="relative p-4 text-center bg-white rounded-lg shadow dark:bg-gray-800 sm:p-6">
+        <div className="relative p-4 text-center bg-white dark:bg-gray-800 sm:p-6">
           {loading && (
             <div>
               <div className="mb-3">

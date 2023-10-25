@@ -15,10 +15,10 @@ export function ConfirmDelete({
       tabIndex={-1}
       className={`
       ${isOpen ? '' : 'hidden'}
-       overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center`}
+       overflow-y-auto overflow-x-hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 justify-center items-center shadow-elevation-medium rounded-lg`}
     >
-      <div className="relative w-full max-w-md max-h-full">
-        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+      <div className="relative w-full max-w-md max-h-full ">
+        <div className="relative bg-white  dark:bg-gray-700">
           <div className="p-6 text-center">
             <svg
               className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
