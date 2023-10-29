@@ -2,17 +2,22 @@ import { ProjectInputs, ProjectResponse } from 'types';
 
 import { handleApiResponse } from '@/utils/apiErrors';
 
-type FailedUploadType = { fileName: string; error: Error };
-type UploadResults = {
+interface UploadError {
+  fileName: string;
+  error: Error;
+}
+
+interface UploadResults {
   success: string[];
-  failures: FailedUploadType[];
-};
+  failures: UploadError[];
+}
 
 export async function uploadMedia(files: File[]): Promise<UploadResults> {
   const results: UploadResults = {
     success: [],
     failures: [],
   };
+
   const uploadPromises = files.map(async (file) => {
     try {
       const formData = new FormData();
@@ -36,7 +41,18 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
       results.failures.push({ fileName: file.name, error: error as Error });
     }
   });
+
   await Promise.all(uploadPromises);
+
+  if (results.failures.length) {
+    results.failures.forEach((failure) => {
+      console.error(
+        `Failed to upload ${failure.fileName}: ${failure.error.message}`,
+      );
+    });
+    throw new Error('Media upload failed.');
+  }
+
   return results;
 }
 

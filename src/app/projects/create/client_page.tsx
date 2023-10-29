@@ -1,3 +1,4 @@
+'use client';
 /**
  * This file contains the CreateProject component, which is used to render the page where users can create a new project.
  * It uses the ProjectFormWrapper component to render the form and the SubmitModal component to display the result of the submission.
@@ -65,26 +66,11 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     setLoading(true);
     setSubmitErrors([]);
     try {
-      const MAX_FILES = 3;
       const mediaIds: string[] = [];
-      if (data?.file?.length && data?.file?.length > MAX_FILES) {
-        throw new Error(`You can only upload ${MAX_FILES} files.`);
-      }
-      // get response from uploadMedia is file is present
-      if (data?.file?.length && data?.file?.length !== 0) {
-        const { success, failures } = await uploadMedia(Array.from(data?.file));
 
-        if (failures.length > 0) {
-          failures.forEach((failure) => {
-            setSubmitErrors((prev) => [...prev, failure.error.message]);
-            console.error(
-              `Failed to upload ${failure.fileName}: ${failure.error.message}`,
-            );
-          });
-          throw new Error('Media upload failed.');
-        } else {
-          mediaIds.push(...success);
-        }
+      if (data?.file?.length && data?.file?.length !== 0) {
+        const { success } = await uploadMedia(Array.from(data?.file));
+        mediaIds.push(...success);
       }
       // Remove empty links
       const filteredLinks = data?.links?.filter(
