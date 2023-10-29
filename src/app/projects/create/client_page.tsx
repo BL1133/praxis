@@ -1,4 +1,14 @@
-'use client';
+/**
+ * This file contains the CreateProject component, which is used to render the page where users can create a new project.
+ * It uses the ProjectFormWrapper component to render the form and the SubmitModal component to display the result of the submission.
+ * Handling media upload is done with file from data inputs.
+ * The file is then passed to uploadMedia, which returns a response
+ * This response adds to mediaIds, an array of media ids as strings.
+ * Which is then passed with the rest of the data to createProject.
+ *
+ * @file defines the CreateProject component
+ * @since 1.0.0
+ */
 
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
@@ -15,6 +25,15 @@ interface CreateProjectProps {
   fetchedTags: ProjectInputs['tags'];
 }
 
+/**
+ * CreateProject is the page where users can create a new project.
+ * It uses the ProjectFormWrapper component to render the form.
+ * It also uses the SubmitModal component to render a modal that
+ * displays the result of the submission.
+ *
+ * @param {CreateProjectProps} props - The props that are passed to the component
+ * @returns {JSX.Element} - The CreateProject component
+ */
 export const CreateProject: React.FC<CreateProjectProps> = ({
   fetchedTags,
 }) => {
@@ -33,6 +52,14 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     tags: [],
   };
 
+  /**
+   * Handles the submission of the project form.
+   * If there are any errors, it sets the submitErrors state.
+   * If the submission is successful, it sets the success state to true and redirects to the project page.
+   *
+   * @param {ProjectInputs} data - The data from the project form
+   * @returns {Promise<void>} - A promise that resolves when the submission is complete
+   */
   const handleCreateProject: SubmitHandler<ProjectInputs> = async (data) => {
     setIsSubmitModalOpen(true);
     setLoading(true);
@@ -43,7 +70,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
       if (data?.file?.length && data?.file?.length > MAX_FILES) {
         throw new Error(`You can only upload ${MAX_FILES} files.`);
       }
-      // get response from uploadMedia
+      // get response from uploadMedia is file is present
       if (data?.file?.length && data?.file?.length !== 0) {
         const { success, failures } = await uploadMedia(Array.from(data?.file));
 
@@ -54,6 +81,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
               `Failed to upload ${failure.fileName}: ${failure.error.message}`,
             );
           });
+          throw new Error('Media upload failed.');
         } else {
           mediaIds.push(...success);
         }

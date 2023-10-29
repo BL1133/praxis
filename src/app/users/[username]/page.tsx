@@ -56,7 +56,7 @@ const getUser = async (userId: string): Promise<User> => {
       throw new Error(`Failed to fetch user: ${res.statusText}`);
     }
     const userData = await res.json();
-    // console.log(`Fetched user data: ${JSON.stringify(userData)}`);
+
     return userData;
   } catch (e) {
     throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);

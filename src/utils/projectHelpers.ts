@@ -17,7 +17,6 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
     try {
       const formData = new FormData();
       formData.append('file', file);
-
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
         {
@@ -34,10 +33,6 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
       const uploadResult = await response.json();
       results.success.push(uploadResult.doc.id);
     } catch (error) {
-      console.error(
-        `Error uploading file: ${file.name}. Please try again`,
-        error,
-      );
       results.failures.push({ fileName: file.name, error: error as Error });
     }
   });

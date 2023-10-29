@@ -1,3 +1,4 @@
+import { Project } from '@payloadTypes';
 import { useForm } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
@@ -17,6 +18,7 @@ interface ProjectFormWrapperProps {
   success: boolean | null;
   fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
+  media?: Project['media'];
   promptDeleteConfirm?: () => void;
 }
 
@@ -28,6 +30,7 @@ export function ProjectFormWrapper({
   success,
   fetchedTags,
   editing = false, // default to false unless passed in as true
+  media,
   promptDeleteConfirm,
 }: ProjectFormWrapperProps) {
   const {
@@ -37,8 +40,6 @@ export function ProjectFormWrapper({
   } = useForm<ProjectInputs>({
     defaultValues,
   });
-
-  console.log(defaultValues);
 
   return (
     <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
@@ -77,6 +78,7 @@ export function ProjectFormWrapper({
             success={success}
             loading={loading}
           />
+          {/* <p>{media?[0].url}</p> */}
           <FileUpload
             fileRef={register('file')}
             success={success}

@@ -53,6 +53,7 @@ export const EditProject: React.FC<ProjectProps> = ({
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
+    console.log(inputs);
     try {
       await editProject(inputs, id);
       setLoading(false);
@@ -102,6 +103,7 @@ export const EditProject: React.FC<ProjectProps> = ({
           success={success}
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
+          media={media}
           fetchedTags={fetchedTags}
           promptDeleteConfirm={promptDeleteConfirm}
           editing

@@ -62,7 +62,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
     (typeof projectData?.createdBy === 'object'
       ? projectData?.createdBy?.id === userData?.user?.id
       : projectData?.createdBy === userData?.user?.id);
-  // console.log(isOwnProject, projectData, userData);
+
   return (
     <div
       className={classNames(

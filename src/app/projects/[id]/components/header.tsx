@@ -8,7 +8,6 @@ interface HeaderProps {
   userData: User;
 }
 export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
-  // console.log(userData);
   return (
     <section className="bg-white dark:bg-gray-900">
       <div className="py-8 mx-auto max-w-6xl lg:py-16">
