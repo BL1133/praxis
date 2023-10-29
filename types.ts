@@ -19,6 +19,7 @@ export type ProjectResponse = {
 };
 
 // This is omitting the fields that are not needed for the client
+// ProjectInputs is an extension of the Project type from Payload
 type ProjectOmit = Omit<
   Project,
   'createdAt' | 'updatedAt' | 'id' | 'createdBy' | 'status'
@@ -26,5 +27,4 @@ type ProjectOmit = Omit<
 
 export interface ProjectInputs extends ProjectOmit {
   file?: FileList;
-  media?: string[];
 }

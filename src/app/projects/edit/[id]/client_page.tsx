@@ -10,7 +10,11 @@ import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { ConfirmDelete } from '@/components/ConfirmDelete';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
-import { deleteProject, editProject } from '@/utils/projectHelpers';
+import {
+  deleteProject,
+  editProject,
+  uploadMedia,
+} from '@/utils/projectHelpers';
 
 interface ProjectProps {
   projectData: Project;
@@ -55,6 +59,18 @@ export const EditProject: React.FC<ProjectProps> = ({
     setSubmitErrors([]);
     console.log(inputs);
     try {
+      // Handle media upload
+      const mediaIds: string[] = [];
+
+      if (data?.file?.length && data?.file?.length !== 0) {
+        const { success } = await uploadMedia(Array.from(data?.file));
+        mediaIds.push(...success);
+      }
+
+      if (mediaIds && mediaIds.length) {
+        projectData.media = mediaIds;
+      }
+
       await editProject(inputs, id);
       setLoading(false);
       setSuccess(true);

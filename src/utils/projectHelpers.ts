@@ -1,3 +1,4 @@
+import { Project } from '@payloadTypes';
 import { ProjectInputs, ProjectResponse } from 'types';
 
 import { handleApiResponse } from '@/utils/apiErrors';
@@ -10,6 +11,20 @@ interface UploadError {
 interface UploadResults {
   success: string[];
   failures: UploadError[];
+}
+
+export async function getUploadedMediaIds(
+  files: ProjectInputs['file'],
+): Promise<UploadResults> {
+  const filesArr = Array.from(files || []);
+  if (filesArr?.length) {
+    return await uploadMedia(filesArr);
+  }
+  return { success: [], failures: [] };
+}
+
+export function filterValidLinks(links: Project['links']) {
+  return links?.filter((link) => link?.link?.trim() !== '') || [];
 }
 
 export async function uploadMedia(files: File[]): Promise<UploadResults> {
@@ -43,15 +58,6 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
   });
 
   await Promise.all(uploadPromises);
-
-  if (results.failures.length) {
-    results.failures.forEach((failure) => {
-      console.error(
-        `Failed to upload ${failure.fileName}: ${failure.error.message}`,
-      );
-    });
-    throw new Error('Media upload failed.');
-  }
 
   return results;
 }
