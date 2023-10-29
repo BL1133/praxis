@@ -13,7 +13,7 @@ interface UploadResults {
   failures: UploadError[];
 }
 
-export async function getUploadedMediaIds(
+async function getUploadedMediaIds(
   files: ProjectInputs['file'],
 ): Promise<UploadResults> {
   const filesArr = Array.from(files || []);
@@ -23,11 +23,11 @@ export async function getUploadedMediaIds(
   return { success: [], failures: [] };
 }
 
-export function filterValidLinks(links: Project['links']) {
+function filterValidLinks(links: Project['links']) {
   return links?.filter((link) => link?.link?.trim() !== '') || [];
 }
 
-export async function uploadMedia(files: File[]): Promise<UploadResults> {
+async function uploadMedia(files: File[]): Promise<UploadResults> {
   const results: UploadResults = {
     success: [],
     failures: [],
@@ -60,6 +60,33 @@ export async function uploadMedia(files: File[]): Promise<UploadResults> {
   await Promise.all(uploadPromises);
 
   return results;
+}
+
+// Exported functions for use in pages ==============================================================
+
+export async function uploadMediaAndGetProjectData(
+  data: ProjectInputs,
+  setSubmitErrors: React.Dispatch<React.SetStateAction<string[]>>,
+) {
+  // Handle media upload
+  const { success, failures } = await getUploadedMediaIds(data.file);
+  // If there are any failures, set the submitErrors state and log the error to the console
+  if (failures.length > 0) {
+    failures.forEach((failure) => {
+      setSubmitErrors((prev) => [...prev, failure.error.message]);
+      console.error(
+        `Failed to upload ${failure.fileName}: ${failure.error.message}`,
+      );
+    });
+  }
+  const mediaIds: string[] = success;
+  const filteredLinks = filterValidLinks(data.links);
+  const projectData: ProjectInputs = {
+    ...data,
+    ...(filteredLinks.length && { links: filteredLinks }),
+    ...(mediaIds.length && { media: mediaIds }),
+  };
+  return projectData;
 }
 
 export async function createProject(

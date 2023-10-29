@@ -22,8 +22,7 @@ import { SubmitModal } from '@/components/SubmitModal';
 
 import {
   createProject,
-  filterValidLinks,
-  getUploadedMediaIds,
+  uploadMediaAndGetProjectData,
 } from '../../../utils/projectHelpers';
 
 interface CreateProjectProps {
@@ -69,24 +68,10 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     setLoading(true);
     setSubmitErrors([]);
     try {
-      const { success, failures } = await getUploadedMediaIds(data.file);
-      // If there are any failures, set the submitErrors state and log the error to the console
-      if (failures.length > 0) {
-        failures.forEach((failure) => {
-          setSubmitErrors((prev) => [...prev, failure.error.message]);
-          console.error(
-            `Failed to upload ${failure.fileName}: ${failure.error.message}`,
-          );
-        });
-      }
-      const mediaIds: string[] = success;
-      const filteredLinks = filterValidLinks(data.links);
-      const projectData: ProjectInputs = {
-        ...data,
-        ...(filteredLinks.length && { links: filteredLinks }),
-        ...(mediaIds.length && { media: mediaIds }),
-      };
-
+      const projectData = await uploadMediaAndGetProjectData(
+        data,
+        setSubmitErrors,
+      );
       // Get response from createProject
       const projectResponse = await createProject(projectData);
       const projectId = projectResponse?.doc?.id;

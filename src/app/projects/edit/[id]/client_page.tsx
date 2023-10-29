@@ -13,7 +13,7 @@ import { useProject } from '@/lib/hooks/useProject';
 import {
   deleteProject,
   editProject,
-  uploadMedia,
+  uploadMediaAndGetProjectData,
 } from '@/utils/projectHelpers';
 
 interface ProjectProps {
@@ -57,21 +57,12 @@ export const EditProject: React.FC<ProjectProps> = ({
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
-    console.log(inputs);
     try {
-      // Handle media upload
-      const mediaIds: string[] = [];
-
-      if (data?.file?.length && data?.file?.length !== 0) {
-        const { success } = await uploadMedia(Array.from(data?.file));
-        mediaIds.push(...success);
-      }
-
-      if (mediaIds && mediaIds.length) {
-        projectData.media = mediaIds;
-      }
-
-      await editProject(inputs, id);
+      const projectData = await uploadMediaAndGetProjectData(
+        inputs,
+        setSubmitErrors,
+      );
+      await editProject(projectData, id);
       setLoading(false);
       setSuccess(true);
       setTimeout(() => {
