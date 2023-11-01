@@ -53,6 +53,7 @@ export interface Project {
     permission?: string;
     id?: string;
   }[];
+  usedSpace?: number;
   updatedAt: string;
   createdAt: string;
 }

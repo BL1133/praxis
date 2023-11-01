@@ -1,4 +1,4 @@
-import { Project } from '@payloadTypes';
+import { Media } from '@payloadTypes';
 import { useForm } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
@@ -19,7 +19,7 @@ interface ProjectFormWrapperProps {
   success: boolean | null;
   fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
-  media?: Project['media'];
+  media?: Media[];
   promptDeleteConfirm?: () => void;
 }
 
@@ -87,7 +87,7 @@ export function ProjectFormWrapper({
             />
             {editing && media && (
               <div className="mt-5">
-                <FilesAccordion />
+                <FilesAccordion media={media} editing />
               </div>
             )}
           </div>

@@ -250,8 +250,13 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
             </dd>
           </dl>
         </div>
-        <div className="ml-4 mb-8 w-1/2 -mt-6">
-          <FilesAccordion />
+        <div
+          className={`ml-4 mb-8 w-1/2 -mt-6 ${
+            (!projectData?.media || projectData?.media?.length === 0) &&
+            'hidden'
+          }`}
+        >
+          <FilesAccordion media={projectData?.media} />
         </div>
         {isOwnProject && (
           <div className="flex items-center px-4 space-x-4">
