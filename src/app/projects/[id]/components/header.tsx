@@ -2,6 +2,8 @@ import { Project, User } from '@payloadTypes';
 import { Avatar, Badge } from 'flowbite-react';
 import Link from 'next/link';
 
+import { FilesAccordion } from '@/components/FilesAccordion';
+
 interface HeaderProps {
   isOwnProject: boolean;
   projectData: Project;
@@ -247,6 +249,9 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
               </Badge>
             </dd>
           </dl>
+        </div>
+        <div className="ml-4 mb-8 w-1/2 -mt-6">
+          <FilesAccordion />
         </div>
         {isOwnProject && (
           <div className="flex items-center px-4 space-x-4">

@@ -17,18 +17,6 @@ function filterValidLinks(links: Project['links']) {
   return links?.filter((link) => link?.link?.trim() !== '') || [];
 }
 
-async function getUploadedMediaIds(
-  files: ProjectInputs['file'],
-  id: string = '',
-): Promise<UploadResults> {
-  const filesArr = Array.from(files || []);
-
-  if (filesArr?.length) {
-    return await uploadMedia(filesArr, id);
-  }
-  return { success: [], failures: [] };
-}
-
 async function uploadMedia(
   files: File[],
   id: string = '',
@@ -70,6 +58,18 @@ async function uploadMedia(
   await Promise.all(uploadPromises);
 
   return results;
+}
+
+async function getUploadedMediaIds(
+  files: ProjectInputs['file'],
+  id: string = '',
+): Promise<UploadResults> {
+  const filesArr = Array.from(files || []);
+
+  if (filesArr?.length) {
+    return await uploadMedia(filesArr, id);
+  }
+  return { success: [], failures: [] };
 }
 
 // Exported functions for use in pages ==============================================================
