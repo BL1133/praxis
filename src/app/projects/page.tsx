@@ -23,7 +23,7 @@ const getProjects = async (): Promise<GetProjectsResponse> => {
     const projectsData = await res.json();
     return projectsData;
   } catch (e) {
-    console.log(e as Error);
+    console.error(e as Error);
     throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
   }
 };

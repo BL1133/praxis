@@ -19,26 +19,30 @@ function filterValidLinks(links: Project['links']) {
 
 async function getUploadedMediaIds(
   files: ProjectInputs['file'],
+  id: string = '',
 ): Promise<UploadResults> {
   const filesArr = Array.from(files || []);
 
   if (filesArr?.length) {
-    return await uploadMedia(filesArr);
+    return await uploadMedia(filesArr, id);
   }
   return { success: [], failures: [] };
 }
 
-async function uploadMedia(files: File[]): Promise<UploadResults> {
+async function uploadMedia(
+  files: File[],
+  id: string = '',
+): Promise<UploadResults> {
   const results: UploadResults = {
     success: [],
     failures: [],
   };
 
   const uploadPromises = files.map(async (file) => {
-    console.log(file);
     try {
       const formData = new FormData();
       formData.append('file', file);
+      formData.append('id', id);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
         {
@@ -49,7 +53,11 @@ async function uploadMedia(files: File[]): Promise<UploadResults> {
       );
 
       if (!response.ok) {
-        throw new Error(`Failed to upload file: ${file.name}`);
+        const responseBody = await response.json();
+        throw new Error(
+          responseBody.errors[0].message ||
+            `Failed to upload file: ${file.name}`,
+        );
       }
 
       const uploadResult = await response.json();
@@ -69,10 +77,22 @@ async function uploadMedia(files: File[]): Promise<UploadResults> {
 export async function uploadMediaAndGetSubmitData(
   inputs: ProjectInputs,
   setSubmitErrors: React.Dispatch<React.SetStateAction<string[]>>,
+  id: string = '',
 ) {
-  // Handle media upload
-  const { success, failures } = await getUploadedMediaIds(inputs.file);
-  console.log(success, failures);
+  let success: string[] = [];
+  let failures: UploadError[] = [];
+
+  try {
+    const results = await getUploadedMediaIds(inputs.file, id);
+    success = results.success;
+    failures = results.failures;
+  } catch (error) {
+    console.error(
+      `Failed to get uploaded media IDs: ${(error as Error).message}`,
+    );
+    setSubmitErrors((prev) => [...prev, (error as Error).message]);
+  }
+
   // If there are any failures, set the submitErrors state and log the error to the console
   if (failures.length > 0) {
     failures.forEach((failure) => {
@@ -81,7 +101,9 @@ export async function uploadMediaAndGetSubmitData(
         `Failed to upload ${failure.fileName}: ${failure.error.message}`,
       );
     });
+    throw new Error(`Failed to upload media`);
   }
+
   const mediaIds: string[] = success;
   const filteredLinks = filterValidLinks(inputs.links);
   const projectData: ProjectInputs = {
@@ -89,6 +111,7 @@ export async function uploadMediaAndGetSubmitData(
     ...(filteredLinks.length && { links: filteredLinks }),
     ...(mediaIds.length && { media: mediaIds }),
   };
+
   return projectData;
 }
 
@@ -115,7 +138,7 @@ export async function editProject(
   inputs: ProjectInputs,
   id: string,
 ): Promise<ProjectResponse> {
-  console.log(inputs);
+  // console.log(inputs);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
     {
@@ -127,8 +150,8 @@ export async function editProject(
       credentials: 'include',
     },
   );
-
   const resData = await res.json();
+  console.log('resData', resData);
 
   if (!res.ok) {
     handleApiResponse(res);

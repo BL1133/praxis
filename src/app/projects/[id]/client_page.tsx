@@ -45,7 +45,7 @@ const handleDelete = async (
     }
     return response;
   } catch (e) {
-    console.log(e as Error);
+    console.error(e as Error);
     throw new Error(`Failed to delete project: ${(e as Error).message}`);
   }
 };

@@ -57,11 +57,11 @@ export const EditProject: React.FC<ProjectProps> = ({
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
-    console.log(inputs);
     try {
       const submitData = await uploadMediaAndGetSubmitData(
         inputs,
         setSubmitErrors,
+        id,
       );
       // media is coming from data retrieved from useProject hook
       // To update media, we need to combine the media from the hook with the media from the form
