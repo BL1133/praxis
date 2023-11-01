@@ -1,5 +1,5 @@
 'use client';
-import { Project } from '@payloadTypes';
+import { Media, Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -13,7 +13,7 @@ import { useProject } from '@/lib/hooks/useProject';
 import {
   deleteProject,
   editProject,
-  uploadMediaAndGetProjectData,
+  uploadMediaAndGetSubmitData,
 } from '@/utils/projectHelpers';
 
 interface ProjectProps {
@@ -57,12 +57,19 @@ export const EditProject: React.FC<ProjectProps> = ({
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
+    console.log(inputs);
     try {
-      const projectData = await uploadMediaAndGetProjectData(
+      const submitData = await uploadMediaAndGetSubmitData(
         inputs,
         setSubmitErrors,
       );
-      await editProject(projectData, id);
+      // media is coming from data retrieved from useProject hook
+      // To update media, we need to combine the media from the hook with the media from the form
+      const mediaIds = media?.map((item: Media) => item.id) || [];
+      const combinedMedia = [...mediaIds, ...(submitData.media || [])];
+      submitData.media = combinedMedia;
+      console.log(submitData);
+      await editProject(submitData, id);
       setLoading(false);
       setSuccess(true);
       setTimeout(() => {

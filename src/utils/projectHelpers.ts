@@ -13,18 +13,19 @@ interface UploadResults {
   failures: UploadError[];
 }
 
+function filterValidLinks(links: Project['links']) {
+  return links?.filter((link) => link?.link?.trim() !== '') || [];
+}
+
 async function getUploadedMediaIds(
   files: ProjectInputs['file'],
 ): Promise<UploadResults> {
   const filesArr = Array.from(files || []);
+
   if (filesArr?.length) {
     return await uploadMedia(filesArr);
   }
   return { success: [], failures: [] };
-}
-
-function filterValidLinks(links: Project['links']) {
-  return links?.filter((link) => link?.link?.trim() !== '') || [];
 }
 
 async function uploadMedia(files: File[]): Promise<UploadResults> {
@@ -34,6 +35,7 @@ async function uploadMedia(files: File[]): Promise<UploadResults> {
   };
 
   const uploadPromises = files.map(async (file) => {
+    console.log(file);
     try {
       const formData = new FormData();
       formData.append('file', file);
@@ -64,12 +66,13 @@ async function uploadMedia(files: File[]): Promise<UploadResults> {
 
 // Exported functions for use in pages ==============================================================
 
-export async function uploadMediaAndGetProjectData(
-  data: ProjectInputs,
+export async function uploadMediaAndGetSubmitData(
+  inputs: ProjectInputs,
   setSubmitErrors: React.Dispatch<React.SetStateAction<string[]>>,
 ) {
   // Handle media upload
-  const { success, failures } = await getUploadedMediaIds(data.file);
+  const { success, failures } = await getUploadedMediaIds(inputs.file);
+  console.log(success, failures);
   // If there are any failures, set the submitErrors state and log the error to the console
   if (failures.length > 0) {
     failures.forEach((failure) => {
@@ -80,9 +83,9 @@ export async function uploadMediaAndGetProjectData(
     });
   }
   const mediaIds: string[] = success;
-  const filteredLinks = filterValidLinks(data.links);
+  const filteredLinks = filterValidLinks(inputs.links);
   const projectData: ProjectInputs = {
-    ...data,
+    ...inputs,
     ...(filteredLinks.length && { links: filteredLinks }),
     ...(mediaIds.length && { media: mediaIds }),
   };
@@ -112,6 +115,7 @@ export async function editProject(
   inputs: ProjectInputs,
   id: string,
 ): Promise<ProjectResponse> {
+  console.log(inputs);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
     {

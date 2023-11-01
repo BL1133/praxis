@@ -22,7 +22,7 @@ import { SubmitModal } from '@/components/SubmitModal';
 
 import {
   createProject,
-  uploadMediaAndGetProjectData,
+  uploadMediaAndGetSubmitData,
 } from '../../../utils/projectHelpers';
 
 interface CreateProjectProps {
@@ -68,7 +68,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     setLoading(true);
     setSubmitErrors([]);
     try {
-      const projectData = await uploadMediaAndGetProjectData(
+      const projectData = await uploadMediaAndGetSubmitData(
         data,
         setSubmitErrors,
       );
