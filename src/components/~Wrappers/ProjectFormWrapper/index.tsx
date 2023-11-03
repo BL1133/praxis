@@ -19,7 +19,6 @@ interface ProjectFormWrapperProps {
   success: boolean | null;
   fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
-  media?: Media[];
   promptDeleteConfirm?: () => void;
 }
 
@@ -31,12 +30,12 @@ export function ProjectFormWrapper({
   success,
   fetchedTags,
   editing = false, // default to false unless passed in as true
-  media,
   promptDeleteConfirm,
 }: ProjectFormWrapperProps) {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<ProjectInputs>({
     defaultValues,
@@ -85,9 +84,16 @@ export function ProjectFormWrapper({
               success={success}
               loading={loading}
             />
-            {editing && media && (
+            {editing && defaultValues.media && (
               <div className="mt-5">
-                <FilesAccordion media={media} editing />
+                <FilesAccordion
+                  control={control}
+                  errors={errors}
+                  success={success}
+                  loading={loading}
+                  media={defaultValues.media as Media[]} //It will always be this type from getProject data
+                  editing
+                />
               </div>
             )}
           </div>

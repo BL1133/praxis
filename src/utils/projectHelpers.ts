@@ -1,4 +1,4 @@
-import { Project } from '@payloadTypes';
+import { Media, Project } from '@payloadTypes';
 import { ProjectInputs, ProjectResponse } from 'types';
 
 import { handleApiResponse } from '@/utils/apiErrors';
@@ -78,41 +78,35 @@ export async function uploadMediaAndGetSubmitData(
   inputs: ProjectInputs,
   setSubmitErrors: React.Dispatch<React.SetStateAction<string[]>>,
   id: string = '',
-) {
-  let success: string[] = [];
+): Promise<ProjectInputs> {
+  let uploadedMediaIds: string[] = [];
   let failures: UploadError[] = [];
 
   try {
     const results = await getUploadedMediaIds(inputs.file, id);
-    success = results.success;
+    uploadedMediaIds = results.success;
     failures = results.failures;
+
+    if (failures.length > 0) {
+      const failureMessages = failures.map((f) => f.error.message).join(', ');
+      throw new Error(`Failed to upload media: ${failureMessages}`);
+    }
+
+    const existingMediaIds =
+      (inputs.media as Media[])?.map((media) => media.id) || [];
+    const updatedMediaIds = [...existingMediaIds, ...uploadedMediaIds];
+    const filteredLinks = filterValidLinks(inputs.links);
+
+    return {
+      ...inputs,
+      media: updatedMediaIds,
+      ...(filteredLinks.length > 0 && { links: filteredLinks }),
+    };
   } catch (error) {
-    console.error(
-      `Failed to get uploaded media IDs: ${(error as Error).message}`,
-    );
+    console.error(error);
     setSubmitErrors((prev) => [...prev, (error as Error).message]);
+    throw error;
   }
-
-  // If there are any failures, set the submitErrors state and log the error to the console
-  if (failures.length > 0) {
-    failures.forEach((failure) => {
-      setSubmitErrors((prev) => [...prev, failure.error.message]);
-      console.error(
-        `Failed to upload ${failure.fileName}: ${failure.error.message}`,
-      );
-    });
-    throw new Error(`Failed to upload media`);
-  }
-
-  const mediaIds: string[] = success;
-  const filteredLinks = filterValidLinks(inputs.links);
-  const projectData: ProjectInputs = {
-    ...inputs,
-    ...(filteredLinks.length && { links: filteredLinks }),
-    ...(mediaIds.length && { media: mediaIds }),
-  };
-
-  return projectData;
 }
 
 export async function createProject(

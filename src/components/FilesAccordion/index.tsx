@@ -1,40 +1,53 @@
+/**
+ * media is from defaultValues and being transformed with useFieldArray
+ */
 'use client';
 import { Media } from '@payloadTypes';
 import { Accordion, Button } from 'flowbite-react';
-import { useState } from 'react';
+import { Control, FieldErrors, useFieldArray } from 'react-hook-form';
+import { ProjectInputs } from 'types';
 
 interface Props {
-  media: Media[];
+  errors: FieldErrors<ProjectInputs>;
+  loading: boolean;
+  success: boolean | null;
   editing?: boolean;
+  media: Media[];
+  control: Control<ProjectInputs>;
 }
 
-export function FilesAccordion({ media, editing = false }: Props) {
-  const [loading, setLoading] = useState(false);
+export function FilesAccordion({
+  control,
+  errors,
+  loading,
+  success,
+  media,
+  editing = false,
+}: Props) {
+  const { fields, remove } = useFieldArray<ProjectInputs, 'media'>({
+    control,
+    name: 'media',
+  });
 
-  function handleRemove() {
-    setLoading(true);
-  }
-
-  const editingJSX = (media: Props['media']) => (
+  const editingJSX = () => (
     <Accordion collapseAll>
       <Accordion.Panel>
         <Accordion.Title>Project files</Accordion.Title>
         <Accordion.Content>
-          {media &&
-            media.map((file) => (
-              <span key={file?.id} className="flex gap-2 mb-3">
-                <p className="mt-0.5 text-cyan-500">{file.filename}</p>
-                <Button
-                  size="xs"
-                  color="failure"
-                  onClick={handleRemove}
-                  isProcessing={loading}
-                  className="text-white bg-red-600 dark:bg-red-600 focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800"
-                >
-                  Remove
-                </Button>
-              </span>
-            ))}
+          {(fields as unknown as Media[]).map((field, index) => (
+            <span key={field.id} className="flex gap-2 mb-3">
+              <p className="mt-0.5 text-cyan-500">{field.filename}</p>
+              <Button
+                size="xs"
+                color="failure"
+                className="text-white bg-red-600 dark:bg-red-600 focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800"
+                onClick={() => remove(index)}
+                disabled={loading}
+              >
+                Remove
+              </Button>
+            </span>
+          ))}
         </Accordion.Content>
       </Accordion.Panel>
     </Accordion>
@@ -72,7 +85,6 @@ export function FilesAccordion({ media, editing = false }: Props) {
     </Accordion>
   );
 
-  console.log(media);
   if (!media || media.length === 0) return <p>No project filed uploaded.</p>;
-  return editing ? editingJSX(media) : projectPageJSX(media);
+  return editing ? editingJSX() : projectPageJSX(media);
 }

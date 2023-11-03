@@ -1,5 +1,5 @@
 'use client';
-import { Media, Project } from '@payloadTypes';
+import { Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -51,6 +51,7 @@ export const EditProject: React.FC<ProjectProps> = ({
     skillsWanted,
     links,
     tags,
+    media,
   };
 
   const handleEditProject: SubmitHandler<ProjectInputs> = async (inputs) => {
@@ -63,11 +64,6 @@ export const EditProject: React.FC<ProjectProps> = ({
         setSubmitErrors,
         id,
       );
-      // media is coming from data retrieved from useProject hook
-      // To update media, we need to combine the media from the hook with the media from the form
-      const mediaIds = media?.map((item: Media) => item.id) || [];
-      const combinedMedia = [...mediaIds, ...(submitData.media || [])];
-      submitData.media = combinedMedia;
       console.log(submitData);
       await editProject(submitData, id);
       setLoading(false);
@@ -117,7 +113,6 @@ export const EditProject: React.FC<ProjectProps> = ({
           success={success}
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
-          media={media}
           fetchedTags={fetchedTags}
           promptDeleteConfirm={promptDeleteConfirm}
           editing

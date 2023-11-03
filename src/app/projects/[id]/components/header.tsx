@@ -2,8 +2,6 @@ import { Project, User } from '@payloadTypes';
 import { Avatar, Badge } from 'flowbite-react';
 import Link from 'next/link';
 
-import { FilesAccordion } from '@/components/FilesAccordion';
-
 interface HeaderProps {
   isOwnProject: boolean;
   projectData: Project;
@@ -256,7 +254,7 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
             'hidden'
           }`}
         >
-          <FilesAccordion media={projectData?.media} />
+          {/* <FilesAccordion media={projectData?.media} /> */}
         </div>
         {isOwnProject && (
           <div className="flex items-center px-4 space-x-4">

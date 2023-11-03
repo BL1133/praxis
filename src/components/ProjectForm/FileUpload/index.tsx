@@ -22,7 +22,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
         accept="image/*,application/pdf"
         disabled={loading || success ? true : false}
         {...fileRef}
-        helperText="Add a maximum of 3 files to your project. PDF or image files only."
+        // helperText="PDF or image files only. 50 MB quota per project."
         id="file"
         multiple
       />
