@@ -22,7 +22,7 @@ interface DeleteResults {
 }
 
 function filterValidLinks(links: Project['links']) {
-  return links?.filter((link) => link?.link?.trim() !== '') || [];
+  return links?.filter((link) => link?.url?.trim() !== '') || [];
 }
 
 async function uploadMedia(

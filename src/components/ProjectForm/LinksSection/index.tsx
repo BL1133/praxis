@@ -28,9 +28,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             type="text"
             sizing="sm"
             helperText={
-              <>
-                {errors?.links?.[0]?.link && errors?.links?.[0]?.link?.message}
-              </>
+              <>{errors?.links?.[0]?.url && errors?.links?.[0]?.url?.message}</>
             }
             color={errors?.links && 'failure'}
             id="link1"
@@ -53,9 +51,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             type="text"
             sizing="sm"
             helperText={
-              <>
-                {errors?.links?.[1]?.link && errors?.links?.[1]?.link.message}
-              </>
+              <>{errors?.links?.[1]?.url && errors?.links?.[1]?.url.message}</>
             }
             color={errors?.links && 'failure'}
             id="link2"
@@ -78,9 +74,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             type="text"
             sizing="sm"
             helperText={
-              <>
-                {errors?.links?.[2]?.link && errors?.links?.[2]?.link.message}
-              </>
+              <>{errors?.links?.[2]?.url && errors?.links?.[2]?.url.message}</>
             }
             color={errors?.links && 'failure'}
             id="link3"

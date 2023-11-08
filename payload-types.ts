@@ -33,7 +33,7 @@ export interface Project {
     id?: string;
   }[];
   links?: {
-    link?: string;
+    url?: string;
     id?: string;
   }[];
   skillsWanted: ('maintainer' | 'mentor' | 'developer' | 'designer')[];
