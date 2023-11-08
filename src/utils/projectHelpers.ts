@@ -22,7 +22,8 @@ interface DeleteResults {
 }
 
 function filterValidLinks(links: Project['links']) {
-  return links?.filter((link) => link?.url?.trim() !== '') || [];
+  const filtered = links?.filter((link) => link?.url?.trim() !== '') || [];
+  return filtered.length > 0 ? filtered : null;
 }
 
 async function uploadMedia(
@@ -104,12 +105,17 @@ export async function uploadMediaAndGetSubmitData(
       (inputs.media as Media[])?.map((media) => media.id) || [];
     const updatedMediaIds = [...existingMediaIds, ...uploadedMediaIds];
     const filteredLinks = filterValidLinks(inputs.links);
-
-    return {
+    const updatedInputs = {
       ...inputs,
       media: updatedMediaIds,
-      ...(filteredLinks.length > 0 && { links: filteredLinks }),
     };
+    console.log(filteredLinks);
+    if (filteredLinks) {
+      updatedInputs.links = filteredLinks;
+    } else {
+      delete updatedInputs.links;
+    }
+    return updatedInputs;
   } catch (error) {
     console.error(error);
     setSubmitErrors((prev) => [...prev, (error as Error).message]);

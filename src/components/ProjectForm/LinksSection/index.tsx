@@ -34,7 +34,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             id="link1"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[0].link' as keyof ProjectInputs, {
+            {...register('links[0].url' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;
@@ -57,7 +57,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             id="link2"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[1].link' as keyof ProjectInputs, {
+            {...register('links[1].url' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;
@@ -80,7 +80,7 @@ export function LinksSection({ register, errors }: LinksProps) {
             id="link3"
             disabled={loading || success ? true : false}
             placeholder="Add a link starting with 'http...'"
-            {...register('links[2].link' as keyof ProjectInputs, {
+            {...register('links[2].url' as keyof ProjectInputs, {
               // eslint-disable-next-line
               validate: (value: any) => {
                 if (!value) return true;

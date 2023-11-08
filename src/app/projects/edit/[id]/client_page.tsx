@@ -76,7 +76,7 @@ export const EditProject: React.FC<ProjectProps> = ({
     try {
       removeFileFromMediaCollection(stagedForRemoval);
       const submitData = await uploadMediaAndGetSubmitData(
-        inputs, // includes removed media items
+        inputs, // includes removed media
         setSubmitErrors,
         id,
       );

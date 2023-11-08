@@ -64,6 +64,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
    * @returns {Promise<void>} - A promise that resolves when the submission is complete
    */
   const handleCreateProject: SubmitHandler<ProjectInputs> = async (data) => {
+    console.log(data);
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
