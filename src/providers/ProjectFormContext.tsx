@@ -14,6 +14,7 @@ interface ProjectFormContextType {
   stagedForRemoval: string[];
   stageForRemoval: (mediaId: string) => void;
   undoStageForRemoval: (mediaId: string) => void;
+  resetStagedForRemoval: () => void;
   filterStagedForRemoval: (mediaArray: Media[]) => Media[];
   isSubmitModalOpen: boolean;
   setIsSubmitModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,6 +49,10 @@ export const ProjectFormProvider = ({ children }: { children: ReactNode }) => {
     return mediaArray.filter((media) => !stagedForRemoval.includes(media.id));
   };
 
+  const resetStagedForRemoval = () => {
+    setStagedForRemoval([]);
+  };
+
   const value = {
     loading,
     setLoading,
@@ -58,6 +63,7 @@ export const ProjectFormProvider = ({ children }: { children: ReactNode }) => {
     stagedForRemoval,
     stageForRemoval,
     undoStageForRemoval,
+    resetStagedForRemoval,
     filterStagedForRemoval,
     isSubmitModalOpen,
     setIsSubmitModalOpen,

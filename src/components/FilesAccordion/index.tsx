@@ -4,8 +4,7 @@
 'use client';
 import { Media } from '@payloadTypes';
 import { Accordion, Button } from 'flowbite-react';
-import { useState } from 'react';
-import { Control, FieldErrors, useFieldArray } from 'react-hook-form';
+import { FieldErrors } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
 import { useProjectFormContext } from '@/providers/ProjectFormContext';
@@ -14,53 +13,46 @@ interface Props {
   errors: FieldErrors<ProjectInputs>;
   editing?: boolean;
   media: Media[];
-  control: Control<ProjectInputs>;
 }
 
-export function FilesAccordion({
-  control,
-  errors,
-  media,
-  editing = false,
-}: Props) {
-  const { loading, success } = useProjectFormContext();
-  const { fields, remove } = useFieldArray<ProjectInputs, 'media'>({
-    control,
-    name: 'media',
-  });
+export function FilesAccordion({ errors, media, editing = false }: Props) {
+  const { loading } = useProjectFormContext();
 
-  const [toRemove, setToRemove] = useState<string[]>([]);
+  const { stageForRemoval, undoStageForRemoval, stagedForRemoval } =
+    useProjectFormContext();
 
-  // Toggle file for removal
-  const toggleRemove = (id: string) => {
-    setToRemove((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((fileId) => fileId !== id);
-      } else {
-        return [...prev, id];
-      }
-    });
-  };
+  function toggleDelete(mediaId: string) {
+    if (stagedForRemoval.includes(mediaId)) {
+      undoStageForRemoval(mediaId);
+    } else {
+      stageForRemoval(mediaId);
+    }
+  }
 
   const editingJSX = () => (
     <Accordion collapseAll>
       <Accordion.Panel>
         <Accordion.Title>Project files</Accordion.Title>
         <Accordion.Content>
-          {(fields as unknown as Media[]).map((field, index) => (
-            <span key={field.id} className="flex gap-2 mb-3">
-              <p className="mt-0.5 text-cyan-500">{field.filename}</p>
-              <Button
-                size="xs"
-                color="failure"
-                className="text-white bg-red-600 dark:bg-red-600 focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800"
-                onClick={() => toggleRemove(field.id)}
-                disabled={loading}
-              >
-                {toRemove.includes(field.id) ? 'Undo' : 'Remove'}
-              </Button>
-            </span>
-          ))}
+          {(media as unknown as Media[]).map(
+            (
+              file,
+              index, // media as unkown is Type workaround. Media can be array of strings or objects, but in this context it's always objects. It is array of strings for updating since its a relationship field. But getting media from the server is always an array of objects.
+            ) => (
+              <span key={file.id} className="flex gap-2 mb-3">
+                <p className="mt-0.5 text-cyan-500">{file.filename}</p>
+                <Button
+                  size="xs"
+                  color="failure"
+                  className="text-white bg-red-600 dark:bg-red-600 focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800"
+                  onClick={() => toggleDelete(file.id)}
+                  disabled={loading}
+                >
+                  {stagedForRemoval.includes(file.id) ? 'Undo' : 'Remove'}
+                </Button>
+              </span>
+            ),
+          )}
         </Accordion.Content>
       </Accordion.Panel>
     </Accordion>

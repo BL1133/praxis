@@ -1,5 +1,5 @@
 'use client';
-import { Project } from '@payloadTypes';
+import { Media, Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -28,18 +28,16 @@ export const EditProject: React.FC<ProjectProps> = ({
 }) => {
   const context = useProjectFormContext();
   const {
-    loading,
     setLoading,
-    success,
     setSuccess,
-    submitErrors,
     setSubmitErrors,
-    isSubmitModalOpen,
     setIsSubmitModalOpen,
-    isConfirmModalOpen,
     setIsConfirmModalOpen,
     isDeleted,
     setIsDeleted,
+    filterStagedForRemoval,
+    stagedForRemoval,
+    resetStagedForRemoval,
   } = context;
   //
   const router = useRouter();
@@ -66,6 +64,11 @@ export const EditProject: React.FC<ProjectProps> = ({
   };
 
   const handleEditProject: SubmitHandler<ProjectInputs> = async (inputs) => {
+    // Update media inputs if any files were staged for removal
+    if (stagedForRemoval.length > 0) {
+      inputs.media = filterStagedForRemoval(inputs.media as Media[]);
+    }
+    console.log('inputs', inputs);
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
@@ -79,8 +82,11 @@ export const EditProject: React.FC<ProjectProps> = ({
       await editProject(submitData, id);
       setLoading(false);
       setSuccess(true);
+      resetStagedForRemoval();
       setTimeout(() => {
         router.push(`/projects/${id}`);
+        setIsSubmitModalOpen(false);
+        setSuccess(false);
       }, 3000);
       await mutate();
     } catch (error) {

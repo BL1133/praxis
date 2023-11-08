@@ -31,7 +31,6 @@ export function ProjectFormWrapper({
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors },
   } = useForm<ProjectInputs>({
     defaultValues,
@@ -57,7 +56,6 @@ export function ProjectFormWrapper({
             {editing && defaultValues.media && (
               <div className="mt-5">
                 <FilesAccordion
-                  control={control}
                   errors={errors}
                   media={defaultValues.media as Media[]} //It will always be this type from getProject data
                   editing
