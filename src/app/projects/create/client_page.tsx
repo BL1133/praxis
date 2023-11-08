@@ -12,13 +12,14 @@
  */
 
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
 import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { SubmitModal } from '@/components/SubmitModal';
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
 
 import {
   createProject,
@@ -42,10 +43,9 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
   fetchedTags,
 }) => {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState<boolean | null>(null);
-  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
-  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const context = useProjectFormContext();
+  const { setLoading, setSuccess, setSubmitErrors, setIsSubmitModalOpen } =
+    context;
 
   const defaultValues = {
     title: '',
@@ -79,6 +79,8 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
       setSuccess(true);
       setTimeout(() => {
         router.push(`/projects/${projectId}`);
+        setIsSubmitModalOpen(false);
+        setSuccess(false);
       }, 3000);
     } catch (error) {
       console.error('Operation failed', (error as Error).message);
@@ -92,20 +94,11 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     <LoadingProtected>
       <section className="bg-white dark:bg-gray-900">
         <ProjectFormWrapper
-          loading={loading}
-          success={success}
           onSubmit={handleCreateProject}
           defaultValues={defaultValues}
           fetchedTags={fetchedTags}
         >
-          <SubmitModal
-            success={success}
-            loading={loading}
-            submitErrors={submitErrors}
-            isSubmitModalOpen={isSubmitModalOpen}
-            setIsSubmitModalOpen={setIsSubmitModalOpen}
-            message="You have successfully created a project."
-          />
+          <SubmitModal message="You have successfully created a project." />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Create a new Project
           </h2>

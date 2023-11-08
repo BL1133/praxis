@@ -90,6 +90,6 @@ export function FilesAccordion({ errors, media, editing = false }: Props) {
     </Accordion>
   );
 
-  if (!media || media.length === 0) return <p>No project filed uploaded.</p>;
+  if (!media || media.length === 0) return <p>No project files uploaded.</p>;
   return editing ? editingJSX() : projectPageJSX(media);
 }
