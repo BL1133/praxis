@@ -8,9 +8,17 @@ interface UploadError {
   error: Error;
 }
 
+interface DeleteError {
+  error: Error;
+}
+
 interface UploadResults {
   success: string[];
   failures: UploadError[];
+}
+interface DeleteResults {
+  success: string[];
+  failures: DeleteError[];
 }
 
 function filterValidLinks(links: Project['links']) {
@@ -107,6 +115,42 @@ export async function uploadMediaAndGetSubmitData(
     setSubmitErrors((prev) => [...prev, (error as Error).message]);
     throw error;
   }
+}
+
+export async function removeFileFromMediaCollection(media: string[]) {
+  const results: DeleteResults = {
+    success: [],
+    failures: [],
+  };
+
+  const deletePromises = media.map(async (mediaId) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_CMS_URL}/api/media/${mediaId}`,
+        {
+          method: 'DELETE',
+          credentials: 'include',
+        },
+      );
+
+      if (!response.ok) {
+        // If the response is not OK, throw an error.
+        const responseBody = await response.json();
+        throw new Error(
+          responseBody.errors[0].message ||
+            `Failed to remove file. Please try again.`,
+        );
+      }
+
+      results.success.push(mediaId);
+    } catch (error) {
+      results.failures.push({ error: error as Error });
+    }
+  });
+
+  await Promise.all(deletePromises);
+
+  return results;
 }
 
 export async function createProject(

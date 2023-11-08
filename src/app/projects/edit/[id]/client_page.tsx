@@ -14,6 +14,7 @@ import { useProjectFormContext } from '@/providers/ProjectFormContext';
 import {
   deleteProject,
   editProject,
+  removeFileFromMediaCollection,
   uploadMediaAndGetSubmitData,
 } from '@/utils/projectHelpers';
 
@@ -73,8 +74,9 @@ export const EditProject: React.FC<ProjectProps> = ({
     setLoading(true);
     setSubmitErrors([]);
     try {
+      removeFileFromMediaCollection(stagedForRemoval);
       const submitData = await uploadMediaAndGetSubmitData(
-        inputs,
+        inputs, // includes removed media items
         setSubmitErrors,
         id,
       );
