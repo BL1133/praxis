@@ -4,6 +4,7 @@
 'use client';
 import { Media } from '@payloadTypes';
 import { Accordion, Button } from 'flowbite-react';
+import { useState } from 'react';
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
@@ -29,6 +30,19 @@ export function FilesAccordion({
     name: 'media',
   });
 
+  const [toRemove, setToRemove] = useState<string[]>([]);
+
+  // Toggle file for removal
+  const toggleRemove = (id: string) => {
+    setToRemove((prev) => {
+      if (prev.includes(id)) {
+        return prev.filter((fileId) => fileId !== id);
+      } else {
+        return [...prev, id];
+      }
+    });
+  };
+
   const editingJSX = () => (
     <Accordion collapseAll>
       <Accordion.Panel>
@@ -41,10 +55,10 @@ export function FilesAccordion({
                 size="xs"
                 color="failure"
                 className="text-white bg-red-600 dark:bg-red-600 focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800"
-                onClick={() => remove(index)}
+                onClick={() => toggleRemove(field.id)}
                 disabled={loading}
               >
-                Remove
+                {toRemove.includes(field.id) ? 'Undo' : 'Remove'}
               </Button>
             </span>
           ))}
