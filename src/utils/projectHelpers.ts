@@ -113,7 +113,7 @@ export async function uploadMediaAndGetSubmitData(
     if (filteredLinks) {
       updatedInputs.links = filteredLinks;
     } else {
-      delete updatedInputs.links;
+      updatedInputs.links = [];
     }
     return updatedInputs;
   } catch (error) {
