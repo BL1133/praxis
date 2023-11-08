@@ -2,19 +2,15 @@ import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface LinksProps {
   register: UseFormRegister<ProjectInputs>;
   errors: FieldErrors<ProjectInputs>;
-  loading: boolean;
-  success: boolean | null;
 }
 
-export function LinksSection({
-  register,
-  errors,
-  loading,
-  success,
-}: LinksProps) {
+export function LinksSection({ register, errors }: LinksProps) {
+  const { loading, success } = useProjectFormContext();
   return (
     <div>
       <div className="flex gap-2">

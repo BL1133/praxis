@@ -2,19 +2,15 @@ import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface ShortDescriptionProps {
   register: UseFormRegister<ProjectInputs>;
-  loading: boolean;
-  success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
 }
 
-export function ShortDescription({
-  register,
-  errors,
-  loading,
-  success,
-}: ShortDescriptionProps) {
+export function ShortDescription({ register, errors }: ShortDescriptionProps) {
+  const { loading, success } = useProjectFormContext();
   return (
     <div className="sm:col-span-2">
       <label

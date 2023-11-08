@@ -2,23 +2,19 @@ import { Checkbox, Label } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface SkillsWantedProps {
   register: UseFormRegister<ProjectInputs>;
   errors: FieldErrors<ProjectInputs>;
-  loading: boolean;
-  success: boolean | null;
 }
 
-export function SkillsWanted({
-  register,
-  errors,
-  loading,
-  success,
-}: SkillsWantedProps) {
+export function SkillsWanted({ register, errors }: SkillsWantedProps) {
   // Register the skillsWanted group with validation
   // This is so that validate isn't run on every checkbox
   // Because checboxes all have same name, they are grouped
   // So validate runs once on entire group, which is an array
+  const { loading, success } = useProjectFormContext();
   const skillsWantedRef = register('skillsWanted', {
     validate: (value) => value.length > 0 || '*At least one skill is required',
   });

@@ -1,7 +1,7 @@
 'use client';
 import { Project } from '@payloadTypes';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import React from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
@@ -10,6 +10,7 @@ import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
 import { ConfirmDelete } from '@/components/ConfirmDelete';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
 import {
   deleteProject,
   editProject,
@@ -25,14 +26,24 @@ export const EditProject: React.FC<ProjectProps> = ({
   projectData,
   fetchedTags,
 }) => {
+  const context = useProjectFormContext();
+  const {
+    loading,
+    setLoading,
+    success,
+    setSuccess,
+    submitErrors,
+    setSubmitErrors,
+    isSubmitModalOpen,
+    setIsSubmitModalOpen,
+    isConfirmModalOpen,
+    setIsConfirmModalOpen,
+    isDeleted,
+    setIsDeleted,
+  } = context;
+  //
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
   const { data, mutate } = useProject(projectData);
-  const [success, setSuccess] = useState<boolean | null>(null);
-  const [submitErrors, setSubmitErrors] = useState<string[]>([]);
-  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false); // for submiModal message
   const {
     title,
     shortDescription,
@@ -80,10 +91,6 @@ export const EditProject: React.FC<ProjectProps> = ({
     }
   };
 
-  const promptDeleteConfirm = () => {
-    setIsConfirmModalOpen(true);
-  };
-
   const handleDeleteProject = async () => {
     setIsConfirmModalOpen(false);
     setIsSubmitModalOpen(true);
@@ -109,27 +116,15 @@ export const EditProject: React.FC<ProjectProps> = ({
     <LoadingProtected>
       <section className="bg-white dark:bg-gray-900">
         <ProjectFormWrapper
-          loading={loading}
-          success={success}
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
           fetchedTags={fetchedTags}
-          promptDeleteConfirm={promptDeleteConfirm}
           editing
         >
           <SubmitModal
-            success={success}
-            loading={loading}
-            submitErrors={submitErrors}
-            isSubmitModalOpen={isSubmitModalOpen}
-            setIsSubmitModalOpen={setIsSubmitModalOpen}
             message={isDeleted ? 'Project deleted.' : 'Project updated!'}
           />
-          <ConfirmDelete
-            isConfirmModalOpen={isConfirmModalOpen}
-            setIsConfirmModalOpen={setIsConfirmModalOpen}
-            handleDelete={handleDeleteProject}
-          />
+          <ConfirmDelete handleDelete={handleDeleteProject} />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
             Edit Your Project
           </h2>

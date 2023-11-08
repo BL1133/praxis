@@ -1,23 +1,18 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 import { Tag } from '../../Tag';
 
 interface TagProps {
   register: UseFormRegister<ProjectInputs>;
   fetchedTags: ProjectInputs['tags'];
-  loading: boolean;
-  success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
 }
 
-export function TagsSection({
-  register,
-  fetchedTags,
-  errors,
-  success,
-  loading,
-}: TagProps) {
+export function TagsSection({ register, fetchedTags, errors }: TagProps) {
+  const { loading, success } = useProjectFormContext();
   const tagsRef = register('tags', {
     validate: (value) =>
       value.length >= 3 || 'At least three tags are required',

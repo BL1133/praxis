@@ -2,18 +2,14 @@ import { TextInput } from 'flowbite-react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface ProjectTitleProps {
   register: UseFormRegister<ProjectInputs>;
-  loading: boolean;
-  success: boolean | null;
   errors: FieldErrors<ProjectInputs>;
 }
-export function ProjectTitle({
-  register,
-  errors,
-  loading,
-  success,
-}: ProjectTitleProps) {
+export function ProjectTitle({ register, errors }: ProjectTitleProps) {
+  const { loading, success } = useProjectFormContext();
   return (
     <div className="sm:col-span-2">
       <div className="flex">

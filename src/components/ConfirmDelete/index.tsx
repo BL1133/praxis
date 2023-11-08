@@ -1,14 +1,12 @@
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface ConfirmDeleteProps {
-  isConfirmModalOpen: boolean;
-  setIsConfirmModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
 }
 
-export function ConfirmDelete({
-  isConfirmModalOpen: isOpen,
-  setIsConfirmModalOpen: setIsOpen,
-  handleDelete,
-}: ConfirmDeleteProps) {
+export function ConfirmDelete({ handleDelete }: ConfirmDeleteProps) {
+  const { isConfirmModalOpen: isOpen, setIsConfirmModalOpen: setIsOpen } =
+    useProjectFormContext();
   return (
     <div
       id="confirmModal"

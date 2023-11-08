@@ -2,17 +2,14 @@ import { FileInput, Label } from 'flowbite-react';
 import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 type FileUploadProps = {
   fileRef: UseFormRegisterReturn;
-  loading: boolean;
-  success: boolean | null;
 };
 
-export const FileUpload: React.FC<FileUploadProps> = ({
-  fileRef,
-  loading,
-  success,
-}) => {
+export const FileUpload: React.FC<FileUploadProps> = ({ fileRef }) => {
+  const { loading, success } = useProjectFormContext();
   return (
     <div className="max-w-md flex flex-col justify-center" id="fileUpload">
       <div className="mb-2 block">

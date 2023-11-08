@@ -8,10 +8,10 @@ import { useState } from 'react';
 import { Control, FieldErrors, useFieldArray } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 interface Props {
   errors: FieldErrors<ProjectInputs>;
-  loading: boolean;
-  success: boolean | null;
   editing?: boolean;
   media: Media[];
   control: Control<ProjectInputs>;
@@ -20,11 +20,10 @@ interface Props {
 export function FilesAccordion({
   control,
   errors,
-  loading,
-  success,
   media,
   editing = false,
 }: Props) {
+  const { loading, success } = useProjectFormContext();
   const { fields, remove } = useFieldArray<ProjectInputs, 'media'>({
     control,
     name: 'media',

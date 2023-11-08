@@ -1,25 +1,18 @@
 import { Spinner } from 'flowbite-react';
 import React from 'react';
 
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
+
 import { AlertWithIcon } from '../AlertWithIcon';
 
-interface SubmitModalProps {
-  success: boolean | null;
-  loading: boolean;
-  submitErrors: string[];
-  message: string;
-  isSubmitModalOpen: boolean;
-  setIsSubmitModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-export function SubmitModal({
-  success,
-  loading,
-  submitErrors,
-  message,
-  isSubmitModalOpen: isOpen,
-  setIsSubmitModalOpen: setIsOpen,
-}: SubmitModalProps) {
+export function SubmitModal({ message }: { message: string }) {
+  const {
+    success,
+    loading,
+    submitErrors,
+    isSubmitModalOpen: isOpen,
+    setIsSubmitModalOpen: setIsOpen,
+  } = useProjectFormContext();
   return (
     <div
       id="submitModal"

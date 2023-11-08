@@ -15,19 +15,26 @@ interface ProjectFormContextType {
   stageForRemoval: (mediaId: string) => void;
   undoStageForRemoval: (mediaId: string) => void;
   filterStagedForRemoval: (mediaArray: Media[]) => Media[];
+  isSubmitModalOpen: boolean;
+  setIsSubmitModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isConfirmModalOpen: boolean;
+  setIsConfirmModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  isDeleted: boolean;
+  setIsDeleted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ProjectFormContext = createContext<ProjectFormContextType | null>(
-  null,
+export const ProjectFormContext = createContext<ProjectFormContextType>(
+  {} as ProjectFormContextType,
 );
-
-export const useProjectForm = () => useContext(ProjectFormContext);
 
 export const ProjectFormProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [submitErrors, setSubmitErrors] = useState<string[]>([]);
   const [stagedForRemoval, setStagedForRemoval] = useState<string[]>([]);
+  const [isSubmitModalOpen, setIsSubmitModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false); // for submiModal message
 
   const stageForRemoval = (mediaId: string) => {
     setStagedForRemoval((prev) => [...prev, mediaId]);
@@ -52,6 +59,12 @@ export const ProjectFormProvider = ({ children }: { children: ReactNode }) => {
     stageForRemoval,
     undoStageForRemoval,
     filterStagedForRemoval,
+    isSubmitModalOpen,
+    setIsSubmitModalOpen,
+    isConfirmModalOpen,
+    setIsConfirmModalOpen,
+    isDeleted,
+    setIsDeleted,
   };
 
   return (
@@ -60,3 +73,15 @@ export const ProjectFormProvider = ({ children }: { children: ReactNode }) => {
     </ProjectFormContext.Provider>
   );
 };
+
+export function useProjectFormContext(): ProjectFormContextType {
+  const context = useContext(ProjectFormContext);
+
+  if (context === undefined) {
+    throw new Error(
+      'useProjectFormContext must be used within a ProjectFormProvider',
+    );
+  }
+
+  return context;
+}

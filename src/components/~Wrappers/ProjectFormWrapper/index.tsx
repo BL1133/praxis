@@ -10,28 +10,24 @@ import { ProjectTitle } from '@/components/ProjectForm/ProjectTitle';
 import { ShortDescription } from '@/components/ProjectForm/ShortDescription';
 import { SkillsWanted } from '@/components/ProjectForm/SkillsWanted';
 import { TagsSection } from '@/components/ProjectForm/TagsSection';
+import { useProjectFormContext } from '@/providers/ProjectFormContext';
 
 interface ProjectFormWrapperProps {
   defaultValues: ProjectInputs;
   onSubmit: (data: ProjectInputs) => void;
   children: React.ReactNode;
-  loading: boolean;
-  success: boolean | null;
   fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
-  promptDeleteConfirm?: () => void;
 }
 
 export function ProjectFormWrapper({
   defaultValues,
   onSubmit,
   children,
-  loading,
-  success,
   fetchedTags,
   editing = false, // default to false unless passed in as true
-  promptDeleteConfirm,
 }: ProjectFormWrapperProps) {
+  const { loading, success, setIsConfirmModalOpen } = useProjectFormContext();
   const {
     register,
     handleSubmit,
@@ -47,62 +43,29 @@ export function ProjectFormWrapper({
       {children}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 place-content-center">
-          <ProjectTitle
-            register={register}
-            errors={errors}
-            success={success}
-            loading={loading}
-          />
-          <ShortDescription
-            register={register}
-            errors={errors}
-            success={success}
-            loading={loading}
-          />
-          <FullDescription
-            register={register}
-            errors={errors}
-            success={success}
-            loading={loading}
-          />
-          <SkillsWanted
-            register={register}
-            errors={errors}
-            success={success}
-            loading={loading}
-          />
+          <ProjectTitle register={register} errors={errors} />
+          <ShortDescription register={register} errors={errors} />
+          <FullDescription register={register} errors={errors} />
+          <SkillsWanted register={register} errors={errors} />
           <TagsSection
             fetchedTags={fetchedTags}
             errors={errors}
             register={register}
-            success={success}
-            loading={loading}
           />
           <div>
-            <FileUpload
-              fileRef={register('file')}
-              success={success}
-              loading={loading}
-            />
+            <FileUpload fileRef={register('file')} />
             {editing && defaultValues.media && (
               <div className="mt-5">
                 <FilesAccordion
                   control={control}
                   errors={errors}
-                  success={success}
-                  loading={loading}
                   media={defaultValues.media as Media[]} //It will always be this type from getProject data
                   editing
                 />
               </div>
             )}
           </div>
-          <LinksSection
-            register={register}
-            errors={errors}
-            success={success}
-            loading={loading}
-          />
+          <LinksSection register={register} errors={errors} />
         </div>
         <div className="mt-5">
           <button
@@ -118,7 +81,7 @@ export function ProjectFormWrapper({
           {editing && (
             <button
               type="button"
-              onClick={promptDeleteConfirm}
+              onClick={() => setIsConfirmModalOpen(true)}
               className={`inline-flex items-center ml-4 px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white bg-red-600 rounded-lg focus:ring-4 focus:ring-red-200 dark:focus:ring-orange-800 hover:bg-red-800 ${
                 (loading || success) &&
                 'disabled:cursor-not-allowed disabled:opacity-50'
