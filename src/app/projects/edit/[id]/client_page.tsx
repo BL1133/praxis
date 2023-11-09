@@ -111,6 +111,8 @@ export const EditProject: React.FC<ProjectProps> = ({
       setSuccess(true);
       setTimeout(() => {
         router.push(`/projects/`);
+        setIsSubmitModalOpen(false);
+        setSuccess(false);
       }, 3000);
     } catch (error) {
       console.error('Operation failed', (error as Error).message);
