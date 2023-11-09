@@ -4,18 +4,15 @@
 'use client';
 import { Media } from '@payloadTypes';
 import { Accordion, Button } from 'flowbite-react';
-import { FieldErrors } from 'react-hook-form';
-import { ProjectInputs } from 'types';
 
 import { useProjectFormContext } from '@/providers/ProjectFormContext';
 
 interface Props {
-  errors: FieldErrors<ProjectInputs>;
   editing?: boolean;
   media: Media[];
 }
 
-export function FilesAccordion({ errors, media, editing = false }: Props) {
+export function FilesAccordion({ media, editing = false }: Props) {
   const { loading } = useProjectFormContext();
 
   const { stageForRemoval, undoStageForRemoval, stagedForRemoval } =
@@ -40,7 +37,9 @@ export function FilesAccordion({ errors, media, editing = false }: Props) {
               index, // media as unkown is Type workaround. Media can be array of strings or objects, but in this context it's always objects. It is array of strings for updating since its a relationship field. But getting media from the server is always an array of objects.
             ) => (
               <span key={file.id} className="flex gap-2 mb-3">
-                <p className="mt-0.5 text-cyan-500">{file.filename}</p>
+                <a href={`/`} target="_blank" rel="noopener noreferrer">
+                  <p className="mt-0.5 text-cyan-500">{file.filename}</p>
+                </a>
                 <Button
                   size="xs"
                   color="failure"

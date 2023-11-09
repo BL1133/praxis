@@ -3,7 +3,7 @@ import { ProjectInputs } from 'types';
 
 import { useProjectFormContext } from '@/providers/ProjectFormContext';
 
-import { Tag } from '../../Tag';
+import { FormTag } from '../../FormTag';
 
 interface TagProps {
   register: UseFormRegister<ProjectInputs>;
@@ -31,7 +31,7 @@ export function TagsSection({ register, fetchedTags, errors }: TagProps) {
       </div>
       <div className="flex flex-wrap gap-1">
         {fetchedTags.map((tag) => (
-          <Tag
+          <FormTag
             key={tag}
             tag={tag}
             tagsRef={tagsRef}

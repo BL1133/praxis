@@ -32,8 +32,8 @@ export interface Project {
     role?: 'Maintainer' | 'Mentor' | 'Contributor';
     id?: string;
   }[];
-  links?: {
-    url?: string;
+  links: {
+    url: string;
     id?: string;
   }[];
   skillsWanted: ('maintainer' | 'mentor' | 'developer' | 'designer')[];

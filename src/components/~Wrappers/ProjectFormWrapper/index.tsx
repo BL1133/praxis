@@ -56,7 +56,6 @@ export function ProjectFormWrapper({
             {editing && defaultValues.media && (
               <div className="mt-5">
                 <FilesAccordion
-                  errors={errors}
                   media={defaultValues.media as Media[]} //It will always be this type from getProject data
                   editing
                 />
