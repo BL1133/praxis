@@ -29,7 +29,7 @@ export function SubmitModal({ message }: { message: string }) {
               <div className="mb-3">
                 <Spinner />
               </div>
-              <p>Loading...</p>
+              <p className="text-gray-800 dark:text-white">Loading...</p>
             </div>
           )}
 
