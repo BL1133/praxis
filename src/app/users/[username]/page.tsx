@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { cookies } from 'next/headers';
 import React from 'react';
 
+import { handleApiError } from '@/utils/apiErrors';
+
 import { UserProfile } from './client_page';
 
 interface ParamsType {
@@ -28,7 +30,7 @@ const getUserId = async ({
       },
     );
     if (!res.ok) {
-      throw new Error(`Failed to fetch user: ${res.statusText}`);
+      await handleApiError(res);
     }
     const userData = await res.json();
     return userData.docs[0].id;
@@ -53,7 +55,7 @@ const getUser = async (userId: string): Promise<User> => {
       },
     );
     if (!res.ok) {
-      throw new Error(`Failed to fetch user: ${res.statusText}`);
+      await handleApiError(res);
     }
     const userData = await res.json();
 

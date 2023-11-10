@@ -44,14 +44,14 @@ class ServerError extends ApiError {
   }
 }
 
-export async function handleApiResponse(response: Response): Promise<void> {
+export async function handleApiError(response: Response): Promise<void> {
   // First, try to extract the error message from the response body
   let serverMessage = 'Unknown error occurred';
-  if (!response.ok) {
-    console.log('response', response);
-    const responseBody = await response.json();
-    serverMessage = responseBody.message || serverMessage;
-  }
+
+  console.log('response', response);
+  const responseBody = await response.json();
+  serverMessage = responseBody.message || serverMessage;
+
   switch (response.status) {
     case 400:
       throw new BadRequestError(serverMessage);

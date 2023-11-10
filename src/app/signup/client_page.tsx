@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import { useUser } from '@/lib/hooks/useUser';
+import { handleApiError } from '@/utils/apiErrors';
 
 export const SignUp: React.FC = () => {
   const router = useRouter();
@@ -37,8 +38,7 @@ export const SignUp: React.FC = () => {
       }
 
       if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.error || 'Failed to sign up.');
+        await handleApiError(res);
       }
     } catch (err) {
       setError((err as Error).message);

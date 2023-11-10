@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import React from 'react';
 
 import { ProjectSidebar } from '@/components/ProjectSidebar';
+import { handleApiError } from '@/utils/apiErrors';
 
 import { ProjectClient } from './client_page';
 
@@ -28,7 +29,7 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
       },
     );
     if (!res.ok) {
-      throw new Error(`Failed to fetch project: ${res.statusText}`);
+      await handleApiError(res);
     }
     const projectData = await res.json();
     return projectData;

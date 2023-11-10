@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { useUser } from '@/lib/hooks/useUser';
+import { handleApiError } from '@/utils/apiErrors';
 
 export const Settings: React.FC = () => {
   const { data: fetchedData, mutate } = useUser();
@@ -42,8 +43,7 @@ export const Settings: React.FC = () => {
       }
 
       if (!res.ok) {
-        const resData = await res.json();
-        throw new Error(resData.error || 'Failed to create project.');
+        await handleApiError(res);
       }
     } catch (err) {
       setError((err as Error).message);

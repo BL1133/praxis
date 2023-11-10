@@ -109,6 +109,7 @@ export const EditProject: React.FC<ProjectProps> = ({
       setLoading(false);
       setIsDeleted(true); // for submit modal message
       setSuccess(true);
+      await mutate(null);
       setTimeout(() => {
         router.push(`/projects/`);
         setIsSubmitModalOpen(false);

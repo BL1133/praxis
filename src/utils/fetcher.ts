@@ -1,4 +1,12 @@
-export const fetcher = (url: string) => fetch(url).then((res) => res.json());
+import { handleApiError } from './apiErrors';
+
+export const fetcher = async (url: string) => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    await handleApiError(res);
+  }
+  return res.json();
+};
 
 export const fetcherAuth = async (url: string) => {
   const res = await fetch(url, {
@@ -8,5 +16,6 @@ export const fetcherAuth = async (url: string) => {
     },
     credentials: 'include',
   });
+  if (!res.ok) await handleApiError(res);
   return res.json();
 };

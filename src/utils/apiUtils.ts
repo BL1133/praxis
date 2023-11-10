@@ -1,5 +1,7 @@
 import { ProjectInputs } from 'types';
 
+import { handleApiError } from './apiErrors';
+
 const CONNECTION_ERROR =
   'CONNECTION_ERROR. An error occurred while attempting to connect to MongoDB';
 
@@ -18,9 +20,7 @@ export const getTags = async (): Promise<ProjectInputs['tags']> => {
       },
     );
     if (!res.ok) {
-      throw new Error(
-        `Failed to fetch projects in getTags function: ${res.statusText}`,
-      );
+      await handleApiError(res);
     }
     const projectsData = await res.json();
     return projectsData;

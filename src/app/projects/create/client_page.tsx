@@ -53,6 +53,7 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
     shortDescription: '',
     skillsWanted: [],
     tags: [],
+    links: [],
   };
 
   /**

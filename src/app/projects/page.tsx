@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import { GetProjectsResponse } from 'types';
 
+import { handleApiError } from '@/utils/apiErrors';
+
 import { Projects } from './client_page';
 
 const CONNECTION_ERROR =
@@ -18,7 +20,7 @@ const getProjects = async (): Promise<GetProjectsResponse> => {
       },
     });
     if (!res.ok) {
-      throw new Error(`Failed to fetch projects: ${res.statusText}`);
+      await handleApiError(res);
     }
     const projectsData = await res.json();
     return projectsData;

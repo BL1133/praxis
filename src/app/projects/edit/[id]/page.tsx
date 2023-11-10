@@ -1,6 +1,7 @@
 import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
 
+import { handleApiError } from '@/utils/apiErrors';
 import { getTags } from '@/utils/apiUtils';
 
 import { EditProject } from './client_page';
@@ -23,7 +24,7 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
       },
     );
     if (!res.ok) {
-      throw new Error(`Failed to fetch project: ${res.statusText}`);
+      await handleApiError(res);
     }
     const projectData = await res.json();
     return projectData;

@@ -1,7 +1,7 @@
 import { Media, Project } from '@payloadTypes';
 import { ProjectInputs, ProjectResponse } from 'types';
 
-import { handleApiResponse } from '@/utils/apiErrors';
+import { handleApiError } from '@/utils/apiErrors';
 
 interface UploadError {
   fileName: string;
@@ -40,24 +40,17 @@ async function uploadMedia(
       const formData = new FormData();
       formData.append('file', file);
       formData.append('id', id);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_CMS_URL}/api/media`,
-        {
-          method: 'POST',
-          body: formData,
-          credentials: 'include',
-        },
-      );
+      const res = await fetch(`${process.env.NEXT_PUBLIC_CMS_URL}/api/media`, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include',
+      });
 
-      if (!response.ok) {
-        const responseBody = await response.json();
-        throw new Error(
-          responseBody.errors[0].message ||
-            `Failed to upload file: ${file.name}`,
-        );
+      if (!res.ok) {
+        await handleApiError(res);
       }
 
-      const uploadResult = await response.json();
+      const uploadResult = await res.json();
       results.success.push(uploadResult.doc.id);
     } catch (error) {
       results.failures.push({ fileName: file.name, error: error as Error });
@@ -131,7 +124,7 @@ export async function removeFileFromMediaCollection(media: string[]) {
 
   const deletePromises = media.map(async (mediaId) => {
     try {
-      const response = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_CMS_URL}/api/media/${mediaId}`,
         {
           method: 'DELETE',
@@ -139,13 +132,8 @@ export async function removeFileFromMediaCollection(media: string[]) {
         },
       );
 
-      if (!response.ok) {
-        // If the response is not OK, throw an error.
-        const responseBody = await response.json();
-        throw new Error(
-          responseBody.errors[0].message ||
-            `Failed to remove file. Please try again.`,
-        );
+      if (!res.ok) {
+        await handleApiError(res);
       }
 
       results.success.push(mediaId);
@@ -173,7 +161,7 @@ export async function createProject(
   const resData = await res.json();
 
   if (!res.ok) {
-    handleApiResponse(res);
+    handleApiError(res);
   }
   return resData;
 }
@@ -198,7 +186,7 @@ export async function editProject(
   console.log('resData', resData);
 
   if (!res.ok) {
-    handleApiResponse(res);
+    handleApiError(res);
   }
   return resData;
 }
@@ -217,7 +205,7 @@ export async function deleteProject(id: string) {
   const resData = await res.json();
 
   if (!res.ok) {
-    handleApiResponse(res);
+    handleApiError(res);
   }
   return resData;
 }
