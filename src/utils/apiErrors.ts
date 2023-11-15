@@ -1,5 +1,10 @@
-// Base exception class for all API-related errors
-class ApiError extends Error {
+/**
+ * @fileoverview Custom error classes for handling API errors
+ * Identifies type of API error based on response status and attaches the correct name to be handled.
+ *
+ * @module utils/apiErrors
+ */
+export class ApiError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'ApiError';
@@ -9,35 +14,35 @@ class ApiError extends Error {
   }
 }
 
-class BadRequestError extends ApiError {
+export class BadRequestError extends ApiError {
   constructor(message = 'Bad request') {
     super(message);
     this.name = 'BadRequestError';
   }
 }
 
-class UnauthorizedError extends ApiError {
+export class UnauthorizedError extends ApiError {
   constructor(message = 'Unauthorized access') {
     super(message);
     this.name = 'UnauthorizedError';
   }
 }
 
-class ForbiddenError extends ApiError {
+export class ForbiddenError extends ApiError {
   constructor(message = 'Forbidden access') {
     super(message);
     this.name = 'ForbiddenError';
   }
 }
 
-class NotFoundError extends ApiError {
+export class NotFoundError extends ApiError {
   constructor(message = 'Resource not found') {
     super(message);
     this.name = 'NotFoundError';
   }
 }
 
-class ServerError extends ApiError {
+export class ServerError extends ApiError {
   constructor(message = 'Server error') {
     super(message);
     this.name = 'ServerError';
@@ -49,8 +54,8 @@ export async function handleApiError(response: Response): Promise<void> {
   let serverMessage = 'Unknown error occurred';
 
   console.log('response', response);
-  const responseBody = await response.json();
-  serverMessage = responseBody.message || serverMessage;
+  const responseBody = await response.json(); // ex. { errors: [ { message: 'The requested resource was not found.' } ] }
+  serverMessage = responseBody.errors[0].message || serverMessage;
 
   switch (response.status) {
     case 400:
@@ -61,7 +66,6 @@ export async function handleApiError(response: Response): Promise<void> {
       throw new ForbiddenError(serverMessage);
     case 404:
       throw new NotFoundError(serverMessage);
-    case 500:
     default:
       throw new ServerError(serverMessage);
   }

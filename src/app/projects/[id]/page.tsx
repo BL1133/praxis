@@ -1,9 +1,18 @@
+/**
+ * @fileoverview Renders the project page for a specific project ID.
+ * @module ProjectPageServerSide
+ * @param {Object} params - The parameters object containing the project ID.
+ * @param {string} params.id - The ID of the project to be rendered.
+ * @returns {JSX.Element} - The JSX element representing the project page.
+ */
+
 import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
 import { ProjectSidebar } from '@/components/ProjectSidebar';
-import { handleApiError } from '@/utils/apiErrors';
+import { handleApiError, NotFoundError } from '@/utils/apiErrors';
 
 import { ProjectClient } from './client_page';
 
@@ -34,8 +43,8 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
     const projectData = await res.json();
     return projectData;
   } catch (e) {
-    console.error(e as Error);
-    throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
+    if ((e as Error) instanceof NotFoundError) throw notFound();
+    throw new Error(`${(e as Error).name}: ${(e as Error).message}`);
   }
 };
 

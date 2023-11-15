@@ -1,6 +1,6 @@
 import React from 'react';
 
-import BadStatusPage from '@/components/BadStatusPage';
+import { BadStatusPage } from '@/components/BadStatusPage';
 import { Loading } from '@/components/LoadingPage';
 import { useUser } from '@/lib/hooks/useUser';
 

@@ -1,7 +1,13 @@
+/**
+ * @fileoverview Renders a page with a custom error message based on the provided status code.
+ * @param {number} statusCode - The HTTP status code to display.
+ * @returns {JSX.Element} - The JSX element representing the bad status page.
+ * @module src/components/BadStatusPage
+ */
 import Link from 'next/link';
 import React from 'react';
 
-export default function BadStatusPage({ statusCode }: { statusCode: number }) {
+export function BadStatusPage({ statusCode }: { statusCode: number }) {
   interface ErrorMessage {
     [key: number]: {
       title: string;
