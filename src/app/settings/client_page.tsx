@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 
+import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { useUser } from '@/lib/hooks/useUser';
 import { handleApiError } from '@/utils/apiErrors';
 
@@ -55,57 +56,59 @@ export const Settings: React.FC = () => {
   };
 
   return (
-    <div>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleUpdateUser}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            style={myStyle}
-            id="username"
-            type="text"
-            value={data?.username || ''}
-            onChange={(e) => setData({ ...data, username: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="firstName">First Name:</label>
-          <input
-            style={myStyle}
-            id="firstName"
-            type="text"
-            value={data?.firstName || ''}
-            onChange={(e) => setData({ ...data, firstName: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="lastName">Last Name:</label>
-          <input
-            style={myStyle}
-            id="lastName"
-            type="text"
-            value={data?.lastName || ''}
-            onChange={(e) => setData({ ...data, lastName: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            style={myStyle}
-            id="email"
-            type="email"
-            value={data?.email || ''}
-            onChange={(e) => setData({ ...data, email: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">Update Profile</button>
-        </div>
-      </form>
-    </div>
+    <LoadingProtected>
+      <div>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+        <form onSubmit={handleUpdateUser}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              style={myStyle}
+              id="username"
+              type="text"
+              value={data?.username || ''}
+              onChange={(e) => setData({ ...data, username: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="firstName">First Name:</label>
+            <input
+              style={myStyle}
+              id="firstName"
+              type="text"
+              value={data?.firstName || ''}
+              onChange={(e) => setData({ ...data, firstName: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="lastName">Last Name:</label>
+            <input
+              style={myStyle}
+              id="lastName"
+              type="text"
+              value={data?.lastName || ''}
+              onChange={(e) => setData({ ...data, lastName: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email:</label>
+            <input
+              style={myStyle}
+              id="email"
+              type="email"
+              value={data?.email || ''}
+              onChange={(e) => setData({ ...data, email: e.target.value })}
+              required
+            />
+          </div>
+          <div>
+            <button type="submit">Update Profile</button>
+          </div>
+        </form>
+      </div>
+    </LoadingProtected>
   );
 };

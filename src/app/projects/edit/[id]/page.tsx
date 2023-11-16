@@ -1,13 +1,11 @@
 import { Project } from '@payloadTypes';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
-import { handleApiError } from '@/utils/apiErrors';
+import { handleApiError, NotFoundError } from '@/utils/apiErrors';
 import { getTags } from '@/utils/apiUtils';
 
 import { EditProject } from './client_page';
-
-const CONNECTION_ERROR =
-  'CONNECTION_ERROR. An error occurred while attempting to connect to MongoDB';
 
 const getProject = async ({ id }: { id: string }): Promise<Project> => {
   try {
@@ -29,8 +27,8 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
     const projectData = await res.json();
     return projectData;
   } catch (e) {
-    console.error(e as Error);
-    throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
+    if ((e as Error) instanceof NotFoundError) throw notFound();
+    throw new Error(`${(e as Error).name}: ${(e as Error).message}`);
   }
 };
 

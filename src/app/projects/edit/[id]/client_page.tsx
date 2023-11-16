@@ -7,10 +7,14 @@ import { ProjectInputs } from 'types';
 
 import { LoadingProtected } from '@/components/~Wrappers/LoadingProtected';
 import { ProjectFormWrapper } from '@/components/~Wrappers/ProjectFormWrapper';
+import { BadStatusPage } from '@/components/BadStatusPage';
 import { ConfirmDelete } from '@/components/ConfirmDelete';
+import { Loading } from '@/components/LoadingPage';
 import { SubmitModal } from '@/components/SubmitModal';
 import { useProject } from '@/lib/hooks/useProject';
+import { useUser } from '@/lib/hooks/useUser';
 import { useProjectFormContext } from '@/providers/ProjectFormContext';
+import { IsOwnProject } from '@/utils/isOwnProject';
 import {
   deleteProject,
   editProject,
@@ -42,7 +46,8 @@ export const EditProject: React.FC<ProjectProps> = ({
   } = context;
   //
   const router = useRouter();
-  const { data, mutate } = useProject(projectData);
+  const { data: fetchedProjectData, mutate } = useProject(projectData);
+  const { data: userData } = useUser();
   const {
     title,
     shortDescription,
@@ -52,7 +57,7 @@ export const EditProject: React.FC<ProjectProps> = ({
     tags,
     id,
     media,
-  } = data || {}; // prevents runtime error if project is undefined
+  } = fetchedProjectData || {}; // prevents runtime error if project is undefined
 
   const defaultValues = {
     title,
@@ -122,6 +127,11 @@ export const EditProject: React.FC<ProjectProps> = ({
       setSuccess(false);
     }
   };
+
+  if (!userData || !fetchedProjectData) return <Loading />;
+
+  if (!IsOwnProject(userData, fetchedProjectData))
+    return <BadStatusPage statusCode={403} />;
 
   return (
     <LoadingProtected>

@@ -7,6 +7,7 @@ import React from 'react';
 import { useProject } from '@/lib/hooks/useProject';
 import { useUser } from '@/lib/hooks/useUser';
 import { useSidebarContext } from '@/providers/SidebarContext';
+import { IsOwnProject } from '@/utils/isOwnProject';
 
 import { Description } from './components/description';
 import { Header } from './components/header';
@@ -20,12 +21,7 @@ export const ProjectClient: React.FC<ProjectProps> = ({
   const { isOpen: isSidebarOpen } = useSidebarContext();
   const { data: userData } = useUser();
   const { data: projectData } = useProject(initialData);
-  const isOwnProject =
-    userData?.user &&
-    (typeof projectData?.createdBy === 'object'
-      ? projectData?.createdBy?.id === userData?.user?.id
-      : projectData?.createdBy === userData?.user?.id);
-
+  const isOwnProject = IsOwnProject(userData, projectData);
   return (
     <div
       className={classNames(
