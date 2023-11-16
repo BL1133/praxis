@@ -4,12 +4,9 @@
  * @param reset - A function to reset the component.
  * @returns A React component.
  */
-'use client';
-import { ErrorBoundary } from '@/components/ErrorBoundary';
+'use client'; // Error components must be Client Componentsx
 
-// Error components must be Client Componentsx
-
-export default function Error({
+export function ErrorBoundary({
   error,
   reset,
 }: {
@@ -21,5 +18,17 @@ export default function Error({
   //   // console.error('error');
   // }, [error]);
 
-  return <ErrorBoundary error={error} reset={reset} />;
+  return (
+    <div>
+      <h2>Something went wrong!</h2>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </div>
+  );
 }
