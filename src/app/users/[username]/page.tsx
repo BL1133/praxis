@@ -1,9 +1,10 @@
 import { User } from '@payloadTypes';
 import { Metadata } from 'next';
 import { cookies } from 'next/headers';
+import { notFound } from 'next/navigation';
 import React from 'react';
 
-import { handleApiError } from '@/utils/apiErrors';
+import { handleApiError, NotFoundError } from '@/utils/apiErrors';
 
 import { UserProfile } from './client_page';
 
@@ -33,9 +34,10 @@ const getUserId = async ({
       await handleApiError(res);
     }
     const userData = await res.json();
-    return userData.docs[0].id;
+    return userData?.docs[0]?.id;
   } catch (e) {
-    throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
+    if ((e as Error) instanceof NotFoundError) throw notFound();
+    throw new Error(`${(e as Error).name}: ${(e as Error).message}`);
   }
 };
 
@@ -61,7 +63,8 @@ const getUser = async (userId: string): Promise<User> => {
 
     return userData;
   } catch (e) {
-    throw new Error(`${CONNECTION_ERROR}: ${(e as Error).message}`);
+    if ((e as Error) instanceof NotFoundError) throw notFound();
+    throw new Error(`${(e as Error).name}: ${(e as Error).message}`);
   }
 };
 
