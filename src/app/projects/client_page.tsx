@@ -15,11 +15,16 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   if (isError) return <div>Error Loading projects</div>;
   if (isLoading) return <div>Loading projects...</div>;
 
-  return data.docs.map((project: Project) => (
-    <div key={project.id}>
-      <h1>{project.title}</h1>
-      <h1>{project.shortDescription}</h1>
-      <Link href={`/projects/${project.id}`}>See Project</Link>
+  return (
+    <div>
+      {data.docs.map((project: Project) => (
+        <div key={project.id}>
+          <h1>{project.title}</h1>
+          <p>{project.shortDescription}</p>{' '}
+          {/* Changed this to a <p> tag for semantic correctness */}
+          <Link href={`/projects/${project.id}`}>See Project</Link>
+        </div>
+      ))}
     </div>
-  ));
+  );
 };

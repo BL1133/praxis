@@ -28,8 +28,12 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb-dark: rgb(
+      17 24 39 / var(--tw-bg-opacity)
+    ); /* Match the .dark background color */
+    --background-end-rgb-dark: rgb(
+      17 24 39 / var(--tw-bg-opacity)
+    ); /* Match the .dark background color */
   }
 }
 
@@ -41,6 +45,10 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+html.dark body {
+  background: rgb(17 24 39 / var(--tw-bg-opacity));
 }
 
 @layer base {
