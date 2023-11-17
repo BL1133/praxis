@@ -4,8 +4,10 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 240, 240, 248;
+  --foreground-dark-rgb: 255, 255, 255;
+  --background-dark-rgb: 17 24 39 / var(--tw-bg-opacity);
 
   /* Custom Drop Shadow */
   --shadow-color: 0deg 0% 0%;
@@ -25,19 +27,7 @@
     -3.5px 20px 24.4px -2px hsl(var(--shadow-color) / 0.06);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb-dark: rgb(
-      17 24 39 / var(--tw-bg-opacity)
-    ); /* Match the .dark background color */
-    --background-end-rgb-dark: rgb(
-      17 24 39 / var(--tw-bg-opacity)
-    ); /* Match the .dark background color */
-  }
-}
-
-body {
+html {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -47,8 +37,9 @@ body {
     rgb(var(--background-start-rgb));
 }
 
-html.dark body {
-  background: rgb(17 24 39 / var(--tw-bg-opacity));
+html.dark {
+  color: rgb(var(--foreground-dark-rgb));
+  background: rgb(var(--background-dark-rgb));
 }
 
 @layer base {
@@ -65,5 +56,5 @@ html.dark body {
 
 .dark {
   --tw-bg-opacity: 1;
-  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  background-color: rgb(var(--background-dark-rgb));
 }
