@@ -5,6 +5,9 @@ import Link from 'next/link';
 import React from 'react';
 import { GetProjectsResponse } from 'types';
 
+import { ProjectSkillsWanted } from '@/components/ProjectSkillsWanted';
+import { ProjectTags } from '@/components/ProjectTags';
+import { ProjectTitleAndDescription } from '@/components/ProjectTitleAndDescription';
 import { useProjects } from '@/lib/hooks/useProjects';
 
 export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
@@ -20,10 +23,13 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       {data.docs.map((project: Project) => (
         <div
           key={project.id}
-          className="w-10/12 bg-white dark:bg-gray-800  shadow-elevation-medium rounded-lg"
+          className="w-10/12 bg-white dark:bg-gray-800  shadow-elevation-medium rounded-lg p-8"
         >
-          <h1>{project.title}</h1>
-          <p>{project.shortDescription}</p>{' '}
+          <ProjectTitleAndDescription projectData={project} />
+          <div className="flex gap-8">
+            <ProjectSkillsWanted projectData={project} />
+            <ProjectTags projectData={project} />
+          </div>
           {/* Changed this to a <p> tag for semantic correctness */}
           <Link href={`/projects/${project.id}`}>See Project</Link>
         </div>
