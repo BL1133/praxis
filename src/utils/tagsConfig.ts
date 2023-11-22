@@ -103,6 +103,42 @@ const tagsDictionary: TagsDictionary = {
 
 export const tags = [
   {
+    category: 'Domain',
+    tags: [
+      'app',
+      'website',
+      'platform',
+      'saas',
+      'ai',
+      'tool',
+      'social-media',
+      'e-commerce',
+      'education',
+      'info-product',
+      'automation',
+      'api',
+      'content-creator',
+      'gaming',
+      'vr-ar',
+      'web3',
+      '3d',
+    ],
+  },
+  {
+    category: 'Duration & Scope',
+    tags: [
+      'short-term',
+      'mid-term',
+      'long-term',
+      'personal-project',
+      'startup',
+    ],
+  },
+  {
+    category: 'Skill Level',
+    tags: ['beginner', 'intermediate', 'expert'],
+  },
+  {
     category: 'Technology',
     subCategories: [
       [
@@ -196,40 +232,6 @@ export const tags = [
           'xrp',
         ],
       ],
-    ],
-  },
-  {
-    category: 'Skill Level',
-    tags: ['beginner', 'intermediate', 'expert'],
-  },
-  {
-    category: 'Project Duration',
-    tags: ['short-term', 'mid-term', 'long-term'],
-  },
-  {
-    category: 'Project Scope',
-    tags: ['personal-project', 'startup'],
-  },
-  {
-    category: 'Domain',
-    tags: [
-      'app',
-      'website',
-      'platform',
-      'saas',
-      'ai',
-      'tool',
-      'social-media',
-      'e-commerce',
-      'education',
-      'info-product',
-      'automation',
-      'api',
-      'content-creator',
-      'gaming',
-      'vr-ar',
-      'web3',
-      '3d',
     ],
   },
 ];
