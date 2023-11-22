@@ -1,7 +1,7 @@
 import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
-import { tags } from '@/utils/tagsConfig';
+import { getTagLabel, tags } from '@/utils/tagsConfig';
 
 import { FormTag } from '../FormTag';
 
@@ -22,36 +22,40 @@ export function Tags({ tagsRef, success, loading, errors }: TagsProps) {
         // if subcategories, loop over subcategories array and make tags if it an array in the array
         // if tags, loop over tags array and make tags
         <div key={tag.category}>
-          <h2>{tag.category}</h2>
+          <h2 className="text-s font-medium tracking-wide mb-2">
+            {tag.category}
+          </h2>
           {/* If there are sub-categories for the category */}
           {tag.subCategories && (
             <div>
               {tag.subCategories.map((subcategory) => (
-                <div
-                  key={subcategory[0] as string}
-                  className="flex flex-wrap gap-1"
-                >
-                  <h3>{subcategory[0]}</h3>
-                  {(subcategory[1] as string[]).map((tag: string) => (
-                    <FormTag
-                      key={tag}
-                      tag={tag}
-                      tagsRef={tagsRef}
-                      success={success}
-                      loading={loading}
-                      errors={errors}
-                    />
-                  ))}
-                </div>
+                <>
+                  <h3 className="text-xs mb-2 ">-{subcategory[0]}-</h3>
+                  <div
+                    key={subcategory[0] as string}
+                    className="flex flex-wrap gap-1 mb-3"
+                  >
+                    {(subcategory[1] as string[]).map((tag: string) => (
+                      <FormTag
+                        key={tag}
+                        tag={getTagLabel(tag)}
+                        tagsRef={tagsRef}
+                        success={success}
+                        loading={loading}
+                        errors={errors}
+                      />
+                    ))}
+                  </div>
+                </>
               ))}
             </div>
           )}
           {/* If No sub-categories */}
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1 mb-3">
             {tag.tags?.map((tag: string) => (
               <FormTag
                 key={tag}
-                tag={tag}
+                tag={getTagLabel(tag)}
                 tagsRef={tagsRef}
                 success={success}
                 loading={loading}
