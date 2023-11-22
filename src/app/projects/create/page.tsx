@@ -1,12 +1,9 @@
 import { Metadata } from 'next';
 
-import { getTags } from '@/utils/apiUtils';
-
 import { CreateProject } from './client_page';
 
 export default async function Page() {
-  const fetchedTags = await getTags();
-  return <CreateProject fetchedTags={fetchedTags} />;
+  return <CreateProject />;
 }
 
 export const metadata: Metadata = {

@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { handleApiError, NotFoundError } from '@/utils/apiErrors';
-import { getTags } from '@/utils/apiUtils';
 
 import { EditProject } from './client_page';
 
@@ -33,9 +32,8 @@ const getProject = async ({ id }: { id: string }): Promise<Project> => {
 };
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const fetchedTags = await getTags();
   const projectData = await getProject(params);
-  return <EditProject projectData={projectData} fetchedTags={fetchedTags} />;
+  return <EditProject projectData={projectData} />;
 }
 
 export const metadata: Metadata = {

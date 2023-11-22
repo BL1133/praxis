@@ -16,7 +16,6 @@ interface ProjectFormWrapperProps {
   defaultValues: ProjectInputs;
   onSubmit: (data: ProjectInputs) => void;
   children: React.ReactNode;
-  fetchedTags: ProjectInputs['tags'];
   editing?: boolean;
 }
 
@@ -24,7 +23,6 @@ export function ProjectFormWrapper({
   defaultValues,
   onSubmit,
   children,
-  fetchedTags,
   editing = false, // default to false unless passed in as true
 }: ProjectFormWrapperProps) {
   const { loading, success, setIsConfirmModalOpen } = useProjectFormContext();
@@ -46,11 +44,7 @@ export function ProjectFormWrapper({
           <ShortDescription register={register} errors={errors} />
           <FullDescription register={register} errors={errors} />
           <SkillsWanted register={register} errors={errors} />
-          <TagsSection
-            fetchedTags={fetchedTags}
-            errors={errors}
-            register={register}
-          />
+          <TagsSection errors={errors} register={register} />
           <div>
             <FileUpload fileRef={register('file')} />
             {editing && defaultValues.media && (

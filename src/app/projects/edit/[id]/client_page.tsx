@@ -24,13 +24,9 @@ import {
 
 interface ProjectProps {
   projectData: Project;
-  fetchedTags: ProjectInputs['tags'];
 }
 
-export const EditProject: React.FC<ProjectProps> = ({
-  projectData,
-  fetchedTags,
-}) => {
+export const EditProject: React.FC<ProjectProps> = ({ projectData }) => {
   const context = useProjectFormContext();
   const {
     setLoading,
@@ -139,7 +135,6 @@ export const EditProject: React.FC<ProjectProps> = ({
         <ProjectFormWrapper
           onSubmit={handleEditProject}
           defaultValues={defaultValues}
-          fetchedTags={fetchedTags}
           editing
         >
           <SubmitModal

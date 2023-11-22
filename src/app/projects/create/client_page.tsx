@@ -26,10 +26,6 @@ import {
   uploadMediaAndGetSubmitData,
 } from '../../../utils/projectHelpers';
 
-interface CreateProjectProps {
-  fetchedTags: ProjectInputs['tags'];
-}
-
 /**
  * CreateProject is the page where users can create a new project.
  * It uses the ProjectFormWrapper component to render the form.
@@ -39,9 +35,7 @@ interface CreateProjectProps {
  * @param {CreateProjectProps} props - The props that are passed to the component
  * @returns {JSX.Element} - The CreateProject component
  */
-export const CreateProject: React.FC<CreateProjectProps> = ({
-  fetchedTags,
-}) => {
+export const CreateProject: React.FC<CreateProjectProps> = () => {
   const router = useRouter();
   const context = useProjectFormContext();
   const { setLoading, setSuccess, setSubmitErrors, setIsSubmitModalOpen } =
@@ -98,7 +92,6 @@ export const CreateProject: React.FC<CreateProjectProps> = ({
         <ProjectFormWrapper
           onSubmit={handleCreateProject}
           defaultValues={defaultValues}
-          fetchedTags={fetchedTags}
         >
           <SubmitModal message="You have successfully created a project." />
           <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">

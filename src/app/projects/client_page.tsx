@@ -19,7 +19,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   if (isLoading) return <div>Loading projects...</div>;
 
   return (
-    <div className="flex flex-col place-items-center gap-5 mt-10">
+    <div className="flex flex-col place-items-center gap-5 mt-10 pb-20">
       {data.docs.map((project: Project) => (
         <div
           key={project.id}

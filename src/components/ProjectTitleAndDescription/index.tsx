@@ -15,7 +15,7 @@ export function ProjectTitleAndDescription({
               New
             </span>
           </h2>
-          {/* Watching functionality */}
+          {/* Watching functionality To add */}
           {/* <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800 mb-4 sm:mb-5">
                   <svg
                     className="mr-1 w-3 h-3"

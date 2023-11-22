@@ -49,8 +49,8 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
                   {projectData.links?.map((link) => (
                     <ProjectLink
                       key={link.id}
-                      url={link.url}
-                      title={getDomain(link.url)}
+                      url={link.url as string}
+                      title={getDomain(link.url as string)}
                     />
                   ))}
                 </dd>
