@@ -23,10 +23,10 @@ export function Tags({ tagsRef, success, loading, errors }: TagsProps) {
         // if subcategories, loop over subcategories array and make tags if it an array in the array
         // if tags, loop over tags array and make tags
         <Accordion.Panel key={tag.category}>
-          <Accordion.Title className="text-s font-medium tracking-wide">
+          <Accordion.Title className="bg-white text-s font-medium tracking-wide">
             {tag.category}
           </Accordion.Title>
-          <Accordion.Content>
+          <Accordion.Content className="bg-white">
             {/* If there are sub-categories for the category */}
             {tag.subCategories && (
               <>
