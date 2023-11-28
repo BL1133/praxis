@@ -1,6 +1,8 @@
 import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { getTagLabel } from '@/utils/tagsConfig';
+
 import { Tag } from '../Tag';
 import styles from './index.module.css';
 
@@ -27,7 +29,7 @@ export function FormTag({
         disabled={loading || success ? true : false}
         {...tagsRef}
       />
-      <Tag tag={tag} />
+      <Tag tag={getTagLabel(tag)} />
     </label>
   );
 }
