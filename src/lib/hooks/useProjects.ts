@@ -6,10 +6,10 @@ import { fetcher } from '@/utils/fetcher';
 
 export const useProjects = (
   initialData: GetProjectsResponse,
-  query: string | undefined,
+  query: string,
 ) => {
   let url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
-  if (query !== undefined) {
+  if (query !== '') {
     url += query; // Append the query string directly
   }
 

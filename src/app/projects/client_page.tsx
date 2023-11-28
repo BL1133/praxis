@@ -24,7 +24,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
   const router = useRouter();
-  const [query, setQuery] = useState<string>();
+  const [query, setQuery] = useState<string>('');
   const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
@@ -57,9 +57,14 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       },
       { addQueryPrefix: true, arrayFormat: 'comma' },
     );
-    setQuery(stringifiedQuery);
+    if (query.tags.in && query.tags.in.length !== 0) {
+      setQuery(stringifiedQuery);
+      router.push(stringifiedQuery);
+    } else {
+      setQuery('');
+      router.push('/projects');
+    }
     console.log(query);
-    router.push(stringifiedQuery);
   };
 
   function clearAllFilters() {
