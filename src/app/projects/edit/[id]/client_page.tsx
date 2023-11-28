@@ -70,7 +70,6 @@ export const EditProject: React.FC<ProjectProps> = ({ projectData }) => {
     if (stagedForRemoval.length > 0) {
       inputs.media = filterStagedForRemoval(inputs.media as Media[]);
     }
-    console.log('inputs', inputs);
     setIsSubmitModalOpen(true);
     setLoading(true);
     setSubmitErrors([]);
@@ -81,7 +80,6 @@ export const EditProject: React.FC<ProjectProps> = ({ projectData }) => {
         setSubmitErrors,
         id,
       );
-      console.log(submitData);
       await editProject(submitData, id);
       setLoading(false);
       setSuccess(true);

@@ -102,7 +102,6 @@ export async function uploadMediaAndGetSubmitData(
       ...inputs,
       media: updatedMediaIds,
     };
-    console.log(filteredLinks);
     if (filteredLinks) {
       updatedInputs.links = filteredLinks;
     } else {
@@ -170,7 +169,6 @@ export async function editProject(
   inputs: ProjectInputs,
   id: string,
 ): Promise<ProjectResponse> {
-  // console.log(inputs);
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects/${id}`,
     {
@@ -183,7 +181,6 @@ export async function editProject(
     },
   );
   const resData = await res.json();
-  console.log('resData', resData);
 
   if (!res.ok) {
     handleApiError(res);

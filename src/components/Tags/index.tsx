@@ -31,30 +31,24 @@ export function Tags({ tagsRef, errors }: TagsProps) {
           </Accordion.Title>
           <Accordion.Content className="bg-white">
             {/* If there are sub-categories for the category */}
-            {tag.subCategories && (
-              <>
-                {tag.subCategories.map((subcategory) => (
-                  <>
-                    <h3 className="text-xs mb-2 ">- {subcategory[0]} -</h3>
-                    <div
-                      key={subcategory[0] as string}
-                      className="flex flex-wrap gap-1 mb-2"
-                    >
-                      {(subcategory[1] as string[]).map((tag: string) => (
-                        <FormTag
-                          key={tag}
-                          tag={getTagLabel(tag)}
-                          tagsRef={tagsRef}
-                          success={success}
-                          loading={loading}
-                          errors={errors}
-                        />
-                      ))}
-                    </div>
-                  </>
-                ))}
-              </>
-            )}
+            {tag.subCategories &&
+              tag.subCategories.map((subcategory, index) => (
+                <div key={`${tag.category}-${subcategory[0]}-${index}`}>
+                  <h3 className="text-xs mb-2 ">- {subcategory[0]} -</h3>
+                  <div className="flex flex-wrap gap-1 mb-2">
+                    {(subcategory[1] as string[]).map((subTag: string) => (
+                      <FormTag
+                        key={`${tag.category}-${subcategory[0]}-${subTag}`}
+                        tag={getTagLabel(subTag)}
+                        tagsRef={tagsRef}
+                        success={success}
+                        loading={loading}
+                        errors={errors}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
             {/* If No sub-categories */}
             <div className="flex flex-wrap gap-1 ">
               {tag.tags?.map((tag: string) => (

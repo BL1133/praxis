@@ -3,7 +3,6 @@ import { Project } from '@payloadTypes';
 import { Tag } from '../Tag';
 
 export function ProjectTags({ projectData }: { projectData: Project }) {
-  console.log(projectData);
   return (
     <div>
       <dt className="mb-2 font-semibold leading-none text-gray-900 dark:text-white">

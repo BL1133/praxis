@@ -21,7 +21,7 @@ interface TagsFilterContextType {
   errors: FieldErrors<TagsFormInputs>;
 }
 
-type TagsFormInputs = {
+export type TagsFormInputs = {
   tags: string[]; // Assuming tags are an array of strings
 };
 

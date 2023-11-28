@@ -53,7 +53,6 @@ export async function handleApiError(response: Response): Promise<void> {
   // First, try to extract the error message from the response body
   let serverMessage = 'Unknown error occurred';
 
-  console.log('response', response);
   const responseBody = await response.json(); // ex. { errors: [ { message: 'The requested resource was not found.' } ] }
   serverMessage = responseBody.errors[0].message || serverMessage;
 

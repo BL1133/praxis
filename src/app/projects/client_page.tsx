@@ -4,6 +4,7 @@ import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GetProjectsResponse } from 'types';
 
@@ -12,7 +13,10 @@ import { ProjectTags } from '@/components/ProjectTags';
 import { ProjectTitleAndDescription } from '@/components/ProjectTitleAndDescription';
 import { Tags } from '@/components/Tags';
 import { useProjects } from '@/lib/hooks/useProjects';
-import { useTagsFilterContext } from '@/providers/TagsFilterContext';
+import {
+  TagsFormInputs,
+  useTagsFilterContext,
+} from '@/providers/TagsFilterContext';
 
 export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
@@ -34,11 +38,12 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   if (isError) return <div>Error Loading projects</div>;
   if (isLoading) return <div>Loading projects...</div>;
 
-  function handleFiltering() {
-    setLoading(true);
-    setSuccess(null);
-    setSubmitErrors([]);
-  }
+  const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
+    console.log(data);
+    // setLoading(true);
+    // setSuccess(null);
+    // setSubmitErrors([]);
+  };
 
   function clearAllFilters() {
     setLoading(false);
