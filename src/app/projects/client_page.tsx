@@ -3,7 +3,7 @@
 import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import qs from 'qs';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -24,8 +24,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const query = searchParams.get('where') || '';
+  const [query, setQuery] = useState<string>();
   const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
@@ -56,9 +55,10 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       {
         where: query,
       },
-      { addQueryPrefix: true },
+      { addQueryPrefix: true, arrayFormat: 'comma' },
     );
-    console.log(query, stringifiedQuery);
+    setQuery(stringifiedQuery);
+    console.log(query);
     router.push(stringifiedQuery);
   };
 

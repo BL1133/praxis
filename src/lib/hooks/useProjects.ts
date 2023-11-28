@@ -6,14 +6,13 @@ import { fetcher } from '@/utils/fetcher';
 
 export const useProjects = (
   initialData: GetProjectsResponse,
-  query: string,
+  query: string | undefined,
 ) => {
-  let url;
-  if (query !== '') {
-    url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects${query}}`;
-  } else {
-    url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
+  let url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
+  if (query !== undefined) {
+    url += query; // Append the query string directly
   }
+
   const { data, error, isLoading } = useSWR(url, fetcher, {
     fallbackData: initialData,
     refreshInterval: 60000, // 1 minute
