@@ -4,6 +4,7 @@ import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GetProjectsResponse } from 'types';
 
@@ -12,15 +13,48 @@ import { ProjectTags } from '@/components/ProjectTags';
 import { ProjectTitleAndDescription } from '@/components/ProjectTitleAndDescription';
 import { Tags } from '@/components/Tags';
 import { useProjects } from '@/lib/hooks/useProjects';
+import { useTagsFilterContext } from '@/providers/TagsFilterContext';
+
+type TagsFormInputs = {
+  tags: string[]; // Assuming tags are an array of strings
+};
 
 export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
   const { data, isError, isLoading } = useProjects(projects);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const {
+    loading,
+    setLoading,
+    success,
+    setSuccess,
+    submitErrors,
+    setSubmitErrors,
+  } = useTagsFilterContext();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<TagsFormInputs>();
+
+  const tagsRef = register('tags');
 
   if (isError) return <div>Error Loading projects</div>;
   if (isLoading) return <div>Loading projects...</div>;
+
+  function handleFiltering() {
+    setLoading(true);
+    setSuccess(null);
+    setSubmitErrors([]);
+  }
+
+  function clearAllFilters() {
+    setLoading(false);
+    setSuccess(null);
+    setSubmitErrors([]);
+  }
 
   return (
     <div className="flex flex-col-reverse lg:flex-row  relative">
@@ -45,30 +79,40 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
           isFilterOpen ? ' block top-20 right-5 w-11/12' : 'hidden'
         }`}
       >
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/*@ts-ignore  */}
-        <Tags />
-        <div className="flex gap-4 mt-5">
-          <Button
-            size="md"
-            // isProcessing
-            processingSpinner={
-              <AiOutlineLoading className="h-6 w-6 animate-spin" />
-            }
-          >
-            Filter
-          </Button>
-          <Button
-            size="md"
-            // isProcessing
-            color="red"
-            processingSpinner={
-              <AiOutlineLoading className="h-6 w-6 animate-spin" />
-            }
-          >
-            Clear all
-          </Button>
-        </div>
+        {/* Tags filter ======================== */}
+        <form onSubmit={handleSubmit(handleFiltering)}>
+          <Tags
+            tagsRef={tagsRef}
+            loading={loading}
+            success={success}
+            errors={errors}
+          />
+          <div className="flex gap-4 mt-5">
+            <Button
+              type="submit"
+              disabled={isLoading || success ? true : false}
+              size="md"
+              isProcessing={isLoading}
+              processingSpinner={
+                <AiOutlineLoading className="h-6 w-6 animate-spin" />
+              }
+            >
+              Filter
+            </Button>
+            <Button
+              size="md"
+              disabled={isLoading || success ? true : false}
+              onClick={clearAllFilters}
+              isProcessing={isLoading}
+              color="red"
+              processingSpinner={
+                <AiOutlineLoading className="h-6 w-6 animate-spin" />
+              }
+            >
+              Clear all
+            </Button>
+          </div>
+        </form>
       </div>
       <div className="lg:hidden mt-10 flex">
         <Button

@@ -2,18 +2,21 @@ import { Accordion } from 'flowbite-react';
 import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
+import { useTagsFilterContext } from '@/providers/TagsFilterContext';
 import { getTagLabel, tags } from '@/utils/tagsConfig';
 
 import { FormTag } from '../FormTag';
 
 interface TagsProps {
   tagsRef: UseFormRegisterReturn<'tags'>;
+  errors: FieldErrors<ProjectInputs>;
   success: boolean | null;
   loading: boolean;
-  errors: FieldErrors<ProjectInputs>;
 }
 
-export function Tags({ tagsRef, success, loading, errors }: TagsProps) {
+export function Tags({ tagsRef, errors }: TagsProps) {
+  const { loading, success } = useTagsFilterContext();
+
   return (
     <Accordion alwaysOpen>
       {tags.map((tag) => (

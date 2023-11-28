@@ -1,4 +1,5 @@
 import { ProjectFormProvider } from '@/providers/ProjectFormContext';
+import { TagsFilterProvider } from '@/providers/TagsFilterContext';
 
 export default function ProjectsLayout({
   children,
@@ -7,7 +8,9 @@ export default function ProjectsLayout({
 }) {
   return (
     <section className="mr-10 ml-10">
-      <ProjectFormProvider>{children}</ProjectFormProvider>
+      <TagsFilterProvider>
+        <ProjectFormProvider>{children}</ProjectFormProvider>
+      </TagsFilterProvider>
     </section>
   );
 }
