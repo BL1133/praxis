@@ -3,7 +3,7 @@ import { FieldErrors, UseFormRegisterReturn } from 'react-hook-form';
 import { ProjectInputs } from 'types';
 
 import { useTagsFilterContext } from '@/providers/TagsFilterContext';
-import { getTagLabel, tags } from '@/utils/tagsConfig';
+import { tags } from '@/utils/tagsConfig';
 
 import { FormTag } from '../FormTag';
 
@@ -39,7 +39,7 @@ export function Tags({ tagsRef, errors }: TagsProps) {
                     {(subcategory[1] as string[]).map((subTag: string) => (
                       <FormTag
                         key={`${tag.category}-${subcategory[0]}-${subTag}`}
-                        tag={getTagLabel(subTag)}
+                        tag={subTag}
                         tagsRef={tagsRef}
                         success={success}
                         loading={loading}
@@ -54,7 +54,7 @@ export function Tags({ tagsRef, errors }: TagsProps) {
               {tag.tags?.map((tag: string) => (
                 <FormTag
                   key={tag}
-                  tag={getTagLabel(tag)}
+                  tag={tag}
                   tagsRef={tagsRef}
                   success={success}
                   loading={loading}
