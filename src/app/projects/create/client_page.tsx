@@ -32,10 +32,9 @@ import {
  * It also uses the SubmitModal component to render a modal that
  * displays the result of the submission.
  *
- * @param {CreateProjectProps} props - The props that are passed to the component
  * @returns {JSX.Element} - The CreateProject component
  */
-export const CreateProject: React.FC<CreateProjectProps> = () => {
+export const CreateProject: React.FC = () => {
   const router = useRouter();
   const context = useProjectFormContext();
   const { setLoading, setSuccess, setSubmitErrors, setIsSubmitModalOpen } =

@@ -3,6 +3,8 @@
 import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
@@ -21,7 +23,10 @@ import {
 export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
-  const { data, isError, isLoading } = useProjects(projects);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams.get('where') || '';
+  const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const {
     loading,
@@ -39,10 +44,22 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   if (isLoading) return <div>Loading projects...</div>;
 
   const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
-    console.log(data);
+    console.log('data++++++++', data);
     // setLoading(true);
-    // setSuccess(null);
-    // setSubmitErrors([]);
+    // This will add query to url which will be the key in useProjects SWR hook
+    const query = {
+      tags: {
+        in: data.tags,
+      },
+    };
+    const stringifiedQuery = qs.stringify(
+      {
+        where: query,
+      },
+      { addQueryPrefix: true },
+    );
+    console.log(query, stringifiedQuery);
+    router.push(stringifiedQuery);
   };
 
   function clearAllFilters() {
