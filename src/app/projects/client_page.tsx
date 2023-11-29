@@ -41,11 +41,15 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
 
   if (isError) return <div>Error Loading projects</div>;
   if (isLoading) return <div>Loading projects...</div>;
-
-  const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
-    console.log('data++++++++', data);
+  /**
+   * Handles the submission of the tags filtering form.
+   * Constructs a query string based on selected tags and updates the URL.
+   * If no tags are selected, it resets the query and navigates back to the base projects URL.
+   *
+   * @param {TagsFormInputs} data - The data from the form submission, containing selected tags.
+   */
+  const createAndSetQuery: SubmitHandler<TagsFormInputs> = async (data) => {
     // setLoading(true);
-    // This will add query to url which will be the key in useProjects SWR hook
     const query = {
       tags: {
         in: data.tags,
@@ -58,13 +62,13 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       { addQueryPrefix: true, arrayFormat: 'comma' },
     );
     if (query.tags.in && query.tags.in.length !== 0) {
+      // This will add query to url which will be the key in useProjects SWR hook
       setQuery(stringifiedQuery);
       router.push(stringifiedQuery);
     } else {
       setQuery('');
       router.push('/projects');
     }
-    console.log(query);
   };
 
   function clearAllFilters() {
@@ -74,7 +78,10 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   }
 
   return (
-    <div className="flex flex-col-reverse lg:flex-row  relative">
+    // To have gradient background on this page requires the margin and padding trickery below.Can't have it on layout because it affects all project pages. Also dark-bg makes background:none on dark mode which has dark class on html element
+    <div
+      className={`flex flex-col-reverse lg:flex-row gradient-bg dark-bg relative -mr-10 -ml-10 pr-10 pl-10`}
+    >
       <div className="flex flex-col gap-5 lg:mt-10 mt-5 pb-20 lg:w-9/12">
         {data.docs.map((project: Project) => (
           <div
@@ -97,7 +104,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
         }`}
       >
         {/* Tags filter ======================== */}
-        <form onSubmit={handleSubmit(handleFiltering)}>
+        <form onSubmit={handleSubmit(createAndSetQuery)}>
           <Tags
             tagsRef={tagsRef}
             loading={loading}

@@ -7,7 +7,7 @@ export default function ProjectsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mr-10 ml-10">
+    <section className="mr-10 ml-10 ">
       <TagsFilterProvider>
         <ProjectFormProvider>{children}</ProjectFormProvider>
       </TagsFilterProvider>

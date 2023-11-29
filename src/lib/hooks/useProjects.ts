@@ -1,4 +1,14 @@
 'use client';
+/**
+ * Custom hook for fetching projects data using SWR (stale-while-revalidate).
+ * It constructs the URL for the API request based on the provided query string.
+ * If a query string is provided, it appends it to the base URL to fetch filtered data.
+ * Otherwise, it fetches all projects.
+ *
+ * @param {GetProjectsResponse} initialData - Initial data to be used as a fallback.
+ * @param {string} query - The query string used for filtering projects.
+ * @returns {Object} An object containing the projects data, loading state, and error state.
+ */
 import useSWR from 'swr';
 import { GetProjectsResponse } from 'types';
 
