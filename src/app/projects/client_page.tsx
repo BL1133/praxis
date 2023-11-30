@@ -3,9 +3,9 @@
 import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'qs';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GetProjectsResponse } from 'types';
@@ -24,6 +24,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   projects,
 }) => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState<string>('');
   const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -39,8 +40,24 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     errors,
   } = useTagsFilterContext();
 
-  if (isError) return <div>Error Loading projects</div>;
-  if (isLoading) return <div>Loading projects...</div>;
+  function createQueryString(tags: string[]) {
+    if (tags.length === 0) return '';
+    const query = { tags: { in: tags } };
+    return qs.stringify(
+      { where: query },
+      { addQueryPrefix: true, arrayFormat: 'comma' },
+    );
+  }
+
+  useEffect(() => {
+    // const queryStr = searchParams.get('where[tags][in]');
+    // const queryArr = queryStr ? queryStr.split(',') : [];
+    // console.log('queryArr', queryArr);
+    // const newQueryString = createQueryString(queryArr);
+    // console.log('newQueryString', newQueryString); //TODO: Delete this?
+    setQuery('?' + searchParams.toString());
+  }, [searchParams]);
+
   /**
    * Handles the submission of the tags filtering form.
    * Constructs a query string based on selected tags and updates the URL.
@@ -48,25 +65,12 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
    *
    * @param {TagsFormInputs} data - The data from the form submission, containing selected tags.
    */
-  const createAndSetQuery: SubmitHandler<TagsFormInputs> = async (data) => {
+  const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
     // setLoading(true);
-    const query = {
-      tags: {
-        in: data.tags,
-      },
-    };
-    const stringifiedQuery = qs.stringify(
-      {
-        where: query,
-      },
-      { addQueryPrefix: true, arrayFormat: 'comma' },
-    );
-    if (query.tags.in && query.tags.in.length !== 0) {
-      // This will add query to url which will be the key in useProjects SWR hook
-      setQuery(stringifiedQuery);
+    const stringifiedQuery = createQueryString(data.tags);
+    if (data.tags && data.tags.length > 0) {
       router.push(stringifiedQuery);
     } else {
-      setQuery('');
       router.push('/projects');
     }
   };
@@ -76,6 +80,9 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     setSuccess(null);
     setSubmitErrors([]);
   }
+
+  if (isError) return <div>Error Loading projects</div>;
+  if (isLoading) return <div>Loading projects...</div>;
 
   return (
     // To have gradient background on this page requires the margin and padding trickery below.Can't have it on layout because it affects all project pages. Also dark-bg makes background:none on dark mode which has dark class on html element
@@ -104,7 +111,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
         }`}
       >
         {/* Tags filter ======================== */}
-        <form onSubmit={handleSubmit(createAndSetQuery)}>
+        <form onSubmit={handleSubmit(handleFiltering)}>
           <Tags
             tagsRef={tagsRef}
             loading={loading}
