@@ -63,7 +63,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
    * Constructs a query string based on selected tags and updates the URL.
    * If no tags are selected, it resets the query and navigates back to the base projects URL.
    *
-   * @param {TagsFormInputs} data - The data from the form submission, containing selected tags.
+   * @param {TagsFormInputs} data - The data from the form submission, containing selected tags
    */
   const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
     // setLoading(true);
@@ -73,6 +73,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     } else {
       router.push('/projects');
     }
+    console.log('hi');
   };
 
   function clearAllFilters() {
