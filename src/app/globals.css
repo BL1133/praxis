@@ -51,6 +51,7 @@ html.dark {
     rgb(var(--background-start-rgb));
   background-attachment: fixed;
   background-size: cover;
+  min-height: 100vh;
 }
 
 html.dark .dark-bg {
