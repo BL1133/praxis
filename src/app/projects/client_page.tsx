@@ -104,7 +104,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
             </div>
           ))
         ) : (
-          <div>No projects found.</div>
+          <h1>No projects found.</h1>
         )}
       </div>
       <div

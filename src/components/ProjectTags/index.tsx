@@ -1,5 +1,7 @@
 import { Project } from '@payloadTypes';
 
+import { getTagLabel } from '@/utils/tagsConfig';
+
 import { Tag } from '../Tag';
 
 export function ProjectTags({ projectData }: { projectData: Project }) {
@@ -11,7 +13,7 @@ export function ProjectTags({ projectData }: { projectData: Project }) {
       <dd className="flex gap-2 flex-wrap items-center mb-4 text-gray-900 sm:mb-5 dark:text-white">
         {projectData?.tags?.map((tag) => (
           <a key={tag} href={`/`}>
-            <Tag tag={tag} />
+            <Tag tag={getTagLabel(tag)} />
           </a>
         ))}
       </dd>
