@@ -6,16 +6,10 @@ import Link from 'next/link';
 import type { FC } from 'react';
 import React from 'react';
 import {
-  HiArchive,
   HiBell,
-  HiCog,
-  HiCurrencyDollar,
-  HiInbox,
   HiLogout,
-  HiOutlineTicket,
   HiSearch,
   HiShoppingBag,
-  HiUserCircle,
   HiUsers,
   HiViewGrid,
 } from 'react-icons/hi';
@@ -267,58 +261,7 @@ const AppDrawerDropdown: FC = function () {
             </div>
           </Link>
         </Dropdown.Item>
-        <a
-          href="#"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiInbox className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Inbox
-          </div>
-        </a>
-        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-          <Link href={`/users/${data?.user?.username}`}>
-            <HiUserCircle className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-            <div className="text-sm font-medium text-gray-900 dark:text-white">
-              Profile
-            </div>
-          </Link>
-        </Dropdown.Item>
-        <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
-          <Link href="/settings">
-            <HiCog className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-            <div className="text-sm font-medium text-gray-900 dark:text-white">
-              Settings
-            </div>
-          </Link>
-        </Dropdown.Item>
-        <a
-          href="#"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiArchive className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Products
-          </div>
-        </a>
-        <a
-          href="#"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiCurrencyDollar className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Pricing
-          </div>
-        </a>
-        <a
-          href="#"
-          className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
-        >
-          <HiOutlineTicket className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
-            Billing
-          </div>
-        </a>
+
         <button
           onClick={handleLogout}
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
