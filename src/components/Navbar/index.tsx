@@ -1,14 +1,7 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import {
-  Avatar,
-  DarkThemeToggle,
-  Dropdown,
-  Label,
-  Navbar,
-  TextInput,
-} from 'flowbite-react';
+import { Avatar, DarkThemeToggle, Dropdown, Navbar } from 'flowbite-react';
 import Link from 'next/link';
 import type { FC } from 'react';
 import React from 'react';
@@ -83,24 +76,6 @@ const Nav: FC = function () {
                 Flowbite
               </span>
             </Navbar.Brand>
-            {data?.user && (
-              <form className="ml-16 hidden md:block">
-                <Label htmlFor="search" className="sr-only">
-                  Search
-                </Label>
-                <TextInput
-                  icon={HiSearch}
-                  id="search"
-                  name="search"
-                  placeholder="Search"
-                  required
-                  size={32}
-                  type="search"
-                  // Tailwind style not computing
-                  style={{ paddingLeft: '2.5rem' }}
-                />
-              </form>
-            )}
           </div>
           {!data?.user && (
             <div>
