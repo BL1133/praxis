@@ -10,6 +10,7 @@ import { SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GetProjectsResponse } from 'types';
 
+import { Loading } from '@/components/LoadingPage';
 import { ProjectSkillsWanted } from '@/components/ProjectSkillsWanted';
 import { ProjectTags } from '@/components/ProjectTags';
 import { ProjectTitleAndDescription } from '@/components/ProjectTitleAndDescription';
@@ -40,6 +41,8 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     errors,
   } = useTagsFilterContext();
 
+  console.log(data.docs);
+
   function createQueryString(tags: string[]) {
     if (tags.length === 0) return '';
     const query = { tags: { in: tags } };
@@ -50,11 +53,6 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   }
 
   useEffect(() => {
-    // const queryStr = searchParams.get('where[tags][in]');
-    // const queryArr = queryStr ? queryStr.split(',') : [];
-    // console.log('queryArr', queryArr);
-    // const newQueryString = createQueryString(queryArr);
-    // console.log('newQueryString', newQueryString); //TODO: Delete this?
     setQuery('?' + searchParams.toString());
   }, [searchParams]);
 
@@ -73,17 +71,16 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     } else {
       router.push('/projects');
     }
-    console.log('hi');
   };
 
   function clearAllFilters() {
     setLoading(false);
     setSuccess(null);
-    setSubmitErrors([]);
+    setSubmitErrors([]); // TODO:Do this
   }
 
   if (isError) return <div>Error Loading projects</div>;
-  if (isLoading) return <div>Loading projects...</div>;
+  if (isLoading) return <Loading />;
 
   return (
     // To have gradient background on this page requires the margin and padding trickery below.Can't have it on layout because it affects all project pages. Also dark-bg makes background:none on dark mode which has dark class on html element
@@ -91,20 +88,24 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       className={`flex flex-col-reverse lg:flex-row gradient-bg dark-bg relative -mr-10 -ml-10 pr-10 pl-10`}
     >
       <div className="flex flex-col gap-5 lg:mt-10 mt-5 pb-20 lg:w-9/12">
-        {data.docs.map((project: Project) => (
-          <div
-            key={project.id}
-            className="lg:mr-10 bg-white dark:bg-gray-800  shadow-elevation-medium rounded-lg p-8"
-          >
-            <ProjectTitleAndDescription projectData={project} />
-            <div className="flex gap-8">
-              <ProjectSkillsWanted projectData={project} />
-              <ProjectTags projectData={project} />
+        {data.docs.length ? (
+          data.docs.map((project: Project) => (
+            <div
+              key={project.id}
+              className="lg:mr-10 bg-white dark:bg-gray-800  shadow-elevation-medium rounded-lg p-8"
+            >
+              <ProjectTitleAndDescription projectData={project} />
+              <div className="flex gap-8">
+                <ProjectSkillsWanted projectData={project} />
+                <ProjectTags projectData={project} />
+              </div>
+              {/* Changed this to a <p> tag for semantic correctness */}
+              <Link href={`/projects/${project.id}`}>See Project</Link>
             </div>
-            {/* Changed this to a <p> tag for semantic correctness */}
-            <Link href={`/projects/${project.id}`}>See Project</Link>
-          </div>
-        ))}
+          ))
+        ) : (
+          <div>No projects found.</div>
+        )}
       </div>
       <div
         className={`mt-10 w-full lg:w-3/12 lg:sticky lg:block ${
