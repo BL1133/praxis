@@ -3,6 +3,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Avatar, DarkThemeToggle, Dropdown, Navbar } from 'flowbite-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import React from 'react';
 import {
@@ -218,10 +219,12 @@ const NewVideoIcon: FC = function () {
 };
 
 const AppDrawerDropdown: FC = function () {
+  const router = useRouter();
   const { data, logout } = useUser();
   const handleLogout = async () => {
     try {
       await logout();
+      router.push('/');
       // You can display a message or perform additional logic after a successful logout, if desired
     } catch (error) {
       console.error('Error during logout:', error);
