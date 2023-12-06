@@ -39,6 +39,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     tagsRef,
     handleSubmit,
     errors,
+    reset,
   } = useTagsFilterContext();
 
   console.log(data.docs);
@@ -74,9 +75,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   };
 
   function clearAllFilters() {
-    setLoading(false);
-    setSuccess(null);
-    setSubmitErrors([]); // TODO:Do this
+    reset();
   }
 
   if (isError) return <div>Error Loading projects</div>;

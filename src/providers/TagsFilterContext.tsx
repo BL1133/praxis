@@ -7,6 +7,7 @@ import {
   useForm,
   UseFormHandleSubmit,
   UseFormRegisterReturn,
+  UseFormReset,
 } from 'react-hook-form';
 
 interface TagsFilterContextType {
@@ -19,6 +20,7 @@ interface TagsFilterContextType {
   tagsRef: UseFormRegisterReturn<'tags'>;
   handleSubmit: UseFormHandleSubmit<TagsFormInputs, undefined>;
   errors: FieldErrors<TagsFormInputs>;
+  reset: UseFormReset<TagsFormInputs>;
 }
 
 export type TagsFormInputs = {
@@ -37,6 +39,7 @@ export const TagsFilterProvider = ({ children }: { children: ReactNode }) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<TagsFormInputs>();
 
@@ -52,6 +55,7 @@ export const TagsFilterProvider = ({ children }: { children: ReactNode }) => {
     tagsRef,
     handleSubmit,
     errors,
+    reset,
   };
 
   return (
