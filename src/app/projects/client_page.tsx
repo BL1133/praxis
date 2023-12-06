@@ -99,7 +99,14 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
                 <ProjectTags projectData={project} />
               </div>
               {/* Changed this to a <p> tag for semantic correctness */}
-              <Link href={`/projects/${project.id}`}>See Project</Link>
+              <Link
+                href={`/projects/${project.id}`}
+                className=" text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"
+              >
+                <p className="text-md font-semibold mt-0.5 text-cyan-500">
+                  See Project
+                </p>
+              </Link>
             </div>
           ))
         ) : (

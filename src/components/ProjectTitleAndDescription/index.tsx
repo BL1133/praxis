@@ -1,4 +1,5 @@
 import { Project } from '@payloadTypes';
+import Link from 'next/link';
 
 export function ProjectTitleAndDescription({
   projectData,
@@ -9,12 +10,14 @@ export function ProjectTitleAndDescription({
     <>
       <div className="flex items-center space-x-4">
         <div>
-          <h2 className="flex items-center mb-3 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white">
-            {projectData?.title}
-            <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 uppercase ml-2.5">
-              New
-            </span>
-          </h2>
+          <Link href={`/projects/${projectData?.id}`}>
+            <h2 className="flex items-center mb-3 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white">
+              {projectData?.title}
+              <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 uppercase ml-2.5">
+                New
+              </span>
+            </h2>
+          </Link>
           {/* Watching functionality To add */}
           {/* <span className="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800 mb-4 sm:mb-5">
                   <svg

@@ -78,7 +78,7 @@ const Nav: FC = function () {
             </Navbar.Brand>
             <Link
               href={'/projects'}
-              className="ml-8 text-gray-500 flex gap-2 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="ml-8 text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"
             >
               <p className="text-md font-semibold mt-0.5 text-cyan-500">
                 Projects
