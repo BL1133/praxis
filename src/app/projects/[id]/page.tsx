@@ -11,7 +11,6 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
-import { ProjectSidebar } from '@/components/ProjectSidebar';
 import { handleApiError, NotFoundError } from '@/utils/apiErrors';
 
 import { ProjectClient } from './client_page';
@@ -52,7 +51,7 @@ const Page: React.FC<ParamsType> = async ({ params }) => {
   const projectData = await getProject(params);
   return (
     <div className="flex items-start">
-      <ProjectSidebar />
+      {/* <ProjectSidebar /> */}
       <ProjectClient projectData={projectData} />
     </div>
   );

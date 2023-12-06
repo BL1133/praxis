@@ -6,7 +6,6 @@ import React from 'react';
 
 import { useProject } from '@/lib/hooks/useProject';
 import { useUser } from '@/lib/hooks/useUser';
-import { useSidebarContext } from '@/providers/SidebarContext';
 import { IsOwnProject } from '@/utils/isOwnProject';
 
 import { Description } from './components/description';
@@ -18,15 +17,14 @@ interface ProjectProps {
 export const ProjectClient: React.FC<ProjectProps> = ({
   projectData: initialData,
 }) => {
-  const { isOpen: isSidebarOpen } = useSidebarContext();
+  // const { isOpen: isSidebarOpen } = useSidebarContext();
   const { data: userData } = useUser();
   const { data: projectData } = useProject(initialData);
   const isOwnProject = IsOwnProject(userData, projectData);
   return (
     <div
       className={classNames(
-        'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900',
-        isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
+        'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900 lg:ml-16',
       )}
     >
       <Header
@@ -36,5 +34,19 @@ export const ProjectClient: React.FC<ProjectProps> = ({
       />
       <Description />
     </div>
+    // With sidebar
+    // <div
+    //   className={classNames(
+    //     'overflow-y-auto relative w-full h-full bg-gray-50 dark:bg-gray-900',
+    //     isSidebarOpen ? 'lg:ml-64' : 'lg:ml-16',
+    //   )}
+    // >
+    //   <Header
+    //     isOwnProject={isOwnProject}
+    //     projectData={projectData}
+    //     userData={userData?.user}
+    //   />
+    //   <Description />
+    // </div>
   );
 };
