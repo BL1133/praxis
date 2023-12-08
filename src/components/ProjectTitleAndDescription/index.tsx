@@ -6,6 +6,16 @@ export function ProjectTitleAndDescription({
 }: {
   projectData: Project;
 }) {
+  function isDocumentNew(createdAt: string): boolean {
+    const createdAtDate = new Date(createdAt);
+    const currentDate = new Date();
+    const diffTime = Math.abs(currentDate.getTime() - createdAtDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    // Check if the document was created within the last 7 days
+    return diffDays <= 7;
+  }
+
   return (
     <>
       <div className="flex items-center space-x-4">
@@ -13,9 +23,11 @@ export function ProjectTitleAndDescription({
           <Link href={`/projects/${projectData?.id}`}>
             <h2 className="flex items-center mb-3 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white">
               {projectData?.title}
-              <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 uppercase ml-2.5">
-                New
-              </span>
+              {isDocumentNew(projectData?.createdAt) && (
+                <span className="bg-gray-100 text-gray-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300 uppercase ml-2.5">
+                  New
+                </span>
+              )}
             </h2>
           </Link>
           {/* Watching functionality To add */}

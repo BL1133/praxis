@@ -6,14 +6,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import React from 'react';
-import {
-  HiBell,
-  HiLogout,
-  HiSearch,
-  HiShoppingBag,
-  HiUsers,
-  HiViewGrid,
-} from 'react-icons/hi';
+import { HiBell, HiLogout, HiSearch, HiViewGrid } from 'react-icons/hi';
+import { IoCreateOutline, IoGridOutline } from 'react-icons/io5';
 
 import { useUser } from '@/lib/hooks/useUser';
 import { useSidebarContext } from '@/providers/SidebarContext';
@@ -250,7 +244,7 @@ const AppDrawerDropdown: FC = function () {
       <div className="grid grid-cols-3 gap-4 p-4">
         <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
           <Link href="/projects" className="">
-            <HiShoppingBag className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <IoGridOutline className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
             <div className="text-sm font-medium text-gray-900 dark:text-white">
               Projects
             </div>
@@ -258,7 +252,7 @@ const AppDrawerDropdown: FC = function () {
         </Dropdown.Item>
         <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
           <Link href="/projects/create">
-            <HiUsers className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
+            <IoCreateOutline className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
             <div className="text-sm font-medium text-gray-900 dark:text-white">
               Create
             </div>
@@ -314,14 +308,12 @@ const UserDropdown: FC = function () {
           {data?.user?.email}
         </span>
       </Dropdown.Header>
-      <Dropdown.Item as={Link as any} href="/">
-        Dashboard
+      <Dropdown.Item
+        onClick={handleLogout}
+        className="rounded-bl-xl rounded-br-xl"
+      >
+        Logout
       </Dropdown.Item>
-      <Dropdown.Item as={Link as any} href="/settings">
-        Settings
-      </Dropdown.Item>
-      <Dropdown.Divider />
-      <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
     </Dropdown>
   );
 };
