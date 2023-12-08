@@ -12,9 +12,9 @@ export function ProjectTags({ projectData }: { projectData: Project }) {
       </dt>
       <dd className="flex gap-2 flex-wrap items-center mb-4 text-gray-900 sm:mb-5 dark:text-white">
         {projectData?.tags?.map((tag) => (
-          <a key={tag} href={`/`}>
-            <Tag tag={getTagLabel(tag)} />
-          </a>
+          <div key={tag}>
+            <Tag tag={getTagLabel(tag)} noClick={true} />
+          </div>
         ))}
       </dd>
     </div>

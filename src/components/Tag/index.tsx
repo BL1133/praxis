@@ -1,10 +1,18 @@
 import { Badge } from 'flowbite-react';
 
-export function Tag({ tag }: { tag: string }) {
+export function Tag({
+  tag,
+  noClick = false,
+}: {
+  tag: string;
+  noClick: boolean;
+}) {
   return (
     <Badge
       color="gray"
-      className={`mt-1checked:bg-cyan-600 hover:text-cyan-600 checked:text-gray-100 hover:cursor-pointer`}
+      className={`mt-1checked:bg-cyan-600 hover:text-cyan-600 checked:text-gray-100 ${
+        noClick ? '' : 'hover:cursor-pointer'
+      }`}
     >
       {tag}
     </Badge>
