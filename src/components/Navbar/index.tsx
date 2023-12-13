@@ -69,17 +69,26 @@ const Nav: FC = function () {
               href={'/projects'}
               className="ml-8 text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"
             >
-              <p className="text-md font-semibold mt-0.5 text-cyan-600 dark:text-white">
+              <p
+                className="text-md font-semibold mt-0.5 text-cyan-600 dark:text-white"
+                style={{ transform: 'translateY(2px)' }}
+              >
                 Projects
               </p>
             </Link>
           </div>
           {!data?.user && (
-            <div>
-              <Link className="pr-3 text-cyan-600" href="/signup">
+            <div style={{ transform: 'translateY(3px)' }}>
+              <Link
+                className="pr-2 sm:pr-3 text-cyan-600 text-sm sm:text-md md:text-lg"
+                href="/signup"
+              >
                 Sign Up{' '}
               </Link>
-              <Link className="text-cyan-600" href="/login">
+              <Link
+                className="text-cyan-600 text-sm sm:text-md md:text-lg"
+                href="/login"
+              >
                 Log in{' '}
               </Link>
             </div>
