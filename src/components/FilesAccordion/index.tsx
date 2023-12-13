@@ -6,6 +6,7 @@ import { Media } from '@payloadTypes';
 import { Accordion, Button } from 'flowbite-react';
 
 import { useProjectFormContext } from '@/providers/ProjectFormContext';
+import { generateS3FileURL } from '@/utils/generateFileUrl';
 
 interface Props {
   editing?: boolean;
@@ -37,7 +38,11 @@ export function FilesAccordion({ media, editing = false }: Props) {
               index, // media as unkown is Type workaround. Media can be array of strings or objects, but in this context it's always objects. It is array of strings for updating since its a relationship field. But getting media from the server is always an array of objects.
             ) => (
               <span key={file.id} className="flex gap-2 mb-3">
-                <a href={`/`} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={generateS3FileURL(file)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <p className="mt-0.5 text-cyan-500">{file.filename}</p>
                 </a>
                 <Button
@@ -66,7 +71,7 @@ export function FilesAccordion({ media, editing = false }: Props) {
             media.map((file) => (
               <a
                 key={file?.id}
-                href="https://your-backend-url/path/to/file.pdf"
+                href={generateS3FileURL(file)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex gap-2 mb-3"
