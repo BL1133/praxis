@@ -89,7 +89,7 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
           </dl>
         </div>
         <div
-          className={`ml-4 mb-8 w-1/4 -mt-6 ${
+          className={`ml-4 mb-8 w-3/4 sm:w-1/4 lg:-mt-6 ${
             (!projectData?.media || projectData?.media?.length === 0) &&
             'hidden'
           }`}
