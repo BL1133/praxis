@@ -82,7 +82,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   return (
     // To have gradient background on this page requires the margin and padding trickery below.Can't have it on layout because it affects all project pages. Also dark-bg makes background:none on dark mode which has dark class on html element
     <div
-      className={`flex flex-col-reverse lg:flex-row gradient-bg dark-bg relative -mr-10 -ml-10 pr-10 pl-10`}
+      className={`flex flex-col-reverse lg:flex-row gradient-bg dark-bg relative -mx-4 lg:-mx-10 px-4 sm:px-10`}
     >
       <div className="flex flex-col gap-5 lg:mt-10 mt-5 pb-20 lg:w-9/12">
         {data.docs.length ? (
