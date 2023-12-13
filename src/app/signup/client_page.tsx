@@ -8,7 +8,7 @@ import { handleApiError } from '@/utils/apiErrors';
 
 export const SignUp: React.FC = () => {
   const router = useRouter();
-  const { data } = useUser();
+  const { data, login } = useUser();
   const [successfullySubmitted, setSuccessfullySubmitted] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,6 +31,11 @@ export const SignUp: React.FC = () => {
       });
 
       if (res.ok) {
+        try {
+          await login({ email, password });
+        } catch (err) {
+          setError((err as Error).message); // Displaying the error to the user
+        }
         setEmail('');
         setPassword('');
         setUsername('');
