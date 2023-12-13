@@ -43,7 +43,7 @@ export function FilesAccordion({ media, editing = false }: Props) {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <p className="mt-0.5 text-cyan-500">{file.filename}</p>
+                  <p className="mt-0.5 text-cyan-600">{file.filename}</p>
                 </a>
                 <Button
                   size="xs"
@@ -76,9 +76,9 @@ export function FilesAccordion({ media, editing = false }: Props) {
                 rel="noopener noreferrer"
                 className="flex gap-2 mb-3"
               >
-                <p className="mt-0.5 text-cyan-500">{file.filename}</p>
+                <p className="mt-0.5 text-cyan-600">{file.filename}</p>
                 <svg
-                  className="w-[14px] h-[14px] text-gray-800 dark:text-white"
+                  className="w-[14px] h-[14px] text-gray-800 dark:text-cyan-300"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"

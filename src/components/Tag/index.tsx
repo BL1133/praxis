@@ -10,7 +10,7 @@ export function Tag({
   return (
     <Badge
       color="gray"
-      className={`mt-1checked:bg-cyan-600 hover:text-cyan-600 checked:text-gray-100 ${
+      className={`mt-1 checked:bg-cyan-600 hover:text-cyan-600 checked:text-gray-100 ${
         noClick ? '' : 'hover:cursor-pointer'
       }`}
     >

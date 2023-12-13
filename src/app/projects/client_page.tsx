@@ -101,7 +101,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
                 href={`/projects/${project.id}`}
                 className=" text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"
               >
-                <p className="text-md font-semibold mt-0.5 text-cyan-500">
+                <p className="text-md font-semibold mt-0.5 text-cyan-600 dark:text-cyan-600">
                   See Project
                 </p>
               </Link>
@@ -151,7 +151,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
           </div>
         </form>
       </div>
-      <div className="lg:hidden mt-10 flex">
+      <div className="lg:hidden mt-10 flex ">
         <Button
           size="md"
           className="ml-auto"

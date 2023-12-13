@@ -61,15 +61,15 @@ const Nav: FC = function () {
               </button>
             )} */}
             <Navbar.Brand as={Link as any} href="/">
-              <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white ml-2">
-                Flowbite
+              <span className="self-center text-cyan-600 whitespace-nowrap text-2xl font-semibold dark:text-white ml-2">
+                praxis
               </span>
             </Navbar.Brand>
             <Link
               href={'/projects'}
               className="ml-8 text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"
             >
-              <p className="text-md font-semibold mt-0.5 text-cyan-500">
+              <p className="text-md font-semibold mt-0.5 text-cyan-600 dark:text-white">
                 Projects
               </p>
             </Link>

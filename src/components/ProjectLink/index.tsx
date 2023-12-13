@@ -8,7 +8,7 @@ export function ProjectLink({ url, title }: { url: string; title: string }) {
         data-tooltip-target="tooltip-facebook"
         className="flex gap-2 p-2 text-gray-500 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
       >
-        <p className="text-md font-semibold mt-0.5 text-cyan-500">{title}</p>
+        <p className="text-md font-semibold mt-0.5 text-cyan-600 ">{title}</p>
         <svg
           className="w-[10px] h-[10px] text-cyan-600 dark:text-cyan-300"
           aria-hidden="true"

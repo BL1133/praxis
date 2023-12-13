@@ -69,7 +69,7 @@ export function Header({ isOwnProject, projectData, userData }: HeaderProps) {
                   img="/helene-engels.png"
                   rounded
                 >
-                  <div className="space-y-1 font-medium dark:text-white">
+                  <div className="space-y-1 font-medium text-cyan-600 dark:text-white">
                     <div>Jese Leos</div>
                     <div className="text-sm text-gray-500 dark:text-gray-400">
                       Joined in August 2014
