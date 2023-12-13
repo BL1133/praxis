@@ -5,7 +5,7 @@ export function Tag({
   noClick = false,
 }: {
   tag: string;
-  noClick: boolean;
+  noClick?: boolean;
 }) {
   return (
     <Badge

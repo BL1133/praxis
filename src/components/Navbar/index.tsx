@@ -239,13 +239,13 @@ const AppDrawerDropdown: FC = function () {
       className="rounded-xl"
     >
       <div className="block rounded-t-lg border-b bg-gray-50 py-2 px-4 text-center text-base font-medium text-gray-700 dark:border-b-gray-600 dark:bg-gray-700 dark:text-white">
-        Apps
+        Navigation
       </div>
       <div className="grid grid-cols-3 gap-4 p-4">
         <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
           <Link href="/projects" className="">
             <IoGridOutline className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-            <div className="text-sm font-medium text-gray-900 dark:text-white">
+            <div className="text-sm font-medium text-gray-500 dark:text-white">
               Projects
             </div>
           </Link>
@@ -253,7 +253,7 @@ const AppDrawerDropdown: FC = function () {
         <Dropdown.Item className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600">
           <Link href="/projects/create">
             <IoCreateOutline className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-            <div className="text-sm font-medium text-gray-900 dark:text-white">
+            <div className="text-sm font-medium text-gray-500 dark:text-white">
               Create
             </div>
           </Link>
@@ -264,7 +264,7 @@ const AppDrawerDropdown: FC = function () {
           className="block rounded-lg p-4 text-center hover:bg-gray-100 dark:hover:bg-gray-600"
         >
           <HiLogout className="mx-auto mb-1 h-7 w-7 text-gray-500 dark:text-white" />
-          <div className="text-sm font-medium text-gray-900 dark:text-white">
+          <div className="text-sm font-medium text-gray-500 dark:text-white">
             Logout
           </div>
         </button>
