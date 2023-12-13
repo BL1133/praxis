@@ -76,10 +76,12 @@ const Nav: FC = function () {
           </div>
           {!data?.user && (
             <div>
-              <Link className="pr-3" href="/signup">
+              <Link className="pr-3 text-cyan-600" href="/signup">
                 Sign Up{' '}
               </Link>
-              <Link href="/login">Login </Link>
+              <Link className="text-cyan-600" href="/login">
+                Log in{' '}
+              </Link>
             </div>
           )}
 
