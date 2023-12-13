@@ -42,8 +42,6 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
     reset,
   } = useTagsFilterContext();
 
-  console.log(data.docs);
-
   function createQueryString(tags: string[]) {
     if (tags.length === 0) return '';
     const query = { tags: { in: tags } };
