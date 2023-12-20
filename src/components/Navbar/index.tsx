@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import type { FC } from 'react';
 import React from 'react';
-import { HiBell, HiLogout, HiSearch, HiViewGrid } from 'react-icons/hi';
+import { HiBell, HiLogout, HiViewGrid } from 'react-icons/hi';
 import { IoCreateOutline, IoGridOutline } from 'react-icons/io5';
 
 import { useUser } from '@/lib/hooks/useUser';
@@ -97,13 +97,6 @@ const Nav: FC = function () {
           {data?.user && (
             <div className="flex items-center lg:gap-3">
               <div className="flex items-center">
-                <button
-                  onClick={() => setOpen(!isOpen)}
-                  className="cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:bg-gray-700 dark:focus:ring-gray-700 lg:hidden"
-                >
-                  <span className="sr-only">Search</span>
-                  <HiSearch className="h-6 w-6" />
-                </button>
                 {/* <NotificationBellDropdown /> */}
                 <AppDrawerDropdown />
                 <div
