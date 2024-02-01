@@ -1,5 +1,35 @@
 'use client';
 
+/**
+ * `Projects` React Component
+ *
+ * Overview:
+ * This React component is designed to display a list of projects. It also provides tag-based filtering functionality for the projects.
+ * Router.push adds query string to the URL to filter projects based on selected tags.
+ * useEffect hook updates the 'query' state when 'searchParams' change, triggering a refetch of project data as needed.
+ *
+ * Imports:
+ * - useProjects: A custom hook for fetching project data. Query is passed into this hook to fetch projects based on tag filters.
+ * - TagsFormInputs, useTagsFilterContext: Context provider imports for managing tag filter state.
+ *
+ * Props:
+ * - projects (GetProjectsResponse): Initial data for the projects.
+ *
+ * State Management:
+ * - query (string): Represents the current query for fetching projects.
+ * - data, isError, isLoading: Variables from useProjects for project data, loading, and error states.
+ * - isFilterOpen (boolean): Controls the visibility of the tags filter.
+ *
+ * Key Functions:
+ * - createQueryString(tags: string[]): Generates a query string for project filtering. Returns an empty string if no tags are selected.
+ *
+ * Effects:
+ * - A useEffect hook that updates the 'query' state when 'searchParams' change, triggering a refetch of project data as needed.
+ *
+ * Usage:
+ * This component renders a list of projects, offering tag-based filtering functionality. Users can select tags to refine the displayed projects.
+ */
+
 import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
@@ -29,19 +59,16 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   const [query, setQuery] = useState<string>('');
   const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const {
-    loading,
-    setLoading,
-    success,
-    setSuccess,
-    submitErrors,
-    setSubmitErrors,
-    tagsRef,
-    handleSubmit,
-    errors,
-    reset,
-  } = useTagsFilterContext();
+  const { loading, success, tagsRef, handleSubmit, errors, reset } =
+    useTagsFilterContext();
 
+  /**
+   * Creates a query string for filtering projects based on selected tags.
+   * If no tags are selected, it returns an empty string.
+   *
+   * @param {string[]} tags - The selected tags to be used for filtering
+   * @returns {string} - The constructed query string
+   */
   function createQueryString(tags: string[]) {
     if (tags.length === 0) return '';
     const query = { tags: { in: tags } };
@@ -63,7 +90,6 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
    * @param {TagsFormInputs} data - The data from the form submission, containing selected tags
    */
   const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
-    // setLoading(true);
     const stringifiedQuery = createQueryString(data.tags);
     if (data.tags && data.tags.length > 0) {
       router.push(stringifiedQuery);
@@ -96,7 +122,6 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
                 <ProjectSkillsWanted projectData={project} />
                 <ProjectTags projectData={project} />
               </div>
-              {/* Changed this to a <p> tag for semantic correctness */}
               <Link
                 href={`/projects/${project.id}`}
                 className=" text-gray-500 p-2 rounded-lg hover:text-gray-900 dark:text-gray-400 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 inline-block"

@@ -1,4 +1,4 @@
-const { generateS3FileURL } = require('../../src/utils/generateFileUrl');
+const { generateS3FileURL } = require('../generateFileUrl');
 
 describe('generateS3FileURL', () => {
   it('should correctly encode and format the URL for a given filename', () => {

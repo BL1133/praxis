@@ -1,6 +1,5 @@
 'use client';
 
-// ProjectFormContext.js
 import React, { createContext, ReactNode, useContext, useState } from 'react';
 import {
   FieldErrors,
@@ -24,7 +23,7 @@ interface TagsFilterContextType {
 }
 
 export type TagsFormInputs = {
-  tags: string[]; // Assuming tags are an array of strings
+  tags: string[];
 };
 
 export const TagsFilterContext = createContext<TagsFilterContextType>(
