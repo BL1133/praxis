@@ -18,7 +18,7 @@ export const useProjects = (
   initialData: GetProjectsResponse,
   query: string,
 ) => {
-  let url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects?sort=-createdAt`;
+  let url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
   if (query !== '') {
     url += query; // Append the query string directly
   }

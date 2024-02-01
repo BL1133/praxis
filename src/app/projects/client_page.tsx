@@ -91,6 +91,7 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
    */
   const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
     const stringifiedQuery = createQueryString(data.tags);
+    console.log(stringifiedQuery);
     if (data.tags && data.tags.length > 0) {
       router.push(stringifiedQuery);
     } else {
