@@ -19,9 +19,16 @@ export const useProjects = (
   query: string,
 ) => {
   let url = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
+
+  // Start with the sort query
+  let queryParams = 'sort=-createdAt';
+
+  // If there's an additional query, append it with an ampersand
   if (query !== '') {
-    url += query; // Append the query string directly
+    queryParams += '&' + query.slice(1); // slice(1) removes the '?' from the start of the query string
   }
+
+  url += '?' + queryParams; // Append the combined query parameters
 
   const { data, error, isLoading } = useSWR(url, fetcher, {
     fallbackData: initialData,
