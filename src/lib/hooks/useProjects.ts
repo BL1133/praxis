@@ -20,7 +20,6 @@ export const useProjects = (
   initialData: GetProjectsResponse,
   query: string, // string of tags separated by commas
 ) => {
-  console.log(query);
   // Determine the base URL based on whether a query is provided
   const baseUrl = `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`;
   const url =
