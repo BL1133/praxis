@@ -34,8 +34,7 @@ import { Project } from '@payloadTypes';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import qs from 'qs';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { AiOutlineLoading } from 'react-icons/ai';
 import { GetProjectsResponse } from 'types';
@@ -56,50 +55,27 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
 }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>(searchParams.get('tags') || '');
   const { data, isError, isLoading } = useProjects(projects, query);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const { loading, success, tagsRef, handleSubmit, errors, reset } =
     useTagsFilterContext();
 
-  /**
-   * Creates a query string for filtering projects based on selected tags.
-   * If no tags are selected, it returns an empty string.
-   *
-   * @param {string[]} tags - The selected tags to be used for filtering
-   * @returns {string} - The constructed query string
-   */
-  function createQueryString(tags: string[]) {
-    if (tags.length === 0) return '';
-    const query = { tags: { in: tags } };
-    return qs.stringify(
-      { where: query },
-      { addQueryPrefix: true, arrayFormat: 'comma' },
-    );
-  }
-
-  useEffect(() => {
-    setQuery('?' + searchParams.toString());
-  }, [searchParams]);
-
-  /**
-   * Handles the submission of the tags filtering form.
-   * Constructs a query string based on selected tags and updates the URL.
-   * If no tags are selected, it resets the query and navigates back to the base projects URL.
-   *
-   * @param {TagsFormInputs} data - The data from the form submission, containing selected tags
-   */
   const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
-    const stringifiedQuery = createQueryString(data.tags);
-    console.log(stringifiedQuery);
     if (data.tags && data.tags.length > 0) {
-      router.push(stringifiedQuery);
+      const newQuery = data.tags.join(',');
+      setQuery(newQuery);
+      // Update the URL to reflect the new filters without reloading the page
+      router.push(`/projects?tags=${newQuery}`);
     } else {
+      setQuery('');
       router.push('/projects');
     }
   };
 
   function clearAllFilters() {
+    setQuery('');
+    router.push('/projects');
     reset();
   }
 
@@ -112,8 +88,8 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
       className={`flex flex-col-reverse lg:flex-row gradient-bg dark-bg relative -mx-4 lg:-mx-10 px-4 sm:px-10`}
     >
       <div className="flex flex-col gap-5 lg:mt-10 mt-5 pb-20 lg:w-9/12">
-        {data.docs.length ? (
-          data.docs.map((project: Project) => (
+        {data?.docs?.length ? (
+          data?.docs?.map((project: Project) => (
             <div
               key={project.id}
               className="lg:mr-10 bg-white dark:bg-gray-800  shadow-elevation-medium rounded-lg p-8"
