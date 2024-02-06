@@ -13,7 +13,7 @@ export const Login: React.FC = () => {
 
   useEffect(() => {
     if (data?.user) {
-      redirect('/');
+      redirect('/projects');
     }
   }, [data]);
 

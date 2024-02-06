@@ -32,7 +32,6 @@ export const useProjects = (
     fallbackData: initialData,
     refreshInterval: 60000, // Optional: adjust or remove as needed
   });
-  console.log(data);
   return {
     data,
     isLoading,

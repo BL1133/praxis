@@ -1,7 +1,7 @@
-import { http } from 'msw';
+const { createMocks } = require('msw/node');
 
-export const handlers = [
-  http.get(
+const handlers = [
+  createMocks().onGet(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
     (req, res, ctx) => {
       const query = req.url.searchParams.get('tags');
@@ -23,3 +23,5 @@ export const handlers = [
     },
   ),
 ];
+
+module.exports = handlers;

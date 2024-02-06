@@ -3,8 +3,16 @@
  * https://jestjs.io/docs/configuration
  */
 
-/** @type {import('jest').Config} */
-const config = {
+// Import the next/jest utility
+const nextJest = require('next/jest.js');
+
+// Create a custom Jest configuration with next/jest
+const createJestConfig = nextJest({
+  // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
+  dir: './',
+});
+
+const customJestConfig = {
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -38,7 +46,7 @@ const config = {
   // coverageReporters: [
   //   "json",
   //   "text",
-  //   "lcov",
+  //   "lcov",x
   //   "clover"
   // ],
 
@@ -145,10 +153,19 @@ const config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: "jest-environment-node",
+  // testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
-  // testEnvironmentOptions: {},
+  testEnvironmentOptions: {
+    // This will force JSDOM to use the node (or default) export condition, which is the correct behavior.
+    // fixes ● Test suite failed to run
+    // Cannot find module 'msw/node' from 'mocks/server.js'
+    // Require stack:
+    //   mocks/server.js
+    //   jest.setup.js
+    // https://github.com/mswjs/msw/issues/1786
+    customExportConditions: [''],
+  },
 
   // Adds a location field to test results
   // testLocationInResults: false,
@@ -192,4 +209,4 @@ const config = {
   // watchman: true,
 };
 
-module.exports = config;
+module.exports = createJestConfig(customJestConfig);
