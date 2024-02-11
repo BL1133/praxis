@@ -153,7 +153,7 @@ const customJestConfig = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  // testEnvironment: 'jsdom',
+  testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
   testEnvironmentOptions: {
@@ -164,7 +164,7 @@ const customJestConfig = {
     //   mocks/server.js
     //   jest.setup.js
     // https://github.com/mswjs/msw/issues/1786
-    customExportConditions: [''],
+    customExportConditions: [''], //TODO: Is this needed?
   },
 
   // Adds a location field to test results

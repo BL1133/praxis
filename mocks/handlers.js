@@ -1,7 +1,7 @@
-const { createMocks } = require('msw/node');
+const { http } = require('msw');
 
 const handlers = [
-  createMocks().onGet(
+  http.get(
     `${process.env.NEXT_PUBLIC_CMS_URL}/api/projects`,
     (req, res, ctx) => {
       const query = req.url.searchParams.get('tags');

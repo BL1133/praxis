@@ -17,7 +17,7 @@ interface TagsFilterContextType {
   submitErrors: string[];
   setSubmitErrors: React.Dispatch<React.SetStateAction<string[]>>;
   tagsRef: UseFormRegisterReturn<'tags'>;
-  handleSubmit: UseFormHandleSubmit<TagsFormInputs, undefined>;
+  handleSubmit: UseFormHandleSubmit<TagsFormInputs>;
   errors: FieldErrors<TagsFormInputs>;
   reset: UseFormReset<TagsFormInputs>;
 }

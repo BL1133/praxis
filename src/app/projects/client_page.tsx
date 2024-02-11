@@ -61,9 +61,9 @@ export const Projects: React.FC<{ projects: GetProjectsResponse }> = ({
   const { loading, success, tagsRef, handleSubmit, errors, reset } =
     useTagsFilterContext();
 
-  const handleFiltering: SubmitHandler<TagsFormInputs> = async (data) => {
-    if (data.tags && data.tags.length > 0) {
-      const newQuery = data.tags.join(',');
+  const handleFiltering: SubmitHandler<TagsFormInputs> = async ({ tags }) => {
+    if (tags && tags.length > 0) {
+      const newQuery = tags.join(',');
       setQuery(newQuery);
       // Update the URL to reflect the new filters without reloading the page
       router.push(`/projects?tags=${newQuery}`);
