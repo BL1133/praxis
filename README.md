@@ -4,7 +4,7 @@
 
 ## Description
 
-Praxis is an innovative online platform designed to connect aspiring developers with experienced mentors through real-world projects. It provides a unique opportunity for users to enhance their skills, network, and gain practical experience in a dynamic environment that fosters sharing, mentorship, and open-source collaboration.
+Praxis is an innovative online platform designed to connect aspiring developers with each other and with experienced mentors through real-world projects. It provides a unique opportunity for users to enhance their skills, network, and gain practical experience in a dynamic environment that fosters sharing, mentorship, and open-source collaboration.
 
 ## Features
 
