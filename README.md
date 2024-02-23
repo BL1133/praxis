@@ -6,17 +6,13 @@
 
 Praxis is an innovative online platform designed to connect aspiring developers with each other and with experienced mentors through real-world projects. It provides a unique opportunity for users to enhance their skills, network, and gain practical experience in a dynamic environment that fosters sharing, mentorship, and open-source collaboration.
 
-## Features
-
-- **Project Posting**: Creators can post project ideas, specifying needed roles and details.
-- **Team Formation**: Users can browse, express interest, and join projects as developers, designers, mentors, or researchers.
-- **Social Profile**: Acts as a resume showcasing users' contributions, with a social proof mechanism through points and badges for active participation.
-
 ## Future Features
 
 - **Mentorship**: Assign mentors to guide and assist team members, ensuring learning and project success.
 - **Collaboration Tools**: Includes chat for real-time communication, task postings, and meeting coordination.
 - **Integration with External Tools**: Link to project management tools like Trello or Jira for progress tracking.
+- **Team Formation**: Users can browse, express interest, and join projects as developers, designers, mentors, or researchers.
+- **Social Profile**: Acts as a resume showcasing users' contributions, with a social proof mechanism through points and badges for active participation.
 
 ## Stack
 
