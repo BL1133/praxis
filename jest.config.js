@@ -156,16 +156,8 @@ const customJestConfig = {
   testEnvironment: 'jsdom',
 
   // Options that will be passed to the testEnvironment
-  testEnvironmentOptions: {
-    // This will force JSDOM to use the node (or default) export condition, which is the correct behavior.
-    // fixes ● Test suite failed to run
-    // Cannot find module 'msw/node' from 'mocks/server.js'
-    // Require stack:
-    //   mocks/server.js
-    //   jest.setup.js
-    // https://github.com/mswjs/msw/issues/1786
-    customExportConditions: [''], //TODO: Is this needed?
-  },
+  // testEnvironmentOptions: {
+  // },
 
   // Adds a location field to test results
   // testLocationInResults: false,
